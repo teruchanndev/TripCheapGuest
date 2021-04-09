@@ -44,9 +44,92 @@
   </div>
 
   <div class="service_container">
+    <mat-card class="description">
+      <h3>Các gói dịch vụ</h3>
+      <p>Vui lòng chọn các gói dịch vụ</p>
+      <div class="service_item">
+        <button 
+          mat-stroked-button 
+          *ngFor="let item of ticket.services[0]; index as i"
+          (click) = "showInfoService(i)">
+           {{item.name}} </button>
+      </div>
+      <div>
+        <p>Số lượng</p>
+        <div *ngFor="let item of ticket.services[0][index].itemService; index as i" class="service_price" >
+          <div>
+            <p>{{item.name}}</p>
+          </div>
+          <div>
+            <p>{{item.price}}</p>
+          </div>
+          <div>
+            <button mat-stroked-button (click)="incrementQuantity(i)">+</button>
+            <input type="number" 
+            matInput
+            [(ngModel)]="quantity">
+            <button mat-stroked-button>-</button>
+          </div>
+        </div>
+        <div class="btn-action">
+          <button mat-raised-button color="primary">Thêm vào giỏ hàng</button>
+          <button mat-raised-button color="warn">Đặt ngay</button>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="description">
+      <h3>Chi tiết gói đã chọn</h3>
+      <div class="Info-general">
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/dollar.svg" width="20px" height="20px">
+          Không hoàn huỷ/Hoàn huỷ miễn phí trong 24h
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/day.svg" width="20px" height="20px">
+          Vé theo ngày cố định
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/printer.svg" width="20px" height="20px">
+          Xuất trình vé điện tử hoặc in voucher
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="Info-service">
+        <h3>Thông tin sản phẩm</h3>
+        <div>
+          <h4>Bao gồm:</h4>
+          <ul>
+            <li *ngFor="let item of ticket.services[0][index].included">{{item}}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Không bao gồm:</h4>
+          <ul>
+            <li *ngFor="let item of ticket.services[0][index].notIncluded">{{item}}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Ngày hoạt động:</h4>
+          <ul>
+            <li>{{ticket.services[0][index].dayActive}}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Giờ mở cửa:</h4>
+          <ul>
+            <li>{{ticket.services[0][index].timeStart + ' AM - ' + ticket.services[0][index].timeStop + ' PM'}}</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Địa chỉ:</h4>
+          <ul>
+            <li>{{ticket.address}}</li>
+          </ul>
+        </div>
+      </div>
+    </mat-card>
     
-    <h3>Các gói dịch vụ</h3>
-    <p>Vui lòng chọn các gói dịch vụ</p>
+    
   </div>
 
 </section>

@@ -6,7 +6,9 @@ const mongoose = require("mongoose");
 const ticketsRoutes = require("./routes/tickets");
 const categoriesRoutes = require("./routes/categories");
 const usersRoutes = require("./routes/user");
+const customerRoutes = require("./routes/customers");
 const citiesRoutes = require("./routes/cities")
+const cartRoutes = require("./routes/carts");
 
 const app = express();
 
@@ -41,6 +43,7 @@ app.use((req, res, next) => {
 app.use("/api/tickets", ticketsRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/city", citiesRoutes);
-app.use("/api/user", usersRoutes);
-
+// app.use("/api/user", usersRoutes);
+app.use("/api/customer", customerRoutes);
+app.use("/api/cart", cartRoutes);
 module.exports = app;

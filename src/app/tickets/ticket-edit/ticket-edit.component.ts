@@ -149,7 +149,8 @@ export class TicketEditComponent implements OnInit {
           quantity: ticketData.quantity,
           address: ticketData.address,
           services: ticketData.services,
-          imagePath: ticketData.imagePath
+          imagePath: ticketData.imagePath,
+          creator: ticketData.creator
         };
 
         console.log(this.ticket);

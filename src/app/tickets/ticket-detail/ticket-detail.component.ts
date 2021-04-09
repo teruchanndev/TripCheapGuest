@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Cart } from 'src/app/modals/cart.modal';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { TicketsService } from 'src/app/services/tickets.service';
+import { StringLiteralLike } from 'typescript';
 
 @Component({
   selector: 'app-ticket-detail',
@@ -13,6 +15,12 @@ export class TicketDetailComponent implements OnInit {
   ticket: Ticket;
   private ticketId: string;
   imageObject: Array<Object> = [];
+  productSelect: Array<Cart> = [];
+  showInfoServiceItem = false;
+  index = 0;
+  quantity = 0;
+
+
   constructor(
     public ticketsService: TicketsService,
     public route: ActivatedRoute
@@ -37,7 +45,8 @@ export class TicketDetailComponent implements OnInit {
           quantity: ticketData.quantity,
           address: ticketData.address,
           services: ticketData.services,
-          imagePath: ticketData.imagePath
+          imagePath: ticketData.imagePath,
+          creator: ticketData.creator
         };
         for (let i = 0; i < this.ticket.imagePath.length; i++) {
           this.imageObject[i] = {
@@ -45,11 +54,18 @@ export class TicketDetailComponent implements OnInit {
             thumbImage: this.ticket.imagePath[i]
           };
         }
-        console.log(this.imageObject);
-        console.log(this.ticket);
+        // console.log(this.imageObject);
+        // console.log(this.ticket);
       });
     });
   }
+
+  showInfoService(index) {
+    this.index = index;
+    this.showInfoServiceItem = true;
+
+  }
+
 }
 
 

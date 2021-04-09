@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth_customer.service';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSignUp(form: NgForm) {
     if (form.invalid) { return; }
-    this.authService.createUser(form.value.email, form.value.password, form.value.username);
+    this.authService.createCustomer(form.value.email, form.value.password, form.value.username);
   }
 
   ngOnDestroy(): void {
