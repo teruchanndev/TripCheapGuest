@@ -1,0 +1,19 @@
+<p>tickets-all works!</p>
+<!-- <ul *ngFor="let item of tickets">
+<li>title: {{item.title}}</li>
+<li>content: {{item.content}}</li>
+</ul> -->
+
+<div class="item-ticket">
+  <mat-card
+    class="item"
+    *ngFor="let item of tickets"
+    (click) = "detailTicket(item.id)"
+    >
+    <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
+    <mat-card-title>{{item.title}}</mat-card-title>
+    <mat-card-content>
+      <p>{{item.content}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,13 +1,13 @@
 <mat-sidenav-container class="example-container">
-<mat-toolbar class="example-toolbar" *ngIf='userIsAuthenticated'>
+<mat-toolbar class="example-toolbar">
   <span>
-    <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+    <button mat-icon-button><mat-icon>menu</mat-icon></button>
   </span>
   <span class="spacer"></span>
   <ul>
-	<span><img [src] = "user.imageAvt" width="35px" height="35px" style="border-radius: 50%;"></span>
+	<span *ngIf='userIsAuthenticated'><img [src] = "user.imageAvt || ''" width="35px" height="35px" style="border-radius: 50%;"></span>
 	<li *ngIf='userIsAuthenticated'>
-		<button 
+		<button
 		mat-button
 		[matMenuTriggerFor]="menu"
 		routerLinkActive="mat-accent">
@@ -18,61 +18,26 @@
 			<button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
 		</mat-menu>
 	  </li>
-    <!-- <li *ngIf='userIsAuthenticated'>
-      <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Logout</button>
-    </li> -->
+    <li>
+      <button
+        mat-button
+        matBadge="8"
+        matBadgePosition="before"
+        matBadgeColor="accent"
+        [matMenuTriggerFor] = 'menu'
+        routerLinkActive="mat-accent">
+        <span>Giỏ hàng</span>
+      </button>
+      <mat-menu #menu = "matMenu">
+        <button mat-menu-item></button>
+      </mat-menu>
+    </li>
   </ul>
 </mat-toolbar>
 
+<div class="example-sidenav-content">
+  <router-outlet></router-outlet>
+</div>
 
-
-	<mat-sidenav
-    	#sidenav
-    	class="example-sidenav"
-    	mode="side" opened="true"
-    	(click)="mouseenter()" (mouseleave)="mouseleave()"
-		*ngIf="isExpanded">
-		<mat-nav-list>
-			<mat-list-item>
-				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem; text-decoration: none;
-				color: purple; font-weight: 500;">TripCheap Manager</span>
-			</mat-list-item>
-
-			<mat-list-item>
-				<span class="full-width" *ngIf="isExpanded || isShowing" style="padding-left: 1rem;">Dashboard</span>
-				<mat-icon mat-list-icon s>space_dashboard</mat-icon>
-			</mat-list-item>
-
-			<mat-expansion-panel>
-				<mat-expansion-panel-header >
-				<mat-panel-title>
-					<mat-icon mat-list-icon purple>bookmarks</mat-icon>
-					<span class="full-width" *ngIf="isExpanded || isShowing">Quản lý vé</span>
-				</mat-panel-title>
-				</mat-expansion-panel-header>
-
-				<a mat-list-item (click) = "showChild('list')">Tất cả vé</a>
-				<a mat-list-item (click) = "showChild('create')">Thêm vé </a>
-			</mat-expansion-panel>
-
-			<mat-expansion-panel>
-				<mat-expansion-panel-header>
-				<mat-panel-title>
-					<mat-icon mat-list-icon purple>shopping_bag</mat-icon>
-					<span class="full-width" *ngIf="isExpanded || isShowing">Quản Lý Đơn</span>
-				</mat-panel-title>
-				</mat-expansion-panel-header>
-				<a mat-list-item href="...">Tất cả</a>
-				<a mat-list-item href="...">Đơn mới </a>
-				<a mat-list-item href="...">Đơn hủy </a>
-			</mat-expansion-panel>
-
-		</mat-nav-list>
-
-	</mat-sidenav>
-
-	<div class="example-sidenav-content">
-		<router-outlet></router-outlet>
-	</div>
 
 </mat-sidenav-container>

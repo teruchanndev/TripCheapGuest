@@ -1,0 +1,52 @@
+<section  *ngIf="ticket">
+  <div style="width: 100%; height: auto; text-align:center;margin:0; padding:0;">
+    <ng-image-slider #nav
+      [images]="imageObject"
+      [infinite]="false"
+      [autoSlide]="imageObject.length"
+      [imageSize]="{width: '100%', height: 250}"
+      slideImage="1"></ng-image-slider>
+  </div>
+  <div class="detail">
+  <p>{{ticket.city + " > " + ticket.category + " > " + ticket.categoryService}}</p>
+  </div>
+  <div class="title_ticket">
+    <h1>{{ticket.title || ''}}</h1>
+    <mat-divider></mat-divider>
+
+    <div style="display: flex; flex-wrap: wrap;">
+      <div class="icon_condition">
+        <img src = "../../../assets/icon/dollar.svg" width="20px" height="20px">
+        Không hoàn huỷ/Hoàn huỷ miễn phí trong 24h
+      </div>
+      <div class="icon_condition">
+        <img src = "../../../assets/icon/day.svg" width="20px" height="20px">
+        Vé theo ngày cố định
+      </div>
+      <div class="icon_condition">
+        <img src = "../../../assets/icon/printer.svg" width="20px" height="20px">
+        Xuất trình vé điện tử hoặc in voucher
+      </div>
+      <div class="icon_condition">
+        <img src = "../../../assets/icon/coupon.svg" width="20px" height="20px">
+        Vào cổng bằng voucher/Đổi vé cứng
+      </div>
+      <div class="icon_condition">
+        <img src = "../../../assets/icon/car.svg" width="20px" height="20px">
+        Đón tại điểm hẹn
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div class="content_ticket">
+    <p>{{ticket.content}}</p>
+  </div>
+
+  <div class="service_container">
+    
+    <h3>Các gói dịch vụ</h3>
+    <p>Vui lòng chọn các gói dịch vụ</p>
+  </div>
+
+</section>

@@ -24,11 +24,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubSubMenu = false;
   userId: string;
   username: string;
-  imageAvt: string = '';
+  imageAvt = '';
   user: User;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
     private userService: UserService
@@ -46,49 +46,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.userService.getInfoUser().subscribe(
-        infoData => {
-          this.user = {
-            username: infoData.username,
-            nameShop: infoData.nameShop,
-            imageAvt: infoData.imageAvt,
-            imageCover: infoData.imageCover,
-            desShop: infoData.desShop,
-            follower: infoData.follower,
-            watching: infoData.watching
-          }
+    console.log(this.userIsAuthenticated);
+    if (this.userIsAuthenticated === true) {
+      this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        this.userService.getInfoUser().subscribe(
+          infoData => {
+            this.user = {
+              username: infoData.username,
+              nameShop: infoData.nameShop,
+              imageAvt: infoData.imageAvt,
+              imageCover: infoData.imageCover,
+              desShop: infoData.desShop,
+              follower: infoData.follower,
+              watching: infoData.watching
+            };
 
+        });
       });
-    });
-    this.imageAvt = this.user.imageAvt;
+      this.imageAvt = this.user.imageAvt || '';
+    }
+
+
   }
 
   onLogout() {
     this.authService.logout();
   }
 
-  // tslint:disable-next-line:member-ordering
-  @ViewChild('sidenav') sidenav: any;
-  toggleSidenav() {
-      this.sidenav.toggle(true);
-    }
-
   showChild(childPath) {
     this.router.navigate(['home', childPath]);
-  }
-
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
-
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
   }
 
   ngOnDestroy(): void {

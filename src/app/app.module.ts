@@ -17,6 +17,7 @@ import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.com
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
 import { CategoryComponent } from './categories/category/category.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
@@ -28,7 +29,11 @@ import { InformationComponent } from './infomations/information/information.comp
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { HomeComponent } from './pages/home/home.component';
+import { DetailComponent } from './pages/detail/detail.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
+import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,10 +43,15 @@ import { MatNativeDateModule } from '@angular/material/core';
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
+    TicketsAllComponent,
     CategoryComponent,
     ErrorComponent,
     InformationComponent,
-    CreateInfoComponent
+    CreateInfoComponent,
+    HomeComponent,
+    DetailComponent,
+    CartComponent,
+    TicketDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +67,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     AuthModule,
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    NgImageSliderModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

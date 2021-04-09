@@ -10,9 +10,7 @@ import { map } from 'rxjs/operators';
 
 export class SerivesService {
     private services: Service[] = [];
-    private servicesUpdated = new Subject<Service[]>(); 
+    private servicesUpdated = new Subject<Service[]>();
 
     constructor(private http: HttpClient, private router: Router) {}
-
-    
 }
