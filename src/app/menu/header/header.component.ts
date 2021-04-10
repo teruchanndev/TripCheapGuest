@@ -4,7 +4,8 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/modals/user.modal';
 import { UserService } from 'src/app/services/user.service';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from 'src/app/services/auth_customer.service';
+// import { AuthService } from '../../services/auth.service';
 import { MenuService } from '../../services/menu.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubmenu = false;
   isShowing = false;
   showSubSubMenu = false;
-  userId: string;
+  customerId: string;
   username: string;
   imageAvt = '';
   user: User;
@@ -31,15 +32,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    // private customerService: CustomerService
     ) {}
 
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuth();
-    this.userId = this.authService.getUserId();
+    this.customerId = this.authService.getCustomerId();
     this.username = this.authService.getUsername();
-    console.log(this.userId);
+    console.log(this.customerId);
     console.log(this.username);
     this.authListenerSubs = this.authService
       .getAuthStatusListener()

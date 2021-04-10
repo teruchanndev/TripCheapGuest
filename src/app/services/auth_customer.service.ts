@@ -48,6 +48,7 @@ export class AuthService {
             .subscribe(() => {
               this.router.navigate(['/login']);
             }, error => {
+              alert(error);
               this.authStatusListener.next(false);
             });
     }

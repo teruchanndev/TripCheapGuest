@@ -48,8 +48,8 @@
       <h3>Các gói dịch vụ</h3>
       <p>Vui lòng chọn các gói dịch vụ</p>
       <div class="service_item">
-        <button 
-          mat-stroked-button 
+        <button
+          mat-stroked-button
           *ngFor="let item of ticket.services[0]; index as i"
           (click) = "showInfoService(i)">
            {{item.name}} </button>
@@ -65,14 +65,14 @@
           </div>
           <div>
             <button mat-stroked-button (click)="incrementQuantity(i)">+</button>
-            <input type="number" 
+            <input type="number"
             matInput
             [(ngModel)]="quantity">
             <button mat-stroked-button>-</button>
           </div>
         </div>
         <div class="btn-action">
-          <button mat-raised-button color="primary">Thêm vào giỏ hàng</button>
+          <button mat-raised-button color="primary" (click) = "AddCart()">Thêm vào giỏ hàng</button>
           <button mat-raised-button color="warn">Đặt ngay</button>
         </div>
       </div>
@@ -128,8 +128,8 @@
         </div>
       </div>
     </mat-card>
-    
-    
+
+
   </div>
 
 </section>

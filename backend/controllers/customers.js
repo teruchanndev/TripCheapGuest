@@ -20,7 +20,7 @@ exports.createCustomer = (req, res, next) => {
               })
               .catch(err => {
                   res.status(500).json({
-                      message: 'Invalid authentication credentials!'
+                      message: 'Invalid authentication credentials!' + err
                   });
               });
       });
@@ -102,7 +102,7 @@ exports.updateInfo = (req, res, next) => {
     // if(req.files.length >= 2) {
     //     iAvt = url + '/images/' + req.files[0].filename;
     //     iCover = url + '/images/' + req.files[1].filename;
-    // } 
+    // }
     // else if(req.files.length <= 0) {
     //     iAvt = req.body.iAvt;
     //     iCover = req.body.iCover;
