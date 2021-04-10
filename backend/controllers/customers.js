@@ -35,7 +35,7 @@ exports.customerLogin = (req, res, next) => {
                   message: 'Auth failed!'
               });
           }
-        //   console.log('customer check: ' + customer);
+          console.log('customer check: ' + customer);
           fetchCustomer = customer;
         //   console.log(req.body.password + ' and '+ customer.password);
           return bcrypt.compare(req.body.password, customer.password);
@@ -53,7 +53,6 @@ exports.customerLogin = (req, res, next) => {
               {expiresIn: '1h'}
           );
           console.log('token: ' + token);
-
           res.status(200).json({
               token: token,
               expiresIn: 3600,
@@ -65,7 +64,7 @@ exports.customerLogin = (req, res, next) => {
       })
       .catch(err => {
           return res.status(401).json({
-              message: 'Auth failed!'
+              message: 'Auth failed!' + err
           });
       });
 }

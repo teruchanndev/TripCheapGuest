@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injectable, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Cart } from 'src/app/modals/cart.modal';
@@ -6,12 +7,52 @@ import { Ticket } from 'src/app/modals/ticket.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 import { StringLiteralLike } from 'typescript';
+import {DateAdapter} from '@angular/material/core';
+import {
+  MatDateRangeSelectionStrategy,
+  DateRange,
+  MAT_DATE_RANGE_SELECTION_STRATEGY,
+} from '@angular/material/datepicker';
+
+@Injectable()
+export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
+  constructor(private _dateAdapter: DateAdapter<D>) {}
+
+  selectionFinished(date: D | null): DateRange<D> {
+    return this._createFiveDayRange(date);
+  }
+
+  createPreview(activeDate: D | null): DateRange<D> {
+    return this._createFiveDayRange(activeDate);
+  }
+
+  private _createFiveDayRange(date: D | null): DateRange<D> {
+    if (date) {
+      const start = this._dateAdapter.addCalendarDays(date, -2);
+      const end = this._dateAdapter.addCalendarDays(date, 2);
+      return new DateRange<D>(start, end);
+    }
+
+    return new DateRange<D>(null, null);
+  }
+}
+
+export class ServiceSelect {
+  name: string;
+  itemServiceName: string;
+  itemServicePrice: number;
+  quantity: number;
+}
 
 
 @Component({
   selector: 'app-ticket-detail',
   templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.css']
+  styleUrls: ['./ticket-detail.component.css'],
+  providers: [{
+    provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
+    useClass: FiveDayRangeSelectionStrategy
+  }]
 })
 export class TicketDetailComponent implements OnInit, OnDestroy {
 
@@ -22,6 +63,16 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   showInfoServiceItem = false;
   index = 0;
   quantity = 0;
+
+  listItemService: Array<ServiceSelect> = [];
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
+  form : FormGroup;
+
 
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
@@ -35,6 +86,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      quantity: new FormControl()
+    });
+
     this.customerIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -67,21 +122,52 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             image : this.ticket.imagePath[i],
             thumbImage: this.ticket.imagePath[i]
           };
-        }
-        // console.log(this.imageObject);
-        // console.log(this.ticket);
+        };
+
+        //insert value in listItemService 
+        // const lenService = Object.keys(this.ticket.services[0]).length;
+        // let lenList = 0;
+        // for(let i = 0; i < lenService; i++) {
+        //   for(let j = 0; j < this.ticket.services[0][i].itemService.length; j ++) {
+        //     lenList ++;
+        //     this.listItemService[lenList] = {
+        //       name: this.ticket.services[0][i].name,
+        //       itemServiceName: this.ticket.services[0][i].itemService[j].name,
+        //       itemServicePrice: this.ticket.services[0][i].itemService[j].price,
+        //       quantity: 0
+        //     }
+        //   } 
+        // }
+
       });
     });
   }
 
+  formatDate(date) {
+    return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear();
+  }
+
   showInfoService(index) {
     this.index = index;
+    this.listItemService = [];
     this.showInfoServiceItem = true;
+
+    const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
+    for(let i = 0; i < lenService; i++) {
+      this.listItemService[i] = {
+        name: this.ticket.services[0][this.index].name,
+        itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
+        itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
+        quantity: 0
+      }
+    }
   }
 
   AddCart() {
     if (!this.customerIsAuthenticated) {
       this.router.navigate(['/signup']);
+   } else {
+      console.log(this.listItemService);
     }
   }
 

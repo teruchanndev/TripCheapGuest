@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.authService.autoAuthCustomer();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.customerId = this.authService.getCustomerId();
     this.username = this.authService.getUsername();
@@ -49,24 +50,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userIsAuthenticated = isAuthenticated;
       });
     console.log(this.userIsAuthenticated);
-    if (this.userIsAuthenticated === true) {
-      this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        this.userService.getInfoUser().subscribe(
-          infoData => {
-            this.user = {
-              username: infoData.username,
-              nameShop: infoData.nameShop,
-              imageAvt: infoData.imageAvt,
-              imageCover: infoData.imageCover,
-              desShop: infoData.desShop,
-              follower: infoData.follower,
-              watching: infoData.watching
-            };
+    // if (this.userIsAuthenticated === true) {
+    //   this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    //     this.userService.getInfoUser().subscribe(
+    //       infoData => {
+    //         this.user = {
+    //           username: infoData.username,
+    //           nameShop: infoData.nameShop,
+    //           imageAvt: infoData.imageAvt,
+    //           imageCover: infoData.imageCover,
+    //           desShop: infoData.desShop,
+    //           follower: infoData.follower,
+    //           watching: infoData.watching
+    //         };
 
-        });
-      });
-      this.imageAvt = this.user.imageAvt || '';
-    }
+    //     });
+    //   });
+    //   this.imageAvt = this.user.imageAvt || '';
+    // }
 
 
   }

@@ -54,27 +54,59 @@
           (click) = "showInfoService(i)">
            {{item.name}} </button>
       </div>
+      
       <div>
-        <p>Số lượng</p>
-        <div *ngFor="let item of ticket.services[0][index].itemService; index as i" class="service_price" >
-          <div>
-            <p>{{item.name}}</p>
+        <form [formGroup]="form">
+          <p>Số lượng</p>
+          <div 
+            *ngFor="let item of listItemService; index as i" 
+            class="service_price" >
+            <div>
+              <p>{{item.itemServiceName}}</p>
+            </div>
+            <div>
+              <p>{{item.itemServicePrice}}</p>
+            </div>
+            <div>
+              <button 
+                mat-stroked-button 
+                (click)="item.quantity=item.quantity+1">+</button>
+                <!-- <button 
+                mat-stroked-button 
+                (click)="incrementInput.value=+incrementInput.value + 1">+</button> -->
+              <mat-form-field appearance="outline">
+                <input 
+                  style="width: 30px;"
+                  formControlName = "quantity"
+                  matInput 
+                  #incrementInput 
+                  type="number" 
+                  min="0"
+                  [value]="item.quantity"
+                  placeholder="0">
+              </mat-form-field>
+              <button mat-stroked-button (click)="item.quantity=item.quantity-1">-</button>
+            </div>
           </div>
-          <div>
-            <p>{{item.price}}</p>
+
+          <div class="selectDate">
+            <mat-form-field appearance="fill">
+              <mat-label>Nhập ngày</mat-label>
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date">
+                <input matEndDate placeholder="End date">
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
           </div>
-          <div>
-            <button mat-stroked-button (click)="incrementQuantity(i)">+</button>
-            <input type="number"
-            matInput
-            [(ngModel)]="quantity">
-            <button mat-stroked-button>-</button>
+
+          <div class="btn-action">
+            <button mat-raised-button color="primary" (click) = "AddCart()">Thêm vào giỏ hàng</button>
+            <button mat-raised-button color="warn">Đặt ngay</button>
           </div>
-        </div>
-        <div class="btn-action">
-          <button mat-raised-button color="primary" (click) = "AddCart()">Thêm vào giỏ hàng</button>
-          <button mat-raised-button color="warn">Đặt ngay</button>
-        </div>
+        </form>
+        
       </div>
     </mat-card>
     <mat-card class="description">
