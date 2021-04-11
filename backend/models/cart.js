@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 
 const cartSchema = mongoose.Schema({
-  nameTicket: { type: String, required: true },
+  nameTicket: { type: String },
   imageTicket: { type: String },
-  price: { type: Number },
-  nameService: { type: String },
-  dateSelect: { type: Date },
+  dateStart: { type: String },
+  dateEnd: { type: String },
   idTicket: { type: String },
   idCustomer: { type: String },
   idCreator: { type: String },
-  itemService: { type: Array },
-  quantity: { type: Number }
+  itemService: { type: Array }
 });
 
 module.exports = mongoose.model('Cart', cartSchema);

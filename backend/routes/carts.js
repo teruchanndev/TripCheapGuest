@@ -1,21 +1,23 @@
 const express = require("express");
 
 const CartController = require('../controllers/carts');
+const checkAuth = require('../middleware/check-auth');
 const router = express.Router();
 
 //create 1 item cart
-router.post("", CartController.createCart);
+router.post("", checkAuth, CartController.createCart);
 
 //update
-router.put("/:id", CartController.updateCart);
+router.put("/:id", checkAuth, CartController.updateCart);
 
 //lấy danh sách cart
-router.get("", CartController.getAllCart);
+router.get("", checkAuth, CartController.getAllCart);
 
-router.get("/:id", CartController.getOneCart);
+// router.get("/:id", checkAuth, CartController.getOneCart);
 
-// //xóa 1 phần tử trong mảng categoryItem
-// router.delete("", CartController.deleteCategoryItem );
+router.get("/count", checkAuth, CartController.getCountCartOfCustomer);
+
+router.delete("", checkAuth, CartController.deleteCart );
 
 
 module.exports = router;

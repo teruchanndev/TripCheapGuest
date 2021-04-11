@@ -1,13 +1,10 @@
 export interface Cart {
     nameTicket: string;
     imageTicket: string;
-    nameServices: string;
-    dateSelect: string;
-    nameItemService: string;
+    dateStart: string;
+    dateEnd: string;
     idTicket: string;
-    idCustomer: string;
     idCreator: string;
+    idCustomer: string;
     itemService: Array<object>;
-    quantity: number;
 }
-  

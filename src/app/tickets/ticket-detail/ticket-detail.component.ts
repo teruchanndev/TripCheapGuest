@@ -13,6 +13,7 @@ import {
   DateRange,
   MAT_DATE_RANGE_SELECTION_STRATEGY,
 } from '@angular/material/datepicker';
+import { CartsService } from 'src/app/services/cart.service';
 
 @Injectable()
 export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
@@ -32,7 +33,6 @@ export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionSt
       const end = this._dateAdapter.addCalendarDays(date, 2);
       return new DateRange<D>(start, end);
     }
-
     return new DateRange<D>(null, null);
   }
 }
@@ -59,10 +59,12 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   ticket: Ticket;
   private ticketId: string;
   imageObject: Array<Object> = [];
-  productSelect: Array<Cart> = [];
+  cart: Cart;
   showInfoServiceItem = false;
   index = 0;
-  quantity = 0;
+  dateStartChoose: string;
+  dateEndChoose: string;
+  customerId: string;
 
   listItemService: Array<ServiceSelect> = [];
 
@@ -71,7 +73,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
 
-  form : FormGroup;
+  form: FormGroup;
 
 
   private authListenerSubs: Subscription;
@@ -80,17 +82,23 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     public ticketsService: TicketsService,
+    public cartSevice: CartsService,
     public route: ActivatedRoute,
     private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.authService.autoAuthCustomer();
+
     this.form = new FormGroup({
-      quantity: new FormControl()
+      quantity: new FormControl(),
+      dateStart: new FormControl(),
+      dateEnd: new FormControl()
     });
 
     this.customerIsAuthenticated = this.authService.getIsAuth();
+    this.customerId = this.authService.getCustomerId();
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
@@ -122,52 +130,64 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
             image : this.ticket.imagePath[i],
             thumbImage: this.ticket.imagePath[i]
           };
-        };
-
-        //insert value in listItemService 
-        // const lenService = Object.keys(this.ticket.services[0]).length;
-        // let lenList = 0;
-        // for(let i = 0; i < lenService; i++) {
-        //   for(let j = 0; j < this.ticket.services[0][i].itemService.length; j ++) {
-        //     lenList ++;
-        //     this.listItemService[lenList] = {
-        //       name: this.ticket.services[0][i].name,
-        //       itemServiceName: this.ticket.services[0][i].itemService[j].name,
-        //       itemServicePrice: this.ticket.services[0][i].itemService[j].price,
-        //       quantity: 0
-        //     }
-        //   } 
-        // }
-
+        }
       });
     });
   }
 
   formatDate(date) {
-    return date.getDate() + '/' + date.getMonth() + 1 + '/' + date.getFullYear();
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
   showInfoService(index) {
     this.index = index;
     this.listItemService = [];
+    this.dateStartChoose = '';
+    this.dateEndChoose = '';
     this.showInfoServiceItem = true;
 
     const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
-    for(let i = 0; i < lenService; i++) {
+    for (let i = 0; i < lenService; i++) {
       this.listItemService[i] = {
         name: this.ticket.services[0][this.index].name,
         itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
         itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
         quantity: 0
-      }
+      };
     }
+  }
+
+  getDate() {
+    this.dateStartChoose = this.formatDate(this.form.value.dateStart);
+    this.dateEndChoose = this.formatDate(this.form.value.dateEnd);
   }
 
   AddCart() {
     if (!this.customerIsAuthenticated) {
       this.router.navigate(['/signup']);
    } else {
-      console.log(this.listItemService);
+    this.cart = {
+      nameTicket: this.ticket.title,
+      imageTicket: this.ticket.imagePath[0],
+      itemService: this.listItemService.filter(item => item.quantity > 0 ),
+      dateStart: this.dateStartChoose,
+      dateEnd: this.dateEndChoose,
+      idTicket: this.ticket.id,
+      idCreator: this.ticket.creator,
+      idCustomer: this.customerId
+      };
+    const cartData = this.cartSevice.addCart(
+      this.cart.nameTicket,
+      this.cart.imageTicket,
+      this.cart.dateStart,
+      this.cart.dateEnd,
+      this.cart.idTicket,
+      this.cart.idCreator,
+      this.cart.idCustomer,
+      this.cart.itemService
+    );
+
+      console.log(this.cart);
     }
   }
 

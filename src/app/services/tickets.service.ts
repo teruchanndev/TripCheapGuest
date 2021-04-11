@@ -167,7 +167,7 @@ export class TicketsService {
     services: Array<object>,
     imageUrls: Array<string>,
     image: Array<File> | Array<string>) {
-    console.log(image);
+    // console.log(image);
     let ticketData: Ticket | FormData;
       ticketData = new FormData();
       ticketData.append('id', id);

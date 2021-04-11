@@ -47,7 +47,7 @@ export class TicketCreateComponent implements OnInit {
   placeholderTime: string;
   services: Service[] = [];
 
-  //services
+  // services
   isEditable = false;
   isShow = 'none';
   isSelectDay = '';
@@ -55,9 +55,9 @@ export class TicketCreateComponent implements OnInit {
   addOnBlur = true;
   selectable = true;
   removable = true;
-  mode = -1; 
+  mode = -1;
 
-  daySelect : string;
+  daySelect: string;
   isSelectDayAct = false;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   daysAct = ['Từ Thứ 2 - Chủ Nhật', 'Từ Thứ 2 - Thứ 6', 'Thứ 7 - Chủ Nhật', 'Ngày Khác'];
@@ -80,20 +80,19 @@ export class TicketCreateComponent implements OnInit {
 
 
   formatDate(date) {
-    return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear();
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
   }
 
   calPrice_reduce() {
     this.price_reduce = this.price - (this.price * this.percent) / 100;
   }
 
-  isShowFormService(){
-    if(this.isShow === 'block') this.isShow = 'none';
-    else this.isShow = 'block';
+  isShowFormService() {
+    if (this.isShow === 'block') { this.isShow = 'none'; } else { this.isShow = 'block'; }
   }
 
   CheckValueDay(event) {
-    if(this.daySelect === 'Ngày Khác') {
+    if (this.daySelect === 'Ngày Khác') {
       this.isSelectDayAct = true;
     } else {
       this.isSelectDayAct = false;
@@ -103,7 +102,7 @@ export class TicketCreateComponent implements OnInit {
 
   checkRangerDate() {
 
-    this.dayChoose = this.formatDate(this.formService.value.dateStart) + "and" +  this.formatDate(this.formService.value.dateEnd);
+    this.dayChoose = this.formatDate(this.formService.value.dateStart) + 'and' +  this.formatDate(this.formService.value.dateEnd);
     console.log(this.dayChoose);
   }
 
@@ -126,12 +125,12 @@ export class TicketCreateComponent implements OnInit {
   }
 
   add(): void {
-    if(this.mode > 0 ) {
+    if (this.mode > 0 ) {
       this.remove(this.services[this.mode]);
     }
     this.services.push(
       {
-        name: this.formService.value.name.trim(), 
+        name: this.formService.value.name.trim(),
         timeStart: this.formService.value.timeStart,
         timeStop:  this.formService.value.timeStop,
         dayActive: this.dayChoose,
@@ -151,10 +150,10 @@ export class TicketCreateComponent implements OnInit {
     }
   }
 
-  ShowServiceItem(i){
+  ShowServiceItem(i) {
     this.resetFormService();
-    this.mode = i; 
-    if(this.services[i].dayActive.indexOf('and')<0) {
+    this.mode = i;
+    if (this.services[i].dayActive.indexOf('and') < 0) {
       this.formService.setValue({
         name: this.services[i].name,
         timeStart: this.services[i].timeStart ,
@@ -171,9 +170,9 @@ export class TicketCreateComponent implements OnInit {
       this.listIncluded = this.services[i].included;
       this.listNotInclude = this.services[i].notIncluded;
     } else {
-      var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-      var dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern,'$3-$2-$1'));
-      var dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern,'$3-$2-$1'));
+      const pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+      const dateSt = new Date( this.services[i].dayActive.split('and')[0].replace(pattern, '$3-$2-$1'));
+      const dateSp = new Date( this.services[i].dayActive.split('and')[1].replace(pattern, '$3-$2-$1'));
       this.formService.setValue({
         name: this.services[i].name,
         timeStart: this.services[i].timeStart ,
@@ -193,15 +192,15 @@ export class TicketCreateComponent implements OnInit {
   }
 
   addInclude(include) {
-    if(include.trim() === ''){
+    if (include.trim() === '') {
       this.formService.patchValue({
-        included: '' 
+        included: ''
       });
       return;
     }
     this.listIncluded.push(include);
     this.formService.patchValue({
-      included: '' 
+      included: ''
     });
   }
 
@@ -210,15 +209,15 @@ export class TicketCreateComponent implements OnInit {
   }
 
   addNotInclude(notInclude) {
-    if(notInclude.trim() === ''){
+    if (notInclude.trim() === '') {
       this.formService.patchValue({
-        notIncluded: '' 
+        notIncluded: ''
       });
       return;
     }
     this.listNotInclude.push(notInclude);
     this.formService.patchValue({
-      notIncluded: '' 
+      notIncluded: ''
     });
   }
 
@@ -227,7 +226,7 @@ export class TicketCreateComponent implements OnInit {
   }
 
   addCustomer(title, price) {
-    if(title.trim() === '' || price.trim() === ''){
+    if (title.trim() === '' || price.trim() === '') {
       this.formService.patchValue({
         customerTitle: '',
         customerPrice: ''
@@ -272,7 +271,7 @@ export class TicketCreateComponent implements OnInit {
     console.log(this.isChecked);
   }
 
-  
+
 
   ngOnInit() {
 
@@ -313,7 +312,7 @@ export class TicketCreateComponent implements OnInit {
       timeStart: new FormControl(null, {}),
       timeStop: new FormControl(null, {}),
       dayActive: new FormControl(null, {}),
-      dateStart: new FormControl(null, {}), 
+      dateStart: new FormControl(null, {}),
       dateEnd: new FormControl(null, {}),
       included: new FormControl(null, {}),
       notIncluded: new FormControl(null, {}),
@@ -363,7 +362,7 @@ export class TicketCreateComponent implements OnInit {
   }
 
   onPickImage(event: Event, index: number) {
-    if(this.imagePreview[index] !== ''){
+    if (this.imagePreview[index] !== '') {
       this.imagePreview[index] = '';
       this.listImage.splice(index, 1);
     } else {
@@ -376,9 +375,9 @@ export class TicketCreateComponent implements OnInit {
         this.listImage.splice(index, 0, this.formImage.value.image);
       };
       reader.readAsDataURL(file);
-      console.log('file: '+file.name);
+      console.log('file: ' + file.name);
     }
-    
+
     console.log(this.listImage);
   }
 

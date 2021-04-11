@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth_customer.service';
 // import { AuthService } from '../../services/auth.service';
 import { MenuService } from '../../services/menu.service';
+import { CartsService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import { MenuService } from '../../services/menu.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private authListenerSubs: Subscription;
+ // private cartListenerSubs: Subscription;
   userIsAuthenticated = false;
   valueSidebar = false;
 
@@ -25,14 +27,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showSubSubMenu = false;
   customerId: string;
   username: string;
-  imageAvt = '';
+  countCart = 0;
   user: User;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
-    private userService: UserService,
+    public cartService: CartsService
+    // private userService: UserService,
     // private customerService: CustomerService
     ) {}
 
@@ -42,6 +45,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.customerId = this.authService.getCustomerId();
     this.username = this.authService.getUsername();
+
     console.log(this.customerId);
     console.log(this.username);
     this.authListenerSubs = this.authService
@@ -49,7 +53,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    console.log(this.userIsAuthenticated);
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      this.cartService.getCountCart().subscribe(
+        countData => {
+          this.countCart = countData.countCart;
+        });
+      });
+      console.log(this.countCart);
+    // this.cartListenerSubs = this.cartService
+    //   .getCartUpdateListener()
+    //   .subscribe( countCart => {
+    //     this.countCart = countCart;
+    //   });
+    // console.log(this.userIsAuthenticated);
     // if (this.userIsAuthenticated === true) {
     //   this.route.paramMap.subscribe((paramMap: ParamMap) => {
     //     this.userService.getInfoUser().subscribe(
@@ -70,6 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // }
 
 
+
   }
 
   onLogout() {
@@ -82,5 +99,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();
+    // this.cartListenerSubs.unsubscribe();
   }
 }

@@ -72,7 +72,7 @@ export class AuthService {
                   this.username = response.username;
                   this.created_at = response.created_at;
                   this.authStatusListener.next(true);
-                  const now = new Date('2021/05/01');
+                  const now = new Date();
                   const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                   console.log(expirationDate);
                   this.saveAuthData(token, expirationDate, this.customerId, this.username, this.created_at);
