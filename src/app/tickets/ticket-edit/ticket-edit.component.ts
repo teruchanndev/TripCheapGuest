@@ -10,7 +10,7 @@ import { City } from '../../modals/city.model';
 import { mimeType } from '../ticket-create/mime-type.validator';
 import { Ticket } from '../../modals/ticket.model';
 import { TicketsService } from '../../services/tickets.service';
-import { Service } from 'src/app/modals/service.modal';
+import { Service } from 'src/app/modals/service.model';
 
 
 @Component({
@@ -228,7 +228,7 @@ export class TicketEditComponent implements OnInit {
       this.categorySelect = '';
       this.categoryServiceSelect = '';
       this.valueItem = this.categories
-                .find(item => item.name === value).categoryItem;
+        .find(item => item.name === value).categoryItem;
     }
   }
 

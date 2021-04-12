@@ -34,6 +34,7 @@ import { DetailComponent } from './pages/detail/detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
+import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.com
     HomeComponent,
     DetailComponent,
     CartComponent,
-    TicketDetailComponent
+    TicketDetailComponent,
+    TicketDetailUpdateComponent
   ],
   imports: [
     BrowserModule,

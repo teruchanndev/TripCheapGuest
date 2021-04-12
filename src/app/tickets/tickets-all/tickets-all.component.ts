@@ -24,7 +24,7 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
     this.ticketsSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.tickets = ticket;
-        console.log('get ticket: ' + ticket);
+        console.log('get ticket: ' + this.tickets);
       });
   }
   detailTicket(ticketId) {

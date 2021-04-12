@@ -13,13 +13,13 @@ router.put("/:id", checkAuth, CartController.updateCart);
 //lấy danh sách cart
 router.get("", checkAuth, CartController.getAllCart);
 
-// router.get("/:id", checkAuth, CartController.getOneCart);
+router.get("/update/:id", checkAuth, CartController.getOneCart);
 
 router.get("/count", checkAuth, CartController.getCountCartOfCustomer);
 
 router.get("/cart", checkAuth, CartController.getCartOfCustomer);
 
-router.delete("", checkAuth, CartController.deleteCart );
+router.delete("/list/:id", checkAuth, CartController.deleteCart);
 
 
 module.exports = router;

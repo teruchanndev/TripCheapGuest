@@ -4,10 +4,11 @@ import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 
-import { Cart } from '../modals/cart.modal';
+import { Cart } from '../modals/cart.model';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { stringify } from '@angular/compiler/src/util';
+import { ServiceSelect } from '../modals/serviceSelect.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartsService {
@@ -23,7 +24,7 @@ export class CartsService {
     this.http
     .get<{ message: string; cart: any }>(this.BACKEND_URL)
     .pipe(
-      map( cartData => {
+      map(cartData => {
         console.log(cartData);
         return cartData.cart.map(cart => {
           return {
@@ -60,8 +61,8 @@ export class CartsService {
       idTicket: string;
       idCreator: string;
       idCustomer: string;
-      itemService: Array<object>;
-    }>(this.BACKEND_URL + id);
+      itemService: Array<ServiceSelect>;
+    }>(this.BACKEND_URL + 'update/'  + id);
   }
 
   getCountCart() {
@@ -103,19 +104,20 @@ export class CartsService {
     idTicket: string,
     idCreator: string,
     idCustomer: string,
-    itemService: Array<object>
+    itemService: Array<ServiceSelect>
   ) {
     // tslint:disable-next-line:prefer-const
     let cartData: Cart | FormData;
     cartData = {
-      nameTicket: nameTicket,
-      imageTicket: imageTicket,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-      idTicket: idTicket,
-      idCreator: idCreator,
-      idCustomer: idCustomer,
-      itemService: itemService
+        id: null,
+        nameTicket: nameTicket,
+        imageTicket: imageTicket,
+        dateStart: dateStart,
+        dateEnd: dateEnd,
+        idTicket: idTicket,
+        idCreator: idCreator,
+        idCustomer: idCustomer,
+        itemService: itemService
     };
     this.http
       .post<
@@ -137,18 +139,19 @@ export class CartsService {
     idTicket: string,
     idCreator: string,
     idCustomer: string,
-    itemService: Array<object>
+    itemService: Array<ServiceSelect>
   ) {
     let cartData: Cart | FormData;
     cartData = {
-      nameTicket: nameTicket,
-      imageTicket: imageTicket,
-      dateStart: dateStart,
-      dateEnd: dateEnd,
-      idTicket: idTicket,
-      idCreator: idCreator,
-      idCustomer: idCustomer,
-      itemService: itemService
+        id: id,
+        nameTicket: nameTicket,
+        imageTicket: imageTicket,
+        dateStart: dateStart,
+        dateEnd: dateEnd,
+        idTicket: idTicket,
+        idCreator: idCreator,
+        idCustomer: idCustomer,
+        itemService: itemService
     };
 
     this.http
@@ -159,10 +162,10 @@ export class CartsService {
       });
   }
 
-  deleteCart(cartId: string) {
+  deleteCart(cartId: Array<string>) {
     console.log(cartId);
     this.http
-      .delete(this.BACKEND_URL + cartId).subscribe(response => {
+      .delete(this.BACKEND_URL + 'list/' + cartId.join()).subscribe(response => {
         console.log(response);
         this.getCarts();
       });

@@ -29,6 +29,7 @@ exports.createCart = (req, res, next) => {
 }
 
 exports.updateCart = (req, res, next) => {
+  console.log(req.body);
   const cart = new Cart({
     _id: req.body.id,
     nameTicket: req.body.nameTicket,
@@ -56,40 +57,59 @@ exports.getAllCart = (req, res, next) => {
 }
 
 exports.getOneCart = (req, res, next) => {
+  console.log(req.params);
   Cart.findById(req.params.id).then(cart => {
     if (cart) {
+      console.log(cart);
       res.status(200).json(cart);
     } else {
       res.status(404).json({ message: "Cart not found!" });
     }
   }).catch(error => {
     res.status(500).json({
-      message: 'Fetching a cart failed!'
+      message: 'Fetching a cart failed!' + error
     });
   });
 }
 
 exports.deleteCart = (req, res, next) => {
-  Cart.deleteOne({ _id: req.params.id, idCustomer: req.userData.customerId }).then(
+  // console.log(req.params.id);
+  arrId = req.params.id.split(',');
+  for(let item of arrId) {
+    console.log(item);
+    Cart.deleteOne({ _id: item, idCustomer: req.userData.customerId }).then(
     result => {
-    if(result.n > 0) {
-      res.status(200).json({ message: "Cart deleted!" });
-     } else {
-      res.status(401).json({ message: "Not authorized!" });
-     }
-  }).catch(error => {
-    res.status(500).json({
-      message: 'Delete cart failed!'
+      if(result.n > 0) {
+        res.status(200).json({ message: "Cart deleted!" });
+      } else {
+        res.status(401).json({ message: "Not authorized!" });
+      }
+    }).catch(error => {
+      res.status(500).json({
+        message: 'Delete cart failed!'
+      })
     })
-  })
+  }
+  // Cart.deleteOne({ _id: req.params.id, idCustomer: req.userData.customerId }).then(
+  //   result => {
+  //   if(result.n > 0) {
+  //     res.status(200).json({ message: "Cart deleted!" });
+  //    } else {
+  //     res.status(401).json({ message: "Not authorized!" });
+  //    }
+  // }).catch(error => {
+  //   res.status(500).json({
+  //     message: 'Delete cart failed!'
+  //   })
+  // })
 }
 
 exports.getCountCartOfCustomer = (req, res, next) => {
-  console.log(req.userData);
+  // console.log(req.userData);
   Cart.countDocuments(
     {idCustomer: req.userData.customerId}).then(
     count => {
-      console.log(count);
+      // console.log(count);
       res.status(200).json({
         message: "Count item in cart",
         countCart: count

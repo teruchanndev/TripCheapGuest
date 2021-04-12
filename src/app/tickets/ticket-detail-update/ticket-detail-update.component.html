@@ -1,0 +1,167 @@
+<section  *ngIf="ticket">
+    <div style="width: 100%; height: auto; text-align:center;margin:0; padding:0;">
+      <ng-image-slider #nav
+        [images]="imageObject"
+        [infinite]="false"
+        [autoSlide]="imageObject.length"
+        [imageSize]="{width: '100%', height: 250}"
+        slideImage="1"></ng-image-slider>
+    </div>
+    <div class="detail">
+    <p>{{ticket.city + " > " + ticket.category + " > " + ticket.categoryService}}</p>
+    </div>
+    <div class="title_ticket">
+      <h1>{{ticket.title || ''}}</h1>
+      <mat-divider></mat-divider>
+  
+      <div style="display: flex; flex-wrap: wrap;">
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/dollar.svg" width="20px" height="20px">
+          Không hoàn huỷ/Hoàn huỷ miễn phí trong 24h
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/day.svg" width="20px" height="20px">
+          Vé theo ngày cố định
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/printer.svg" width="20px" height="20px">
+          Xuất trình vé điện tử hoặc in voucher
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/coupon.svg" width="20px" height="20px">
+          Vào cổng bằng voucher/Đổi vé cứng
+        </div>
+        <div class="icon_condition">
+          <img src = "../../../assets/icon/car.svg" width="20px" height="20px">
+          Đón tại điểm hẹn
+        </div>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  
+    <div class="content_ticket">
+      <p>{{ticket.content}}</p>
+    </div>
+  
+    <div class="service_container">
+      <mat-card class="description">
+        <h3>Các gói dịch vụ</h3>
+        <p>Vui lòng chọn các gói dịch vụ</p>
+        <div class="service_item">
+          <button
+            mat-stroked-button
+            *ngFor="let item of ticket.services[0]; index as i"
+            (click) = "showInfoService(i)">
+             {{item.name}} </button>
+        </div>
+  
+        <div>
+          <form [formGroup]="form">
+            <p>Số lượng</p>
+            <div
+              *ngFor="let item of listItemService; index as i"
+              class="service_price" >
+              <div>
+                <p>{{item.itemServiceName}}</p>
+              </div>
+              <div>
+                <p>{{item.itemServicePrice}}</p>
+              </div>
+              <div>
+                <button
+                  mat-stroked-button
+                  (click)="item.quantity=item.quantity+1">+</button>
+                <mat-form-field appearance="outline">
+                  <input
+                    style="width: 30px;"
+                    formControlName = "quantity"
+                    matInput
+                    #incrementInput
+                    type="number"
+                    min="0"
+                    [value]="item.quantity"
+                    placeholder="0">
+                </mat-form-field>
+                <button
+                  mat-stroked-button
+                  (click)="item.quantity=item.quantity-1">-</button>
+              </div>
+            </div>
+  
+            <div class="selectDate">
+              <mat-form-field appearance="fill">
+                <mat-label>Nhập ngày</mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                  <input matStartDate placeholder="Start date" formControlName = "dateStart">
+                  <input matEndDate placeholder="End date" formControlName = "dateEnd" (dateChange) = "getDate()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
+  
+            <div class="btn-action">
+              <button mat-raised-button color="primary" (click) = "AddCart()">Thêm vào giỏ hàng</button>
+              <button mat-raised-button color="warn">Đặt ngay</button>
+            </div>
+          </form>
+  
+        </div>
+      </mat-card>
+      <mat-card class="description">
+        <h3>Chi tiết gói đã chọn</h3>
+        <div class="Info-general">
+          <div class="icon_condition">
+            <img src = "../../../assets/icon/dollar.svg" width="20px" height="20px">
+            Không hoàn huỷ/Hoàn huỷ miễn phí trong 24h
+          </div>
+          <div class="icon_condition">
+            <img src = "../../../assets/icon/day.svg" width="20px" height="20px">
+            Vé theo ngày cố định
+          </div>
+          <div class="icon_condition">
+            <img src = "../../../assets/icon/printer.svg" width="20px" height="20px">
+            Xuất trình vé điện tử hoặc in voucher
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="Info-service">
+          <h3>Thông tin sản phẩm</h3>
+          <div>
+            <h4>Bao gồm:</h4>
+            <ul>
+              <li *ngFor="let item of ticket.services[0][index].included">{{item}}</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Không bao gồm:</h4>
+            <ul>
+              <li *ngFor="let item of ticket.services[0][index].notIncluded">{{item}}</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Ngày hoạt động:</h4>
+            <ul>
+              <li>{{ticket.services[0][index].dayActive}}</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Giờ mở cửa:</h4>
+            <ul>
+              <li>{{ticket.services[0][index].timeStart + ' AM - ' + ticket.services[0][index].timeStop + ' PM'}}</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Địa chỉ:</h4>
+            <ul>
+              <li>{{ticket.address}}</li>
+            </ul>
+          </div>
+        </div>
+      </mat-card>
+  
+  
+    </div>
+  
+  </section>
+  

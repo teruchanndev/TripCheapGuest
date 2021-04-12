@@ -1,0 +1,31 @@
+.icon_condition {
+    padding: 1rem;
+  }
+  .content_ticket{
+    word-wrap: break-word;
+  }
+  .service_container{
+    display: flex;
+  }
+  .description{
+    flex: 50%;
+    padding: 1rem 2rem;
+    border: 1px solid #f1f1f1;
+    margin: 1rem 1rem;
+  }
+  
+  .service_price{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    border: 1px solid purple;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+  }
+  
+  input[type="number"] {
+    width: 50px;
+    height: 30px;
+  }
+  

@@ -1,4 +1,7 @@
+import { ServiceSelect } from "./serviceSelect.model";
+
 export interface Cart {
+    id: string;
     nameTicket: string;
     imageTicket: string;
     dateStart: string;
@@ -6,5 +9,5 @@ export interface Cart {
     idTicket: string;
     idCreator: string;
     idCustomer: string;
-    itemService: Array<object>;
+    itemService: Array<ServiceSelect>;
 }

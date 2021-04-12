@@ -6,7 +6,6 @@ import { Cart } from 'src/app/modals/cart.model';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { TicketsService } from 'src/app/services/tickets.service';
-import { StringLiteralLike } from 'typescript';
 import {DateAdapter} from '@angular/material/core';
 import {
   MatDateRangeSelectionStrategy,
@@ -38,20 +37,28 @@ export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionSt
   }
 }
 
-
 @Component({
-  selector: 'app-ticket-detail',
-  templateUrl: './ticket-detail.component.html',
-  styleUrls: ['./ticket-detail.component.css'],
+  selector: 'app-ticket-detail-update',
+  templateUrl: './ticket-detail-update.component.html',
+  styleUrls: ['./ticket-detail-update.component.css'],
   providers: [{
     provide: MAT_DATE_RANGE_SELECTION_STRATEGY,
     useClass: FiveDayRangeSelectionStrategy
   }]
 })
-export class TicketDetailComponent implements OnInit, OnDestroy {
+export class TicketDetailUpdateComponent implements OnInit {
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
+  form: FormGroup;
 
   ticket: Ticket;
-  private ticketId: string;
+  private idCart: string;
+  private idTicket: string;
+  nameServiceSelect: string;
   imageObject: Array<Object> = [];
   cart: Cart;
   showInfoServiceItem = false;
@@ -61,16 +68,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   customerId: string;
 
   listItemService: Array<ServiceSelect> = [];
-
-  range = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl()
-  });
-
-  form: FormGroup;
-
-
-
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
 
@@ -85,7 +82,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.autoAuthCustomer();
-
     this.form = new FormGroup({
       quantity: new FormControl(),
       dateStart: new FormControl(),
@@ -98,42 +94,101 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.customerIsAuthenticated = isAuthenticated;
-      });
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      console.log(paramMap);
-      this.ticketId = paramMap.get('ticketId');
-      this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
-        this.ticket = {
-          id: ticketData._id,
-          title: ticketData.title,
-          content: ticketData.content,
-          status: ticketData.status,
-          price: ticketData.price,
-          city: ticketData.city,
-          category: ticketData.category,
-          categoryService: ticketData.categoryService,
-          percent: ticketData.percent,
-          price_reduce: ticketData.price_reduce,
-          quantity: ticketData.quantity,
-          address: ticketData.address,
-          services: ticketData.services,
-          imagePath: ticketData.imagePath,
-          creator: ticketData.creator
+      this.idCart = paramMap.get('idCart');
+      this.cartService.getOneCart(this.idCart).subscribe( cartData => {
+        this.cart = {
+          id: cartData._id,
+          nameTicket: cartData.nameTicket ,
+          imageTicket: cartData.imageTicket ,
+          dateStart: cartData.dateStart ,
+          dateEnd: cartData.dateEnd ,
+          idTicket: cartData.idTicket ,
+          idCreator: cartData.idCreator ,
+          idCustomer: cartData.idCustomer ,
+          itemService: cartData.itemService
         };
-        for (let i = 0; i < this.ticket.imagePath.length; i++) {
-          this.imageObject[i] = {
-            image : this.ticket.imagePath[i],
-            thumbImage: this.ticket.imagePath[i]
-          };
-        }
+        this.idTicket = cartData.idTicket;
+        this.nameServiceSelect = cartData.itemService[0].name;
+        console.log(this.nameServiceSelect);
       });
+      
+      // const app = this;
+      setTimeout(() => {
+        this.ticketsService.getTicket(this.idTicket)
+          .subscribe(ticketData => {
+            this.ticket = {
+              id: ticketData._id,
+              title: ticketData.title,
+              content: ticketData.content,
+              status: ticketData.status,
+              price: ticketData.price,
+              city: ticketData.city,
+              category: ticketData.category,
+              categoryService: ticketData.categoryService,
+              percent: ticketData.percent,
+              price_reduce: ticketData.price_reduce,
+              quantity: ticketData.quantity,
+              address: ticketData.address,
+              services: ticketData.services,
+              imagePath: ticketData.imagePath,
+              creator: ticketData.creator
+          };
+          console.log(this.ticket);
+          for (let i = 0; i < this.ticket.imagePath.length; i++) {
+            this.imageObject[i] = {
+              image : this.ticket.imagePath[i],
+              thumbImage: this.ticket.imagePath[i]
+            };
+          }
+          let len = Object.keys(this.ticket.services[0]).length;
+          for(let i=0; i< len ;i++) {
+            if(this.ticket.services[0][i].name === this.nameServiceSelect) {
+              console.log(this.ticket.services[0][i].name);
+              this.index = i;
+            }
+          }
+          this.setValue(this.index);
+          
+          const dateStartCover = this.cart.dateStart.split('/')[1]+'/'+this.cart.dateStart.split('/')[0]+'/'+this.cart.dateStart.split('/')[2];
+          const dateEndCover = this.cart.dateEnd.split('/')[1]+'/'+this.cart.dateEnd.split('/')[0]+'/'+this.cart.dateEnd.split('/')[2];
+          console.log(dateStartCover);
+          
+          const dateSt = new Date(dateStartCover)
+          const dateSp = new Date(dateEndCover);
+          console.log(dateSp);
+          console.log(this.cart.dateStart);
+          this.form.setValue({
+            quantity: '',
+            dateStart: dateSt,
+            dateEnd: dateSp
+          })
+        });
+
+      }, 2000);
+
+
+
     });
   }
+
 
   formatDate(date) {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
+  setValue(index) {
+    const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
+    for (let i = 0; i < lenService; i++) {
+      this.listItemService[i] = {
+        name: this.ticket.services[0][this.index].name,
+        itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
+        itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
+        quantity: this.cart.itemService[i].quantity
+      };
+    }
+  }
   showInfoService(index) {
     this.index = index;
     this.listItemService = [];
@@ -162,7 +217,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.router.navigate(['/signup']);
    } else {
     this.cart = {
-      id: null,
+      id: this.cart.id,
       nameTicket: this.ticket.title,
       imageTicket: this.ticket.imagePath[0],
       itemService: this.listItemService.filter(item => item.quantity > 0 ),
@@ -172,7 +227,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       idCreator: this.ticket.creator,
       idCustomer: this.customerId
       };
-    const cartData = this.cartService.addCart(
+    console.log(this.cart);
+    const cartData = this.cartService.updateCart(
+      this.cart.id,
       this.cart.nameTicket,
       this.cart.imageTicket,
       this.cart.dateStart,
@@ -183,7 +240,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.cart.itemService
     );
 
-      console.log(this.cart);
+      // console.log(this.cart);
     }
   }
 
@@ -192,7 +249,4 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();
   }
-
 }
-
-

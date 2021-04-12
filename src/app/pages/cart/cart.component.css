@@ -2,3 +2,12 @@
   margin: 1rem;
   padding: 1rem;
 }
+
+.nameService {
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.cart {
+  display: flex;
+}
