@@ -1,9 +1,9 @@
 <mat-card>
   <mat-card-title>
-    <span
+    <div
       matBadge="{{countCart}}"
       matBadgeOverlap="false"
-      matBadgePosition = "before">Giỏ hàng</span>
+      matBadgePosition = "before">Giỏ hàng</div>
   </mat-card-title>
 </mat-card>
 
@@ -22,13 +22,13 @@
           <td><button (click) = "deleteServiceIsSelected()">Xóa các dịch vụ đã chọn</button></td>
         </tr>
       </mat-card>
-      
+
     </thead>
     <tbody>
       <tr *ngFor="let item of itemStill; index as i">
         <mat-card>
           <td>
-            <mat-checkbox 
+            <mat-checkbox
               (change)="setSome($event.checked, i)"
               [checked] = 'allComplete[i]'></mat-checkbox>
           </td>
@@ -45,16 +45,16 @@
             <section class="uniNumPrice" *ngFor="let itemNum of item.itemService; index as iNum">
               <div>{{itemNum.itemServiceName}}</div>
               <div>
-                <button 
+                <button
                   mat-button
-                  (click)="addQuantity(i, iNum)" 
+                  (click)="addQuantity(i, iNum)"
                   style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
                   <mat-icon>add</mat-icon>
                 </button>
                   <input matInput [value]="itemNum.quantity" style="height: 40px; width: 40px;">
-                <button 
-                  mat-button 
-                  (click)="subtractQuantity(i, iNum)" 
+                <button
+                  mat-button
+                  (click)="subtractQuantity(i, iNum)"
                   style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
                   <mat-icon>remove</mat-icon>
                 </button>
@@ -89,12 +89,12 @@
             <section class="uniNumPrice" *ngFor="let itemNum of item.itemService">
               <div>{{itemNum.itemServiceName}}</div>
               <div>
-                <button 
+                <button
                   style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
                   <mat-icon>add</mat-icon>
                 </button>
-                  <input 
-                    [value]="itemNum.quantity" 
+                  <input
+                    [value]="itemNum.quantity"
                     style="height: 40px; width: 40px;">
                 <button
                   style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
