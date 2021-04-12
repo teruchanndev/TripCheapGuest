@@ -36,7 +36,7 @@ import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
-
+import { AngularFireModule } from '@angular/fire';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +72,16 @@ import { PayComponent } from './pages/pay/pay.component';
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    AngularFireModule.initializeApp({
+      apiKey: 'AIzaSyBHSbfbd6EehQhbJqGE62tP_MuJRS5k5Qo',
+      authDomain: 'tripcheap-8237d.firebaseapp.com',
+      projectId: 'tripcheap-8237d',
+      storageBucket: 'tripcheap-8237d.appspot.com',
+      messagingSenderId: '617218389657',
+      appId: '1:617218389657:web:6d61275b14d0da3779ea08',
+      measurementId: 'G-11DWV0S1DV'
+    })
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

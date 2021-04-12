@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Cart } from 'src/app/modals/cart.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { CartsService } from 'src/app/services/cart.service';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-pay',
