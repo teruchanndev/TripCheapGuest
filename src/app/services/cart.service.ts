@@ -24,6 +24,7 @@ export class CartsService {
     .get<{ message: string; cart: any }>(this.BACKEND_URL)
     .pipe(
       map( cartData => {
+        console.log(cartData);
         return cartData.cart.map(cart => {
           return {
             id: cart._id,
@@ -67,6 +68,31 @@ export class CartsService {
     return this.http.get<{
       countCart: number;
     }>(this.BACKEND_URL + 'count');
+  }
+
+  getCartOfCustomer() {
+    this.http.get<
+      { message: string; cart: any }>
+      (this.BACKEND_URL + 'cart').pipe(
+        map(cartData => {
+          return cartData.cart.map(cart => {
+            return {
+              id: cart._id,
+              nameTicket: cart.nameTicket,
+              imageTicket: cart.imageTicket,
+              dateStart: cart.dateStart,
+              dateEnd: cart.dateEnd,
+              idTicket: cart.idTicket,
+              idCreator: cart.idCreator,
+              idCustomer: cart.idCustomer,
+              itemService: cart.itemService
+            };
+          });
+        })
+      ).subscribe(transformedCart => {
+        this.carts = transformedCart;
+        this.cartsUpdated.next([...this.carts]);
+      });
   }
 
   addCart(

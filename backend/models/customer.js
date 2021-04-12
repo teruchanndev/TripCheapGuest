@@ -5,7 +5,7 @@ const customerSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  phoneNumber: { type: Number, unique: true },
+  phoneNumber: { type: Number},
   address: { type: String },
 }, { timestamps: { createdAt: 'created_at' } });
 

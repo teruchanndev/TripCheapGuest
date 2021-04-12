@@ -47,7 +47,7 @@ exports.updateCart = (req, res, next) => {
 
 exports.getAllCart = (req, res, next) => {
   console.log('req' + req);
-  Cart.find({idCustomer: req.userData.idCustomer}).then(documents => {
+  Cart.find({idCustomer: req.userData.customerId}).then(documents => {
     res.status(200).json({
       message: "Cart fetched successfully!",
       cart: documents
@@ -70,7 +70,7 @@ exports.getOneCart = (req, res, next) => {
 }
 
 exports.deleteCart = (req, res, next) => {
-  Cart.deleteOne({ _id: req.params.id, idCustomer: req.userData.idCustomer }).then(
+  Cart.deleteOne({ _id: req.params.id, idCustomer: req.userData.customerId }).then(
     result => {
     if(result.n > 0) {
       res.status(200).json({ message: "Cart deleted!" });
@@ -86,13 +86,28 @@ exports.deleteCart = (req, res, next) => {
 
 exports.getCountCartOfCustomer = (req, res, next) => {
   console.log(req.userData);
-  Cart.estimatedDocumentCount(
-    {idCustomer: req.userData.idCustomer}).then(
+  Cart.countDocuments(
+    {idCustomer: req.userData.customerId}).then(
     count => {
       console.log(count);
       res.status(200).json({
         message: "Count item in cart",
         countCart: count
+      });
+    }).catch(error => {
+      res.status(500).json({
+        message: 'failed!' + error
+      })
+    })
+}
+
+exports.getCartOfCustomer = (req, res, next) => {
+  Cart.find(
+    {idCustomer: req.userData.customerId}).then(
+    document => {
+      res.status(200).json({
+        message: "Count item in cart",
+        cart: document
       });
     }).catch(error => {
       res.status(500).json({

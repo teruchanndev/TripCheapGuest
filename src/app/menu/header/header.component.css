@@ -43,3 +43,6 @@ mat-icon{
 .menu-button.rotated {
   transform: rotate(180deg);
 }
+.mat-menu-panel {
+  width: 600px;
+}

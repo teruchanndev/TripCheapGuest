@@ -21,6 +21,7 @@
     <li *ngIf='!userIsAuthenticated'>
       <button
       mat-button
+      routerLink = "/login"
       routerLinkActive="mat-accent">
       <span>Login</span>
       </button>
@@ -31,12 +32,29 @@
         matBadge="{{countCart}}"
         matBadgePosition="before"
         matBadgeColor="accent"
-        [matMenuTriggerFor] = 'menu'
-        routerLinkActive="mat-accent">
+        [matMenuTriggerFor] = 'menu1'
+        routerLinkActive="mat-accent"
+        routerLink="/cart"
+        >
         <span>Giỏ hàng</span>
       </button>
-      <mat-menu #menu = "matMenu">
-        <button mat-menu-item></button>
+      <mat-menu #menu1 = "matMenu" class="menuCart" style="width: 500px;">
+        <mat-card
+          *ngFor="let cartItem of cart" style="min-width: 500px;">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+              <img [src]= "cartItem.imageTicket" width="50px" height="50px">
+            </div>
+            <mat-card-title>{{cartItem.nameTicket}}</mat-card-title>
+            <mat-card-subtitle>{{cartItem.itemService[0].name}}</mat-card-subtitle>
+            <mat-card-subtitle *ngFor="let item of cartItem.itemService">
+              {{item.quantity + ' ' + item.itemServiceName}}</mat-card-subtitle>
+            <mat-card-subtitle>{{cartItem.dateStart + ' - ' + cartItem.dateEnd}}</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+        <!-- <button mat-menu-item *ngFor="let cartItem of cart">
+          {{cartItem.nameTicket}}
+        </button> -->
       </mat-menu>
     </li>
   </ul>

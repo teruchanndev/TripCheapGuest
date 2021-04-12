@@ -17,6 +17,8 @@ router.get("", checkAuth, CartController.getAllCart);
 
 router.get("/count", checkAuth, CartController.getCountCartOfCustomer);
 
+router.get("/cart", checkAuth, CartController.getCartOfCustomer);
+
 router.delete("", checkAuth, CartController.deleteCart );
 
 

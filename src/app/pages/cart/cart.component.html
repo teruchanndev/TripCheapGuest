@@ -1,1 +1,33 @@
-<p>cart works!</p>
+<mat-card>
+  <mat-card-title>
+    <span
+      matBadge="{{countCart}}"
+      matBadgeOverlap="false"
+      matBadgePosition = "before">Giỏ hàng</span>
+  </mat-card-title>
+</mat-card>
+
+<div class="cart_operator_bar">
+  <div>
+      <span class="u_checkbox_square with_desc">
+        <input type="checkbox" id="j_all" name="j_all" class="j_all" checked="">
+        <label for="j_all">
+            <span></span>
+        </label>
+      </span>
+      <span class="all text">Tất cả </span>
+      <span class="delete_all text">
+        <a id="del_chk" class="f_h_main" data-gatag="Shopping Cart|Delete Selected Activity" data-role="delall">Xoá dịch vụ đã chọn </a>
+      </span>
+  </div>
+</div>
+
+<mat-card *ngFor="let item of cart">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img [src] = "item.imageTicket" style="max-width: 200px;">
+    </div>
+    <mat-card-title>{{item.nameTicket}}</mat-card-title>
+    <mat-card-subtitle>Loại gói dịch vụ: {{item.itemService[0].name}}</mat-card-subtitle>
+  </mat-card-header>
+</mat-card>
