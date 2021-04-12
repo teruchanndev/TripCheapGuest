@@ -61,6 +61,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   customerId: string;
 
   listItemService: Array<ServiceSelect> = [];
+ 
 
   range = new FormGroup({
     start: new FormControl(),

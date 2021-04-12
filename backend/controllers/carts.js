@@ -90,18 +90,23 @@ exports.deleteCart = (req, res, next) => {
       })
     })
   }
-  // Cart.deleteOne({ _id: req.params.id, idCustomer: req.userData.customerId }).then(
-  //   result => {
-  //   if(result.n > 0) {
-  //     res.status(200).json({ message: "Cart deleted!" });
-  //    } else {
-  //     res.status(401).json({ message: "Not authorized!" });
-  //    }
-  // }).catch(error => {
-  //   res.status(500).json({
-  //     message: 'Delete cart failed!'
-  //   })
-  // })
+}
+
+exports.getCartToPay = (req, res, next) => {
+  arrId = req.params.id.split(',');
+  for(let item of arrId) {
+    Cart.find({_id: item, idCustomer: req.userData.customerId }).then(
+      documents => {
+        res.status(200).json({
+          message: "Cart fetched successfully!",
+          cartToPay: documents
+        });
+      }).catch(error => {
+      res.status(500).json({
+        message: 'Cart fetched failed!'
+      });
+    });
+  }
 }
 
 exports.getCountCartOfCustomer = (req, res, next) => {

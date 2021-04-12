@@ -113,7 +113,7 @@ export class TicketDetailUpdateComponent implements OnInit {
         this.nameServiceSelect = cartData.itemService[0].name;
         console.log(this.nameServiceSelect);
       });
-      
+
       // const app = this;
       setTimeout(() => {
         this.ticketsService.getTicket(this.idTicket)
@@ -142,20 +142,22 @@ export class TicketDetailUpdateComponent implements OnInit {
               thumbImage: this.ticket.imagePath[i]
             };
           }
-          let len = Object.keys(this.ticket.services[0]).length;
-          for(let i=0; i< len ;i++) {
-            if(this.ticket.services[0][i].name === this.nameServiceSelect) {
+          const len = Object.keys(this.ticket.services[0]).length;
+          for (let i = 0; i < len ; i++) {
+            if (this.ticket.services[0][i].name === this.nameServiceSelect) {
               console.log(this.ticket.services[0][i].name);
               this.index = i;
             }
           }
           this.setValue(this.index);
-          
-          const dateStartCover = this.cart.dateStart.split('/')[1]+'/'+this.cart.dateStart.split('/')[0]+'/'+this.cart.dateStart.split('/')[2];
-          const dateEndCover = this.cart.dateEnd.split('/')[1]+'/'+this.cart.dateEnd.split('/')[0]+'/'+this.cart.dateEnd.split('/')[2];
+
+          // tslint:disable-next-line:max-line-length
+          const dateStartCover = this.cart.dateStart.split('/')[1] + '/' + this.cart.dateStart.split('/')[0] + '/' + this.cart.dateStart.split('/')[2];
+          // tslint:disable-next-line:max-line-length
+          const dateEndCover = this.cart.dateEnd.split('/')[1] + '/' + this.cart.dateEnd.split('/')[0] + '/' + this.cart.dateEnd.split('/')[2];
           console.log(dateStartCover);
-          
-          const dateSt = new Date(dateStartCover)
+
+          const dateSt = new Date(dateStartCover);
           const dateSp = new Date(dateEndCover);
           console.log(dateSp);
           console.log(this.cart.dateStart);
@@ -163,7 +165,7 @@ export class TicketDetailUpdateComponent implements OnInit {
             quantity: '',
             dateStart: dateSt,
             dateEnd: dateSp
-          })
+          });
         });
 
       }, 2000);

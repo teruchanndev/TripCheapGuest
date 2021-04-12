@@ -1,1 +1,113 @@
-<p>pay works!</p>
+
+<mat-horizontal-stepper labelPosition="bottom" #stepper>
+  <!-- step 1: xác nhận thông tin đơn hàng -->
+  <mat-step>
+    <ng-template matStepLabel>Xác nhận đơn hàng</ng-template>
+    <section>
+      <div class="list-ticket">
+        <mat-card class="ticket" *ngFor="let item of carts; index as i">
+          <mat-card-title>{{item.nameTicket}}</mat-card-title>
+          <mat-card-subtitle>{{item.itemService[0].name}}</mat-card-subtitle>
+          <mat-divider></mat-divider>
+          <div class="date">
+            <li style="width: 100%;">
+              <span class="text-title">Ngày</span>
+              <span class="text-des">{{ item.dateStart + ' - ' + item.dateEnd }}</span>
+            </li>
+            <li style="width: 100%;padding-bottom: 0.5rem;">
+              <span class="text-title">Đơn vị</span>
+              <div class="text-des">
+                <div *ngFor="let itemService of item.itemService">
+                  {{ itemService.itemServiceName + ' x ' + itemService.quantity }}
+                </div>
+              </div>
+            </li>
+          </div>
+          <mat-divider></mat-divider>
+          <mat-card-footer>
+            <li>
+              <div class="text-title">Tổng cộng</div>
+              <mat-card-title> {{priceItemStill[i]}}</mat-card-title>
+            </li>
+          </mat-card-footer>
+        </mat-card>
+
+      </div>
+      <div class="total-pay">
+        <mat-card>
+          <li style="width: 100%;padding-bottom: 0.5rem;">
+            <span class="text-title">Tổng cộng</span>
+            <div class="text-des">
+              <div>
+                {{pricePay}}
+              </div>
+            </div>
+          </li>
+          <li style="width: 100%;padding-bottom: 0.5rem;">
+            <span class="text-title">Số tiền phải thanh toán</span>
+            <div class="text-des">
+              <div>
+                {{pricePay}}
+              </div>
+            </div>
+          </li>
+        </mat-card>
+      </div>
+    </section>
+    <div style="float: right; margin: 1rem;">
+      <button mat-stroked-button color="primary" routerLink = "/cart">Thay đổi</button>
+      <button mat-raised-button color="primary" matStepperNext style="margin-left: 1rem;">Tiếp</button>
+    </div>
+  </mat-step>
+
+  <!-- step 2: Nhập thông tin người dùng -->
+  <mat-step [stepControl]="formInfo">
+    <ng-template matStepLabel>Thông tin liên lạc</ng-template>
+    <form [formGroup]="formInfo">
+      <mat-form-field appearance="outline">
+        <mat-label>Họ tên:</mat-label>
+        <input
+          matInput
+          placeholder="Họ tên đầy đủ"
+          formControlName="fullName">
+        <mat-hint>Nhập đầy đủ họ và tên</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Số điện thoại:</mat-label>
+        <input
+          matInput
+          placeholder="Nhập số điện thoại"
+          formControlName="phoneNumber">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email:</mat-label>
+        <input
+          matInput
+          placeholder="Nhập email"
+          formControlName="email">
+        <mat-hint>Nhập email để xác nhận đơn hàng</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Địa chỉ:</mat-label>
+        <input
+          matInput
+          placeholder="Địa chỉ liên lạc"
+          formControlName="address">
+      </mat-form-field>
+    </form>
+    <div style="float: right; margin: 1rem;">
+      <button mat-stroked-button color="primary" matStepperPrevious>Quay lại</button>
+      <button mat-raised-button color="primary" matStepperNext style="margin-left: 1rem;">Tiếp</button>
+    </div>
+  </mat-step>
+
+  <!-- step 3: Thông tin thanh toán -->
+  <mat-step [stepControl]="formPay">
+    <ng-template matStepLabel>Thông tin thanh toán</ng-template>
+    <button mat-stroked-button color="primary">Thay toán và đổi vé tại quầy</button>
+    <button mat-stroked-button color="primary">Thanh toán qua thẻ</button>
+  </mat-step>
+</mat-horizontal-stepper>

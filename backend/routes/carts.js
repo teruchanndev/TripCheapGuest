@@ -19,6 +19,8 @@ router.get("/count", checkAuth, CartController.getCountCartOfCustomer);
 
 router.get("/cart", checkAuth, CartController.getCartOfCustomer);
 
+router.get("/pay/:id", checkAuth, CartController.getCartToPay);
+
 router.delete("/list/:id", checkAuth, CartController.deleteCart);
 
 

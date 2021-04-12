@@ -1,4 +1,4 @@
-import { ServiceSelect } from "./serviceSelect.model";
+import { ServiceSelect } from './serviceSelect.model';
 
 export interface Cart {
     id: string;

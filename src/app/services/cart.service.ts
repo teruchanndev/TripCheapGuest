@@ -171,4 +171,31 @@ export class CartsService {
       });
   }
 
+  getCartToPay(cartId: Array<string>) {
+    console.log(cartId);
+    this.http.get<{ message: string; cart: any }>(this.BACKEND_URL + 'pay/' +  cartId.join())
+    .pipe(
+      map(cartData => {
+        console.log(cartData);
+        return cartData.cart.map(cart => {
+          return {
+            id: cart._id,
+            nameTicket: cart.nameTicket,
+            imageTicket: cart.imageTicket,
+            dateStart: cart.dateStart,
+            dateEnd: cart.dateEnd,
+            idTicket: cart.idTicket,
+            idCreator: cart.idCreator,
+            idCustomer: cart.idCustomer,
+            itemService: cart.itemService
+          };
+        });
+      })
+    ).subscribe(transformedCart => {
+      console.log(transformedCart);
+      this.carts = transformedCart;
+      this.cartsUpdated.next([...this.carts]);
+    });
+  }
+
 }

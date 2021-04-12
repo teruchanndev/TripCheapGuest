@@ -35,7 +35,7 @@ const routes: Routes = [
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
       { path: 'cart', component: CartComponent },
-      { path: 'pay', component: PayComponent }
+      { path: 'pay/:idCart', component: PayComponent }
     ]
   },
   // { path: 'home', component: HeaderComponent, children: [
