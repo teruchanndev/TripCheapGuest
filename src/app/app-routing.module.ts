@@ -17,6 +17,7 @@ import { TicketListComponent } from './tickets/ticket-list/ticket-list.component
 import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
+import { PayComponent } from './pages/pay/pay.component';
 
 const routes: Routes = [
   {path: '',
@@ -33,7 +34,8 @@ const routes: Routes = [
       ]},
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
-      { path: 'cart', component: CartComponent }
+      { path: 'cart', component: CartComponent },
+      { path: 'pay', component: PayComponent }
     ]
   },
   // { path: 'home', component: HeaderComponent, children: [

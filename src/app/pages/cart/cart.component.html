@@ -117,7 +117,7 @@
   <mat-card class="total">
     <div>{{countServiceSelect}} x dịch vụ được chọn - Tổng cộng:</div>
     <div>{{priceTotal}}đ</div>
-    <button mat-raised-button color="warn">Thanh toán ngay</button>
+    <button mat-raised-button color="warn" (click) = "payCart()">Thanh toán ngay</button>
   </mat-card>
 </section>
 

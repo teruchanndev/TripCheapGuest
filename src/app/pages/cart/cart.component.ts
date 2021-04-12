@@ -198,6 +198,10 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartService.deleteCart(arrId);
   }
 
+  payCart() {
+    this.router.navigate(['pay']);
+  }
+
 
 
   ngOnDestroy(): void {
