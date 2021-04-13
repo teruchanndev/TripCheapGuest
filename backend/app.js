@@ -9,6 +9,7 @@ const usersRoutes = require("./routes/user");
 const customerRoutes = require("./routes/customers");
 const citiesRoutes = require("./routes/cities")
 const cartRoutes = require("./routes/carts");
+const orderRoutes = require("./routes/orders");
 
 const app = express();
 
@@ -46,4 +47,5 @@ app.use("/api/city", citiesRoutes);
 // app.use("/api/user", usersRoutes);
 app.use("/api/customer", customerRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/order", orderRoutes);
 module.exports = app;

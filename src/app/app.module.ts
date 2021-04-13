@@ -72,16 +72,7 @@ import { AngularFireModule } from '@angular/fire';
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgImageSliderModule,
-    AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyBHSbfbd6EehQhbJqGE62tP_MuJRS5k5Qo',
-      authDomain: 'tripcheap-8237d.firebaseapp.com',
-      projectId: 'tripcheap-8237d',
-      storageBucket: 'tripcheap-8237d.appspot.com',
-      messagingSenderId: '617218389657',
-      appId: '1:617218389657:web:6d61275b14d0da3779ea08',
-      measurementId: 'G-11DWV0S1DV'
-    })
+    NgImageSliderModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

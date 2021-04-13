@@ -145,25 +145,48 @@ export class CartComponent implements OnInit, OnDestroy {
   addQuantity(indexItemStill, indexItemService) {
 
     const quantity = this.itemStill[indexItemStill].itemService[indexItemService].quantity;
-    const priceItem = this.priceItemStill[indexItemStill] / quantity;
-
-    this.itemStill[indexItemStill].itemService[indexItemService].quantity += 1;
-    this.priceItemStill[indexItemStill] += priceItem;
-    this.updateCart(indexItemStill);
-    if (this.priceTotal !== 0) {
-      this.priceTotal += priceItem;
+    console.log(quantity);
+    if(quantity === 0) {
+      console.log(this.priceItemStill[indexItemStill]);
+      const priceItem = this.priceItemStill[indexItemStill] * quantity;
+      this.itemStill[indexItemStill].itemService[indexItemService].quantity += 1;
+      console.log(this.priceItemStill[indexItemStill]);
+      this.priceItemStill[indexItemStill] += priceItem;
+      this.updateCart(indexItemStill);
+      if (this.priceTotal !== 0) {
+        this.priceTotal += priceItem;
+      }
+    } else {
+      const priceItem = this.priceItemStill[indexItemStill] / quantity;
+      this.itemStill[indexItemStill].itemService[indexItemService].quantity += 1;
+      this.priceItemStill[indexItemStill] += priceItem;
+      this.updateCart(indexItemStill);
+      if (this.priceTotal !== 0) {
+        this.priceTotal += priceItem;
+      }
     }
+
   }
 
   subtractQuantity(indexItemStill, indexItemService) {
     const quantity = this.itemStill[indexItemStill].itemService[indexItemService].quantity;
-    const priceItem = this.priceItemStill[indexItemStill] / quantity;
 
-    this.itemStill[indexItemStill].itemService[indexItemService].quantity -= 1;
-    this.priceItemStill[indexItemStill] -= priceItem;
-    this.updateCart(indexItemStill);
-    if (this.priceTotal !== 0) {
-      this.priceTotal -= priceItem;
+    if(quantity === 0) {
+      const priceItem = this.priceItemStill[indexItemStill] * quantity;
+      this.itemStill[indexItemStill].itemService[indexItemService].quantity -= 1;
+      this.priceItemStill[indexItemStill] -= priceItem;
+      this.updateCart(indexItemStill);
+      if (this.priceTotal !== 0) {
+        this.priceTotal -= priceItem;
+      }
+    } else {
+      const priceItem = this.priceItemStill[indexItemStill] / quantity;
+      this.itemStill[indexItemStill].itemService[indexItemService].quantity -= 1;
+      this.priceItemStill[indexItemStill] -= priceItem;
+      this.updateCart(indexItemStill);
+      if (this.priceTotal !== 0) {
+        this.priceTotal -= priceItem;
+      }
     }
   }
 

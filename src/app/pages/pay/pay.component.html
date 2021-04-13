@@ -1,5 +1,5 @@
 
-<mat-horizontal-stepper labelPosition="bottom" #stepper>
+<mat-vertical-stepper  labelPosition="bottom" #stepper>
   <!-- step 1: xác nhận thông tin đơn hàng -->
   <mat-step>
     <ng-template matStepLabel>Xác nhận đơn hàng</ng-template>
@@ -73,14 +73,30 @@
         <mat-hint>Nhập đầy đủ họ và tên</mat-hint>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Số điện thoại:</mat-label>
-        <input
-          matInput
-          placeholder="Nhập số điện thoại"
-          formControlName="phoneNumber">
-      </mat-form-field>
-
+      <section>
+        <mat-form-field appearance="outline">
+          <mat-label>Số điện thoại:</mat-label>
+          <input
+            matInput
+            placeholder="Nhập số điện thoại"
+            formControlName="phone_number">
+        </mat-form-field>
+        <button 
+            mat-stroked-button 
+            color="primary" 
+            type="submit" 
+            [disabled]="!busy"
+            (click)="onVerify()">
+            <span *ngIf="busy">Gửi</span>
+            <span *ngIf="!busy">Chờ trong vài giây</span>
+        </button>
+        <button 
+          mat-stroked-button 
+          color="primary" >Hủy
+        </button>
+      </section>
+      <div id="recaptcha-container"></div>
+      
       <mat-form-field appearance="outline">
         <mat-label>Email:</mat-label>
         <input
@@ -106,8 +122,16 @@
 
   <!-- step 3: Thông tin thanh toán -->
   <mat-step [stepControl]="formPay">
-    <ng-template matStepLabel>Thông tin thanh toán</ng-template>
-    <button mat-stroked-button color="primary">Thanh toán và đổi vé tại quầy</button>
-    <button mat-stroked-button color="primary">Thanh toán qua thẻ</button>
+    <ng-template matStepLabel>Phương thức thanh toán</ng-template>
+    <label id="example-radio-group-label">Lựa chọn phương thức thanh toán:</label>
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      [(ngModel)]="paySelect">
+      <mat-radio-button class="example-radio-button" *ngFor="let pay of pays" [value]="pay">
+        {{pay}}
+      </mat-radio-button>
+    </mat-radio-group>
+    <button mat-raised-button (click) = "payComplete()">THANH TOÁN NGAY</button>
   </mat-step>
-</mat-horizontal-stepper>
+</mat-vertical-stepper>

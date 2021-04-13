@@ -69,15 +69,6 @@ exports.customerLogin = (req, res, next) => {
       });
 }
 
-// exports.getUsername = (req, res, next) => {
-//     User.findById(req.params.id).then(user => {
-//         if (user) {
-//         res.status(200).json(user);
-//         } else {
-//         res.status(404).json({ message: "Username not found!" });
-//         }
-//     });
-// }
 
 exports.getInfoCustomer = (req, res, next) => {
   console.log('res: ' + req.userData.userId);
@@ -96,30 +87,12 @@ exports.getInfoCustomer = (req, res, next) => {
 }
 
 exports.updateInfo = (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
 
-    // if(req.files.length >= 2) {
-    //     iAvt = url + '/images/' + req.files[0].filename;
-    //     iCover = url + '/images/' + req.files[1].filename;
-    // }
-    // else if(req.files.length <= 0) {
-    //     iAvt = req.body.iAvt;
-    //     iCover = req.body.iCover;
-    // } else {
-    //     if(req.body.iAvt){
-    //         iAvt = req.body.iAvt;
-    //         iCover = url + '/images/' + req.files[0].filename;
-    //     }
-    //     if(req.body.iCover){
-    //         iAvt = url + '/images/' + req.files[0].filename;
-    //         iCover = req.body.iCover;
-    //     }
-    // }
     const infoCustomer = new Customer({
         _id: req.userData.customerId,
         email: req.body.email,
         username: req.body.username,
-        password: req.body.password,
+        fullName: req.body.fullName,
         phoneNumber: req.body.phoneNumber,
         address: req.body.address
     });
