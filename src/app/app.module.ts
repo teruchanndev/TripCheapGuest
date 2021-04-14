@@ -36,7 +36,8 @@ import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
-import { AngularFireModule } from '@angular/fire';
+import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +73,8 @@ import { AngularFireModule } from '@angular/fire';
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    NgImageSliderModule
+    NgImageSliderModule,
+    NgxQRCodeModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
