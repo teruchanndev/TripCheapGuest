@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,10 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import { OrdersService } from 'src/app/services/order.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import { Email } from 'src/app/modals/email.model';
+import { EmailService } from 'src/app/services/email.service';
+import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels, QrcodeComponent } from '@techiediaries/ngx-qrcode';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-pay',
@@ -17,6 +21,9 @@ import { CustomerService } from 'src/app/services/customer.service';
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
+  
+  @ViewChild("qrcode") qrcode: QrcodeComponent;
+  @ViewChild("canvas") canvas: ElementRef;
 
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
@@ -25,6 +32,8 @@ export class PayComponent implements OnInit {
   formInfo: FormGroup;
   formPay: FormGroup;
   isEditable = false;
+
+  email: Email;
 
   carts: Array<Cart> = [];
   priceItemStill: Array<number> = [];
@@ -48,23 +57,23 @@ export class PayComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private _formBuilder: FormBuilder,
-    public orderService: OrdersService
+    public orderService: OrdersService,
+    public emailSerivce: EmailService
   ) {
     const firebaseConfig = {
-      apiKey: 'AIzaSyBHSbfbd6EehQhbJqGE62tP_MuJRS5k5Qo',
-      authDomain: 'tripcheap-8237d.firebaseapp.com',
-      projectId: 'tripcheap-8237d',
-      storageBucket: 'tripcheap-8237d.appspot.com',
-      messagingSenderId: '617218389657',
-      appId: '1:617218389657:web:6d61275b14d0da3779ea08',
-      measurementId: 'G-11DWV0S1DV'
+      apiKey: "AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ",
+      authDomain: "tripcheap-2f380.firebaseapp.com",
+      projectId: "tripcheap-2f380",
+      storageBucket: "tripcheap-2f380.appspot.com",
+      messagingSenderId: "1065925393783",
+      appId: "1:1065925393783:web:16cab53808805f86d1f572",
+      measurementId: "G-DZCP9SE5GQ"
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   }
 
   ngOnInit(): void {
-
 
     this.formInfo = new FormGroup({
       fullName: new FormControl(null, {
@@ -127,7 +136,58 @@ export class PayComponent implements OnInit {
 
   }
 
+  testQR;
+  elementType = NgxQrcodeElementTypes.IMG;
+  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.MEDIUM;
+
+  sendEmail(qrcode) {
+
+    let arr = [];
+    for (const item of this.carts) {
+      for(const itemS of item.itemService) {
+       arr.push( 
+         `<tr>
+            <td>`+ item.nameTicket+`</td>
+            <td>`+ itemS.name+`</td>
+            <td>`+ item.dateStart + ` - ` +item.dateEnd+`</td>
+            <td>`+ itemS.itemServiceName +`</td>
+            <td>`+ itemS.quantity +`</td>
+          </tr>`);
+      }
+    }
+    let str = '<table>' + arr.join('') + '</table>';
+
+    this.testQR = str;
+
+    // console.log(this.qrcode.qrcElement);
+    // html2canvas(this.qrcode.qrcElement.nativeElement).then(canvas => {
+    //   this.canvas.nativeElement.src = canvas.toDataURL();
+    //   this.canvas.nativeElement.href = canvas.toDataURL("image/png");
+    // });
+
+
+    let html = 
+    `<div>Quét mã QR để lấy vé:</div>` 
+    + str + 
+    `<img src = "http://192.168.0.47/images/lwlid7jn0quxuonwabzk.webp-1617979039092.webp">` 
+    + this.qrcode.qrcElement.nativeElement.innerHTML +
+    `<ngx-qrcode
+      [elementType]="`+ NgxQrcodeElementTypes.IMG +`"
+      [errorCorrectionLevel]="`+ NgxQrcodeErrorCorrectionLevels.MEDIUM +`"
+      [value]="`+ str +`"></ngx-qrcode>`;
+
+    this.emailSerivce.sendEmail(
+      this.formInfo.value.email,
+      "tripcheap.pay@gmail.com",
+      "Thông tin thanh toán - TripCheap",
+      "this is email form TripCheap team.",
+      html
+    );
+  } 
+  
+
   payComplete() {
+    let idCart = [];
     for (const item of this.carts) {
       this.orderService.addOrder(
         item.nameTicket,
@@ -140,21 +200,15 @@ export class PayComponent implements OnInit {
         item.itemService,
         this.paySelect
       );
+      idCart.push(item.id);
     }
+    this.cartService.deleteCart(idCart);
     this.customerService.updateInfo(
       this.formInfo.value.email,
       this.formInfo.value.phone_number.toString(),
       this.formInfo.value.fullName,
       this.formInfo.value.address
     );
-
-    // admin.firestore().collection('mail').add({
-    //   to: 'someone@example.com',
-    //   message: {
-    //     subject: 'Hello from Firebase!',
-    //     html: 'This is an <code>HTML</code> email body.',
-    //   },
-    // })
 
   }
 

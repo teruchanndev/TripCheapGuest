@@ -133,5 +133,13 @@
       </mat-radio-button>
     </mat-radio-group>
     <button mat-raised-button (click) = "payComplete()">THANH TOÁN NGAY</button>
+    <ngx-qrcode 
+      #qrcode
+      [elementType]="elementType"
+      [errorCorrectionLevel]="errorCorrectionLevel"
+      [(value)]="testQR"></ngx-qrcode>
+    
+      <img #canvas>
+
   </mat-step>
 </mat-vertical-stepper>

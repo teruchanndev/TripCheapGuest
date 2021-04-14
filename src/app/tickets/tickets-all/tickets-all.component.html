@@ -1,19 +1,36 @@
-<p>tickets-all works!</p>
-<!-- <ul *ngFor="let item of tickets">
-<li>title: {{item.title}}</li>
-<li>content: {{item.content}}</li>
-</ul> -->
 
-<div class="item-ticket">
-  <mat-card
-    class="item"
-    *ngFor="let item of tickets"
-    (click) = "detailTicket(item.id)"
-    >
-    <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
-    <mat-card-title>{{item.title}}</mat-card-title>
-    <mat-card-content>
-      <p>{{item.content}}</p>
-    </mat-card-content>
+<!-- <div class="list-city">
+  <mat-card class="city" *ngFor="let item of city">
+    <a>{{item}}</a>
   </mat-card>
-</div>
+</div> -->
+<section class="category_filter">
+  <mat-card class="category">
+    <mat-card-title>Danh mục</mat-card-title>
+    <ul>
+        <li>
+            <mat-checkbox>Tất cả</mat-checkbox>
+        </li>
+        <li *ngFor="let item of categories">
+            <mat-checkbox>{{item.name}}</mat-checkbox>
+        </li>
+    </ul>
+  </mat-card>
+  <mat-card class="list_ticket" >
+    <div class="item-ticket">
+      <mat-card
+        class="item"
+        *ngFor="let item of tickets"
+        (click) = "detailTicket(item.id)"
+        >
+        <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-card-content>
+          <p class="content">{{item.content}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card>
+
+</section>
+

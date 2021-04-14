@@ -101,6 +101,24 @@ exports.getAllTicket = (req, res, next) => {
   })
 }
 
+exports.getTicketOfCity = (req, res, next) => {
+  console.log(req.params.city);
+  arr = req.params.city.split('%20');
+  city = arr.join(' ');
+  Ticket.find({city: city}).then(documents => {
+    res.status(200).json({
+      message: "Tickets fetched successfully!" + documents,
+      ticket: documents
+    });
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Fetching tickets failed!'
+    })
+  })
+}
+
+
+
 exports.getAll = (req, res, next) => {
   Ticket.find().then(docs => {
     res.status(200).json({

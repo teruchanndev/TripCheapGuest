@@ -1,0 +1,20 @@
+
+  .list-city {
+    display: flex;
+  }
+  .city {
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    margin: 1rem;
+  }
+  .city:hover {
+    margin: 0 auto;
+  }
+  a {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+ 

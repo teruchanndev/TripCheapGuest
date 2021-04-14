@@ -6,8 +6,6 @@ const TicketController = require("../controllers/ticket");
 
 const router = express.Router();
 
-
-
 router.post("",
   checkAuth,
   extractFile,
@@ -23,6 +21,7 @@ router.get("", checkAuth, TicketController.getAllTicket);
 router.get("/all", TicketController.getAll);
 
 // router.get("/detail/:id", TicketController.getOneTicket);
+router.get("/city/:city", TicketController.getTicketOfCity);
 
 router.get("/:id", TicketController.getOneTicket);
 

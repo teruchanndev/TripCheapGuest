@@ -108,6 +108,42 @@ export class TicketsService {
       }>(this.BACKEND_URL + id);
   }
 
+  getTicketOfCity(city: string) {
+    console.log(city);
+    this.http
+      .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'city/' + city)
+      .pipe(
+        map(ticketData => {
+          console.log(ticketData);
+          return ticketData.ticket.map(ticket => {
+            return {
+              id: ticket._id,
+              title: ticket.title,
+              content: ticket.content,
+              status: ticket.status,
+              price: ticket.price,
+              price_reduce: ticket.price_reduce,
+              percent: ticket.percent,
+              category: ticket.category,
+              categoryService: ticket.categoryService,
+              city: ticket.city,
+              quantity: ticket.quantity,
+              imagePath: ticket.imagePath,
+              address: ticket.address,
+              creator: ticket.creator,
+              services: ticket.services
+            };
+          });
+        })
+      ).subscribe(transformedTickets => {
+        console.log(transformedTickets);
+        this.tickets = transformedTickets;
+        this.ticketsUpdated.next([...this.tickets]);
+      });
+  }
+
+
+
 
   addTicket(
     title: string,

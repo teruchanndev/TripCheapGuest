@@ -44,7 +44,7 @@ exports.customerLogin = (req, res, next) => {
           console.log('result: ' + result);
           if(!result) {
               return res.status(401).json({
-                  message: 'Auth failed!'
+                  message: 'Auth failed!' + result
               });
           }
           const token = jwt.sign(
