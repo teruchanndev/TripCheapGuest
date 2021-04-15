@@ -53,22 +53,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
     });
-    this.cartService.getCountCart().subscribe(
-      countData => {
-        this.countCart = countData.countCart;
-    });
 
-    this.cartService.getCarts();
-    this.cartListenerSubs = this.cartService.getCartUpdateListener()
-      .subscribe((cart: Cart[]) => {
-        this.cart = cart;
-    });
-
-    // console.log(this.cart);
+    if(this.userIsAuthenticated) {
+      this.cartService.getCountCart().subscribe(
+        countData => {
+          this.countCart = countData.countCart;
+      });
+  
+      this.cartService.getCarts();
+      this.cartListenerSubs = this.cartService.getCartUpdateListener()
+        .subscribe((cart: Cart[]) => {
+          this.cart = cart;
+      });
+    } else {
+      this.countCart = 0;
+      this.cart = [];
+    }
+    
   }
 
   onLogout() {
     this.authService.logout();
+  }
+
+  navigateCart() {
+    if(this.userIsAuthenticated) {
+      this.router.navigate(['/cart']);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 
   showChild(childPath) {
@@ -76,7 +89,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authListenerSubs.unsubscribe();
-    this.cartListenerSubs.unsubscribe();
+    if(this.userIsAuthenticated) {
+      this.authListenerSubs.unsubscribe();
+      this.cartListenerSubs.unsubscribe();
+    }
+    
   }
 }

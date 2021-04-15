@@ -12,7 +12,8 @@ exports.createOrder = (req, res, next) => {
     idCustomer: req.body.idCustomer,
     itemService: req.body.itemService,
     payMethod: req.body.payMethod,
-    status: req.body.status
+    status: req.body.status,
+    isCancel: req.body.isCancel
   });
   console.log(order);
   order.save().then(createdOrder => {
@@ -31,27 +32,40 @@ exports.createOrder = (req, res, next) => {
 }
 
 exports.updateOrder = (req, res, next) => {
-  console.log(req.body);
-  const order = new Order({
-    _id: req.body.id,
-    nameTicket: req.body.nameTicket,
-    imageTicket: req.body.imageTicket,
-    dateStart: req.body.dateStart,
-    dateEnd: req.body.dateEnd,
-    idTicket: req.body.idTicket,
-    idCustomer: req.body.idCustomer,
-    idCreator: req.body.idCreator,
-    itemService: req.body.itemService,
-    payMethod: req.body.payMethod,
-    status: req.body.status
-  });
-  Order.updateOne({ _id: req.params.id }, order).then(result => {
-    res.status(200).json({ message: "Update successful!" });
+  // console.log(req.body.id);
+  Order.updateOne({_id: req.body.id},  { $set: { isCancel: req.body.isCancel, status: req.body.status } })
+  .then(result => {
+    // console.log(result);
+    res.status(200).json({ message: "Update successful!" + result });
+  }).catch(error => {
+    res.status(500).json({
+      message: 'Update failed!' + error
+    });
   });
 }
 
 exports.getAllOrder = (req, res, next) => {
-  console.log('req' + req);
+
+  const now = new Date();
+
+    Order.find({idCustomer: req.userData.customerId}).then(documents => {
+      console.log('documents.length: ' + documents.length);
+      for(let i = 0; i < documents.length; i++) {
+        var part = documents[i].dateEnd.split('/');
+        var d = new Date(part[2] + '-'+ part[1] + '-' + part[0]);
+        var checkDate = (d < now); //true => đã quá hạn
+        console.log('checkDate: ' + checkDate);
+        if(checkDate) {
+          Order.findOneAndUpdate({_id: req.userData.customerId}, {$set:{'isCancel': 'true'}}, {new: true}, (err, doc) => {
+            if (err) {
+                console.log("Something wrong when updating data!");
+            }
+            console.log(doc);
+          });
+        }
+      }
+    });
+
   Order.find({idCustomer: req.userData.customerId}).then(documents => {
     res.status(200).json({
       message: "Order fetched successfully!",
@@ -71,7 +85,7 @@ exports.getOneOrder = (req, res, next) => {
     }
   }).catch(error => {
     res.status(500).json({
-      message: 'Fetching a order failed!' + error
+      message: 'Fetching a order failed!'
     });
   });
 }
@@ -93,23 +107,6 @@ exports.deleteOrder = (req, res, next) => {
         message: 'Delete order failed!'
       })
     })
-  }
-}
-
-exports.getOrderToPay = (req, res, next) => {
-  arrId = req.params.id.split(',');
-  for(let item of arrId) {
-    Order.find({_id: item, idCustomer: req.userData.customerId }).then(
-      documents => {
-        res.status(200).json({
-          message: "order fetched successfully!",
-         orderToPay: documents
-        });
-      }).catch(error => {
-      res.status(500).json({
-        message: 'Order fetched failed!'
-      });
-    });
   }
 }
 
@@ -135,7 +132,7 @@ exports.getOrderOfCustomer = (req, res, next) => {
     {idCustomer: req.userData.customerId}).then(
     document => {
       res.status(200).json({
-        message: "Count item in Order",
+        message: "Fetching order successfully!",
         order: document
       });
     }).catch(error => {

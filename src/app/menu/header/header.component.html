@@ -14,7 +14,7 @@
       <span>{{username}}</span>
       </button>
       <mat-menu #menu = "matMenu">
-        <button mat-menu-item (click) = "showChild('setting')" > Đơn hàng </button>
+        <button mat-menu-item routerLink="/order" > Đơn hàng </button>
         <button mat-menu-item (click) = "showChild('setting')" > Thông tin chi tiết </button>
         <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
       </mat-menu>
@@ -35,10 +35,13 @@
         matBadgeColor="accent"
         [matMenuTriggerFor] = 'menu1'
         routerLinkActive="mat-accent"
-        routerLink="/cart"
+        (click) = 'navigateCart()'
+  
         >
         <span>Giỏ hàng</span>
       </button>
+
+
       <mat-menu #menu1 = "matMenu" class="menuCart" style="width: 500px;">
         <mat-card
           *ngFor="let cartItem of cart" style="min-width: 500px;">

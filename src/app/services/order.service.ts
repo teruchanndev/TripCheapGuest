@@ -36,7 +36,8 @@ export class OrdersService {
             idCreator: order.idCreator,
             idCustomer: order.idCustomer,
             itemService: order.itemService,
-            status: order.status
+            status: order.status,
+            isCancel: order.isCancel
           };
         });
       })
@@ -62,6 +63,8 @@ export class OrdersService {
       idCreator: string;
       idCustomer: string;
       itemService: Array<ServiceSelect>;
+      status: boolean;
+      isCancel: boolean;
     }>(this.BACKEND_URL + 'update/'  + id);
   }
 
@@ -86,7 +89,9 @@ export class OrdersService {
               idTicket: order.idTicket,
               idCreator: order.idCreator,
               idCustomer: order.idCustomer,
-              itemService: order.itemService
+              itemService: order.itemService,
+              status: order.status,
+              isCancel: order.isCancel
             };
           });
         })
@@ -107,7 +112,8 @@ export class OrdersService {
     itemService: Array<ServiceSelect>,
     payMethod: string,
     status: boolean,
-    isCancel: boolean
+    isCancel: boolean,
+    
   ) {
     // tslint:disable-next-line:prefer-const
     let orderData: Order | FormData;
@@ -162,6 +168,35 @@ export class OrdersService {
         idCustomer: idCustomer,
         itemService: itemService,
         payMethod: payMethod,
+        status: status,
+        isCancel: isCancel
+    };
+
+    this.http
+      .put<{ message: string; order: Order }>
+        (this.BACKEND_URL + id, orderData)
+      .subscribe(responseData => {
+        console.log(responseData);
+      });
+  }
+
+  updateIsCancelOrder(
+    id: string,
+    status: boolean,
+    isCancel: boolean
+  ) {
+    let orderData: Order | FormData;
+    orderData = {
+        id: id,
+        nameTicket: '',
+        imageTicket: '',
+        dateStart: '',
+        dateEnd: '',
+        idTicket: '',
+        idCreator: '',
+        idCustomer: '',
+        itemService: [],
+        payMethod: '',
         status: status,
         isCancel: isCancel
     };

@@ -58,7 +58,7 @@ export class PayComponent implements OnInit {
     private router: Router,
     private _formBuilder: FormBuilder,
     public orderService: OrdersService,
-    public emailSerivce: EmailService
+    public emailService: EmailService
   ) {
     const firebaseConfig = {
       apiKey: 'AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ',
@@ -179,7 +179,7 @@ export class PayComponent implements OnInit {
       [errorCorrectionLevel]="` + NgxQrcodeErrorCorrectionLevels.MEDIUM + `"
       [value]="` + str + `"></ngx-qrcode>`;
 
-    this.emailSerivce.sendEmail(
+    this.emailService.sendEmail(
       this.formInfo.value.email,
       'tripcheap.pay@gmail.com',
       'Thông tin thanh toán - TripCheap',

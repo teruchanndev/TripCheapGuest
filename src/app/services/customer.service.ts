@@ -25,6 +25,10 @@ export class CustomerService {
         }>(this.BACKEND_URL + 'info');
     }
 
+    getCustomerUpdateListener() {
+        return this.infoCustomerUpdated.asObservable();
+      }
+
     updateInfo(
         email: string,
         phoneNumber: string,

@@ -38,6 +38,7 @@ import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/tick
 import { PayComponent } from './pages/pay/pay.component';
 import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 import { OrderComponent } from './pages/order/order.component';
+import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { OrderComponent } from './pages/order/order.component';
     TicketDetailComponent,
     TicketDetailUpdateComponent,
     PayComponent,
-    OrderComponent
+    OrderComponent,
+    DetailInfoComponent
   ],
   imports: [
     BrowserModule,

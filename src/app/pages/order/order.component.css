@@ -1,0 +1,33 @@
+tr, td {
+    padding: 1rem;
+}
+
+.mat-card {
+    margin: 1rem;
+}
+
+.colorExpired {
+    color: red;
+}
+button {
+    margin-top: 1rem;
+}
+
+.mat-card-header {
+    width: 100%;
+    text-align: center;
+}
+
+.img_avt {
+    border: 10px solid pink;
+    border-radius: 50%;
+    /* padding: 3rem; */
+    width: 150px;
+    height: 150px;
+    background-color: plum;
+}
+.img_avt > h1 {
+    text-align: center;
+    font-size: 3rem;
+    
+}

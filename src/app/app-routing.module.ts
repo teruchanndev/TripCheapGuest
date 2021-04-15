@@ -19,6 +19,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
 import { OrderComponent } from './pages/order/order.component';
+import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 
 const routes: Routes = [
   {path: '',
@@ -36,18 +37,12 @@ const routes: Routes = [
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
       { path: 'cart', component: CartComponent },
+      { path: 'detail/info', component: DetailInfoComponent },
       { path: 'pay/:idCart', component: PayComponent },
       { path: 'order', component: OrderComponent },
       { path: 'city/:city', component: TicketsAllComponent }
     ]
   },
-  // { path: 'home', component: HeaderComponent, children: [
-  //   { path: 'list', component: TicketListComponent},
-  //   { path: 'create', component: TicketCreateComponent},
-  //   { path: 'list/edit/:ticketId', component: TicketEditComponent, canActivate: [AuthGuard] },
-  //   { path: 'setting', component: InformationComponent, canActivate: [AuthGuard] },
-
-  // ] },
   { path: 'shop/info', component: CreateInfoComponent, canActivate: [AuthGuard] },
 
 ];

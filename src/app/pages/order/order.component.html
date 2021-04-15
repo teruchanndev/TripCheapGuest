@@ -1,3 +1,104 @@
-<mat-card *ngFor="let item of orders">
-  
-</mat-card>
+<section style="display: flex;">
+    <mat-card style="flex: 30%;">
+        <div style="text-align: center; display: flex; justify-content: center; padding: 1rem;">
+            <div class="img_avt">
+                <h1>{{characterAvt}}</h1>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            
+            <tr style="width: 100%;display: flex; justify-content: center;">
+                <td><h1>{{infoCustomer.username}}</h1></td>
+                <td><button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                    <mat-icon>edit_border</mat-icon>
+                </button></td>
+            </tr>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            <tr>
+                <td>Họ và tên: </td>
+                <td>{{infoCustomer.fullName}}</td>
+            </tr>
+            <tr>
+                <td>Email: </td>
+                <td>{{infoCustomer.email}}</td>
+            </tr>
+            <tr>
+                <td>Số điện thoại: </td>
+                <td>+{{infoCustomer.phoneNumber}}</td>
+            </tr>
+            <tr>
+                <td>Địa chỉ: </td>
+                <td>{{infoCustomer.address}}</td>
+            </tr>
+            <tr>
+                <td>Đơn đã đặt: </td>
+                <td>{{ArrayOrderTotal[0].arrOrders.length}}</td>
+            </tr>
+            <tr>
+                <td>Đơn đã hủy: </td>
+                <td>{{ArrayOrderTotal[2].arrOrders.length}}</td>
+            </tr>
+
+        </div>
+        
+
+        
+    </mat-card>
+    
+    <mat-tab-group mat-align-tabs="center"  style="flex: 70%;">
+        <mat-tab *ngFor="let itemTab of ArrayOrderTotal; index as indexTab">
+            <ng-template mat-tab-label>
+                <span 
+                    matBadge="{{itemTab.arrOrders.length}}" 
+                    matBadgeSize="medium"
+                    matBadgePosition="before" style="padding-left: 1rem;">{{itemTab.label}}</span>
+            </ng-template>
+    
+            <section>
+                <mat-card *ngFor="let item of itemTab.arrOrders; index as i" style="width: 800px; text-align: center;">
+                    <table>
+                        <tr style="flex: 100%;">
+                            <td>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
+                            <td
+                                colspan="2" 
+                                [ngClass] = "{'colorExpired': item.dayLeft < 2}" 
+                                style="position: absolute; right: 0;">còn lại {{item.dayLeft}} ngày</td>
+                        </tr>
+                        <mat-divider></mat-divider>
+                        <tr>
+                            <td rowspan={{ordersNotUse.length}} style="width: 250px;">
+                                <mat-card-title>{{item.orders.nameTicket}}</mat-card-title>
+                                <mat-card-title-sub>{{item.orders.itemService[0].name}}</mat-card-title-sub>
+                            </td>
+                            <div *ngFor="let itemService of item.orders.itemService">
+                                <td style="width: 250px;">
+                                    <div>{{itemService.quantity + ' x ' + itemService.itemServiceName}}</div>
+                                </td>
+                            </div>
+                            
+                            <td rowspan={{ordersNotUse.length}} style="width: 100px;">
+                                <div>{{item.price}}</div>
+                            </td>
+                            <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="item.dayLeft > 1 && indexTab === 0">
+                                <button mat-button mat-raised-button color="warn" (click) = "cancelOrder(item.orders.id)">Hủy</button>
+                            </td>
+                            <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="indexTab === 2">
+                                <button mat-button mat-raised-button color="warn" disabled = "true">Đang chờ xác nhận</button>
+                                <button 
+                                    style="width: 100%;"
+                                    mat-button 
+                                    mat-raised-button color="warn" (click) = "returnOrder(item.orders.id)">Hủy</button>
+                            </td>
+                        </tr>
+                    </table>
+                </mat-card>
+            </section>
+        </mat-tab>
+    </mat-tab-group>
+</section>
+
+
+
+
