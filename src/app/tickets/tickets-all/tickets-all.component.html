@@ -1,18 +1,13 @@
 
-<!-- <div class="list-city">
-  <mat-card class="city" *ngFor="let item of city">
-    <a>{{item}}</a>
-  </mat-card>
-</div> -->
 <section class="category_filter">
   <mat-card class="category">
     <mat-card-title>Danh mục</mat-card-title>
     <ul>
         <li>
-            <mat-checkbox>Tất cả</mat-checkbox>
+            <mat-checkbox (change) = "checkAll()" [checked] = 'ischeckAll'>Tất cả</mat-checkbox>
         </li>
-        <li *ngFor="let item of categories">
-            <mat-checkbox>{{item.name}}</mat-checkbox>
+        <li *ngFor="let item of categories; index as i">
+            <mat-checkbox (change) = "checkCategory(i)">{{item.name}}</mat-checkbox>
         </li>
     </ul>
   </mat-card>
@@ -20,16 +15,23 @@
     <div class="item-ticket">
       <mat-card
         class="item"
-        *ngFor="let item of tickets"
+        *ngFor="let item of currentItemsToShow"
         (click) = "detailTicket(item.id)"
         >
         <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
         <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
         <mat-card-content>
           <p class="content">{{item.content}}</p>
         </mat-card-content>
       </mat-card>
     </div>
+    <mat-paginator
+      (page)="onPageChange($event)"
+      [length]="100"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>
   </mat-card>
 
 </section>

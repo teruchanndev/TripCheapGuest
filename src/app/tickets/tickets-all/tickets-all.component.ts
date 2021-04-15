@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/modals/category.model';
@@ -15,9 +16,16 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
 
   tickets: Ticket[] = [];
   categories: Category[] = [];
+  currentItemsToShow = [];
+  checkSelect: Array<boolean> = [];
+  ischeckAll = true;
   private ticketsSub: Subscription;
   private categorySub: Subscription;
   nameCity: string;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+
   constructor(
     public ticketsService: TicketsService,
     private router: Router,
@@ -32,16 +40,56 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
       this.ticketsSub = this.ticketsService.getTicketUpdateListener()
         .subscribe((ticket: Ticket[]) => {
           this.tickets = ticket;
+          this.currentItemsToShow = ticket;
         });
     });
+
     this.categoryService.getCategories();
     this.categorySub = this.categoryService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
+        for (let i = 0; i < category.length; i++) {
+          this.checkSelect[i] = false;
+        }
       });
   }
+
   detailTicket(ticketId) {
     this.router.navigate(['detail/' + ticketId]);
+  }
+
+  onPageChange($event) {
+    this.currentItemsToShow =  this.tickets.slice($event.pageIndex * $event.pageSize,
+                              $event.pageIndex * $event.pageSize + $event.pageSize);
+  }
+
+  checkCategory(index) {
+    if (!this.checkSelect[index]) {
+      this.checkSelect[index] = true;
+    } else { this.checkSelect[index] = false; }
+
+    for (const item of this.checkSelect) {
+      if (item) {this.ischeckAll = false; break; } else {
+        this.ischeckAll = true; }
+    }
+    if (!this.ischeckAll) {
+      this.currentItemsToShow = [];
+      for (let i = 0; i < this.checkSelect.length; i++) {
+        if (this.checkSelect[i]) {
+          const category = this.categories[i].name;
+          console.log(category);
+          this.currentItemsToShow = this.currentItemsToShow.concat(this.tickets.filter(element => element.category === category));
+        }
+      }
+    } else {
+      this.checkAll();
+    }
+
+
+  }
+
+  checkAll() {
+    this.currentItemsToShow = this.tickets;
   }
 
   ngOnDestroy(): void {

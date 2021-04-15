@@ -35,7 +35,8 @@ export class OrdersService {
             idTicket: order.idTicket,
             idCreator: order.idCreator,
             idCustomer: order.idCustomer,
-            itemService: order.itemService
+            itemService: order.itemService,
+            status: order.status
           };
         });
       })
@@ -105,6 +106,8 @@ export class OrdersService {
     idCustomer: string,
     itemService: Array<ServiceSelect>,
     payMethod: string,
+    status: boolean,
+    isCancel: boolean
   ) {
     // tslint:disable-next-line:prefer-const
     let orderData: Order | FormData;
@@ -118,7 +121,9 @@ export class OrdersService {
         idCreator: idCreator,
         idCustomer: idCustomer,
         itemService: itemService,
-        payMethod: payMethod
+        payMethod: payMethod,
+        status: status,
+        isCancel: isCancel
     };
     this.http
       .post<
@@ -141,7 +146,9 @@ export class OrdersService {
     idCreator: string,
     idCustomer: string,
     itemService: Array<ServiceSelect>,
-    payMethod: string
+    payMethod: string,
+    status: boolean,
+    isCancel: boolean
   ) {
     let orderData: Order | FormData;
     orderData = {
@@ -154,7 +161,9 @@ export class OrdersService {
         idCreator: idCreator,
         idCustomer: idCustomer,
         itemService: itemService,
-        payMethod: payMethod
+        payMethod: payMethod,
+        status: status,
+        isCancel: isCancel
     };
 
     this.http
@@ -173,32 +182,4 @@ export class OrdersService {
         this.getOrders();
       });
   }
-
-  // getOrderToPay(orderId: Array<string>) {
-  //   console.log(orderId);
-  //   this.http.get<{ message: string; order: any }>(this.BACKEND_URL + 'pay/' +  orderId.join())
-  //   .pipe(
-  //     map(orderData => {
-  //       console.log(orderData);
-  //       return orderData.order.map(order => {
-  //         return {
-  //           id: order._id,
-  //           nameTicket: order.nameTicket,
-  //           imageTicket: order.imageTicket,
-  //           dateStart: order.dateStart,
-  //           dateEnd: order.dateEnd,
-  //           idTicket: order.idTicket,
-  //           idCreator: order.idCreator,
-  //           idCustomer: order.idCustomer,
-  //           itemService: order.itemService
-  //         };
-  //       });
-  //     })
-  //   ).subscribe(transformedOrder => {
-  //     console.log(transformedOrder);
-  //     this.orders = transformedOrder;
-  //     this.ordersUpdated.next([...this.orders]);
-  //   });
-  // }
-
 }

@@ -21,9 +21,9 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./pay.component.css']
 })
 export class PayComponent implements OnInit {
-  
-  @ViewChild("qrcode") qrcode: QrcodeComponent;
-  @ViewChild("canvas") canvas: ElementRef;
+
+  @ViewChild('qrcode') qrcode: QrcodeComponent;
+  @ViewChild('canvas') canvas: ElementRef;
 
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
@@ -61,13 +61,13 @@ export class PayComponent implements OnInit {
     public emailSerivce: EmailService
   ) {
     const firebaseConfig = {
-      apiKey: "AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ",
-      authDomain: "tripcheap-2f380.firebaseapp.com",
-      projectId: "tripcheap-2f380",
-      storageBucket: "tripcheap-2f380.appspot.com",
-      messagingSenderId: "1065925393783",
-      appId: "1:1065925393783:web:16cab53808805f86d1f572",
-      measurementId: "G-DZCP9SE5GQ"
+      apiKey: 'AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ',
+      authDomain: 'tripcheap-2f380.firebaseapp.com',
+      projectId: 'tripcheap-2f380',
+      storageBucket: 'tripcheap-2f380.appspot.com',
+      messagingSenderId: '1065925393783',
+      appId: '1:1065925393783:web:16cab53808805f86d1f572',
+      measurementId: 'G-DZCP9SE5GQ'
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
@@ -136,26 +136,29 @@ export class PayComponent implements OnInit {
 
   }
 
+  // tslint:disable-next-line:member-ordering
   testQR;
+  // tslint:disable-next-line:member-ordering
   elementType = NgxQrcodeElementTypes.IMG;
+  // tslint:disable-next-line:member-ordering
   errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.MEDIUM;
 
   sendEmail(qrcode) {
 
-    let arr = [];
+    const arr = [];
     for (const item of this.carts) {
-      for(const itemS of item.itemService) {
-       arr.push( 
+      for (const itemS of item.itemService) {
+       arr.push(
          `<tr>
-            <td>`+ item.nameTicket+`</td>
-            <td>`+ itemS.name+`</td>
-            <td>`+ item.dateStart + ` - ` +item.dateEnd+`</td>
-            <td>`+ itemS.itemServiceName +`</td>
-            <td>`+ itemS.quantity +`</td>
+            <td>` + item.nameTicket + `</td>
+            <td>` + itemS.name + `</td>
+            <td>` + item.dateStart + ` - ` + item.dateEnd + `</td>
+            <td>` + itemS.itemServiceName + `</td>
+            <td>` + itemS.quantity + `</td>
           </tr>`);
       }
     }
-    let str = '<table>' + arr.join('') + '</table>';
+    const str = '<table>' + arr.join('') + '</table>';
 
     this.testQR = str;
 
@@ -166,28 +169,28 @@ export class PayComponent implements OnInit {
     // });
 
 
-    let html = 
-    `<div>Quét mã QR để lấy vé:</div>` 
-    + str + 
-    `<img src = "http://192.168.0.47/images/lwlid7jn0quxuonwabzk.webp-1617979039092.webp">` 
+    const html =
+    `<div>Quét mã QR để lấy vé:</div>`
+    + str +
+    `<img src = "http://192.168.0.47/images/lwlid7jn0quxuonwabzk.webp-1617979039092.webp">`
     + this.qrcode.qrcElement.nativeElement.innerHTML +
     `<ngx-qrcode
-      [elementType]="`+ NgxQrcodeElementTypes.IMG +`"
-      [errorCorrectionLevel]="`+ NgxQrcodeErrorCorrectionLevels.MEDIUM +`"
-      [value]="`+ str +`"></ngx-qrcode>`;
+      [elementType]="` + NgxQrcodeElementTypes.IMG + `"
+      [errorCorrectionLevel]="` + NgxQrcodeErrorCorrectionLevels.MEDIUM + `"
+      [value]="` + str + `"></ngx-qrcode>`;
 
     this.emailSerivce.sendEmail(
       this.formInfo.value.email,
-      "tripcheap.pay@gmail.com",
-      "Thông tin thanh toán - TripCheap",
-      "this is email form TripCheap team.",
+      'tripcheap.pay@gmail.com',
+      'Thông tin thanh toán - TripCheap',
+      'this is email form TripCheap team.',
       html
     );
-  } 
-  
+  }
+
 
   payComplete() {
-    let idCart = [];
+    const idCart = [];
     for (const item of this.carts) {
       this.orderService.addOrder(
         item.nameTicket,
@@ -198,7 +201,9 @@ export class PayComponent implements OnInit {
         item.idCreator,
         item.idCustomer,
         item.itemService,
-        this.paySelect
+        this.paySelect,
+        false,
+        false
       );
       idCart.push(item.id);
     }

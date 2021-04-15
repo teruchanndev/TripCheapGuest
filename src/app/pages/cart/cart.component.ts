@@ -146,7 +146,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
     const quantity = this.itemStill[indexItemStill].itemService[indexItemService].quantity;
     console.log(quantity);
-    if(quantity === 0) {
+    if (quantity === 0) {
       console.log(this.priceItemStill[indexItemStill]);
       const priceItem = this.priceItemStill[indexItemStill] * quantity;
       this.itemStill[indexItemStill].itemService[indexItemService].quantity += 1;
@@ -171,7 +171,7 @@ export class CartComponent implements OnInit, OnDestroy {
   subtractQuantity(indexItemStill, indexItemService) {
     const quantity = this.itemStill[indexItemStill].itemService[indexItemService].quantity;
 
-    if(quantity === 0) {
+    if (quantity === 0) {
       const priceItem = this.priceItemStill[indexItemStill] * quantity;
       this.itemStill[indexItemStill].itemService[indexItemService].quantity -= 1;
       this.priceItemStill[indexItemStill] -= priceItem;

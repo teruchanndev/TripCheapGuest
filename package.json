@@ -43,7 +43,7 @@
     "ngx-mat-select-search": "^3.2.0",
     "ngx-material-timepicker": "^5.5.3",
     "rxjs": "^6.6.7",
-    "sweetalert2": "^10.16.0",
+    "sweetalert2": "^10.16.2",
     "tslib": "^2.2.0",
     "zone.js": "~0.10.2"
   },

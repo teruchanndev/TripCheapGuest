@@ -9,7 +9,8 @@ const orderSchema = mongoose.Schema({
   idCustomer: { type: String },
   idCreator: { type: String },
   itemService: { type: Array },
-  payMethod: { type: String }
+  payMethod: { type: String },
+  status: {type: Boolean }
 });
 
 module.exports = mongoose.model('Order', orderSchema);

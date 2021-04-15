@@ -11,7 +11,8 @@ exports.createOrder = (req, res, next) => {
     idCreator: req.body.idCreator,
     idCustomer: req.body.idCustomer,
     itemService: req.body.itemService,
-    payMethod: req.body.payMethod
+    payMethod: req.body.payMethod,
+    status: req.body.status
   });
   console.log(order);
   order.save().then(createdOrder => {
@@ -41,7 +42,8 @@ exports.updateOrder = (req, res, next) => {
     idCustomer: req.body.idCustomer,
     idCreator: req.body.idCreator,
     itemService: req.body.itemService,
-    payMethod: req.body.payMethod
+    payMethod: req.body.payMethod,
+    status: req.body.status
   });
   Order.updateOne({ _id: req.params.id }, order).then(result => {
     res.status(200).json({ message: "Update successful!" });

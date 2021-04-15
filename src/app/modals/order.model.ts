@@ -10,5 +10,7 @@ export interface Order {
     idCreator: string;
     idCustomer: string;
     itemService: Array<ServiceSelect>;
-    payMethod: string
+    payMethod: string;
+    status: boolean;
+    isCancel: boolean;
 }
