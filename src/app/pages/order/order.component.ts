@@ -97,7 +97,7 @@ export class OrderComponent implements OnInit, OnDestroy {
 
         // tslint:disable-next-line:max-line-length
         this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.orders.isCancel === false && element.dayLeft >= 0)); // đang sử dụng
-        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.dayLeft < 0)); // hết hạn
+        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === true && element.orders.isCancel === false && element.dayLeft < 0)); // hết hạn
         this.listTabValue.push(this.ArrOrders.filter(element => element.orders.isCancel === true)); // đã hủy
 
 

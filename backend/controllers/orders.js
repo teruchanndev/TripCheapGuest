@@ -44,27 +44,39 @@ exports.updateOrder = (req, res, next) => {
   });
 }
 
+function checkCompareDate(date1) {
+  const dateCheck = date1.split('/');
+  const dateNow = new Date();
+  if (dateCheck[2] > dateNow.getFullYear()) { return 1; } else if (dateCheck[2] < dateNow.getFullYear()) { return -1; } else {
+    if (dateCheck[1] > dateNow.getMonth() + 1) { return 1; } else if (dateCheck[1] < dateNow.getMonth() + 1) {return -1; } else {
+      if (dateCheck[0] > dateNow.getDate()) {return 1; } else if (dateCheck[0] < dateNow.getDate()) { return -1; } else { return 0; }
+    }
+  }
+}
+
 exports.getAllOrder = (req, res, next) => {
 
   const now = new Date();
 
-    Order.find({idCustomer: req.userData.customerId}).then(documents => {
-      console.log('documents.length: ' + documents.length);
-      for(let i = 0; i < documents.length; i++) {
-        var part = documents[i].dateEnd.split('/');
-        var d = new Date(part[2] + '-'+ part[1] + '-' + part[0]);
-        var checkDate = (d < now); //true => đã quá hạn
-        console.log('checkDate: ' + checkDate);
-        if(checkDate) {
-          Order.updateOne({_id: req.userData.customerId}, {$set:{'isCancel': 'true'}}, {new: true}, (err, doc) => {
-            if (err) {
-                console.log("Something wrong when updating data!");
-            }
-            console.log(doc);
-          });
-        }
+  Order.find({idCustomer: req.userData.customerId}).then(documents => {
+    console.log('documents.length: ' + documents.length);
+    for(let i = 0; i < documents.length; i++) {
+      // var part = documents[i].dateEnd.split('/');
+      // var d = new Date(part[2] + '-'+ part[1] + '-' + part[0]);
+      var check = checkCompareDate(documents[i].dateEnd);
+      // var checkDate = (d < now); //true => đã quá hạn
+      console.log('checkDate: ' + check);
+      if(check < 0) {
+        console.log('documents: ' + documents[i]);
+        Order.updateOne({_id: documents[i]._id}, { $set:{ status: true } })
+        .then(result => {
+          console.log(result);
+        }).catch(error => {
+          console.log('error: ' + result);
+        });
       }
-    });
+    } 
+  });
 
   Order.find({idCustomer: req.userData.customerId}).then(documents => {
     res.status(200).json({

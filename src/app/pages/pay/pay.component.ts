@@ -212,6 +212,21 @@ export class PayComponent implements OnInit {
 
   payComplete() {
     const idCart = [];
+    // const arr = [];
+    // for (const item of this.carts) {
+    //   for (const itemS of item.itemService) {
+    //    arr.push(
+    //      `<tr>
+    //         <td>` + item.nameTicket + `</td>
+    //         <td>` + itemS.name + `</td>
+    //         <td>` + item.dateStart + ` - ` + item.dateEnd + `</td>
+    //         <td>` + itemS.itemServiceName + `</td>
+    //         <td>` + itemS.quantity + `</td>
+    //       </tr>`);
+    //   }
+    // }
+    // const str = '<table>' + arr.join('') + '</table>';
+
     for (const item of this.carts) {
       this.orderService.addOrder(
         item.nameTicket,
@@ -237,6 +252,13 @@ export class PayComponent implements OnInit {
       this.infoCustomer.username
     );
 
+    // this.emailService.sendEmail(
+    //   this.formInfo.value.email,
+    //   'tripcheap.pay@gmail.com',
+    //   'Thông tin thanh toán - TripCheap',
+    //   'this is email form TripCheap team.',
+    //   str
+    // );
   }
 
   onVerify() {
