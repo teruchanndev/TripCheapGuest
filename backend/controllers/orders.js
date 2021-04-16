@@ -56,7 +56,7 @@ exports.getAllOrder = (req, res, next) => {
         var checkDate = (d < now); //true => đã quá hạn
         console.log('checkDate: ' + checkDate);
         if(checkDate) {
-          Order.findOneAndUpdate({_id: req.userData.customerId}, {$set:{'isCancel': 'true'}}, {new: true}, (err, doc) => {
+          Order.updateOne({_id: req.userData.customerId}, {$set:{'isCancel': 'true'}}, {new: true}, (err, doc) => {
             if (err) {
                 console.log("Something wrong when updating data!");
             }

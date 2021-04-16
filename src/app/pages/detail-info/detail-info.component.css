@@ -1,0 +1,33 @@
+td {
+  padding: 0 1rem;
+}
+.img_avt {
+  border: 10px solid pink;
+  border-radius: 50%;
+  /* padding: 3rem; */
+  width: 100px;
+  height: 100px;
+  background-color: plum;
+}
+.img_avt > h1 {
+  text-align: center;
+  font-size: 2.5rem;
+}
+.mat-card {
+  position: relative;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.section {
+  display: flex;
+}
+.info {
+  flex: 60%;
+}
+.action{
+  flex: 40%;
+}
+td > .mat-form-field {
+  width: 400px;
+}

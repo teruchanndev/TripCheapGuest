@@ -79,7 +79,7 @@ export class AuthService {
                   this.router.navigate(['/home']);
                 }
             }, error => {
-              console.log('error ' + authData);
+              console.log('error ' + error);
               this.authStatusListener.next(false);
             });
     }

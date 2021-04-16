@@ -1,1 +1,120 @@
-<p>detail-info works!</p>
+<section class="section">
+  <div class="info">
+    <mat-card>
+      <form [formGroup] = "formInfo">
+        <div style="text-align: center; display: flex; justify-content: center; padding: 2rem;">
+          <div class="img_avt">
+              <h1>{{characterAvt}}</h1>
+          </div>
+        </div>
+        <div style="text-align: center; width: 100%; padding-bottom: 1rem;">
+          <button mat-stroked-button color="primary" (click) = "isEnableForm()">Thay đổi thông tin</button>
+        </div>
+
+        <tr>
+          <td>Tên người dùng:</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <mat-label>Tên người dùng: </mat-label>
+              <input
+                type="text"
+                matInput
+                required
+                formControlName = "username"
+                placeholder="Tên người dùng">
+                <mat-error *ngIf="formInfo.get('username').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Họ tên đầy đủ:</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <mat-label>Họ tên đầy đủ: </mat-label>
+              <input
+                type="text"
+                matInput
+                required
+                formControlName = "fullName"
+                placeholder="Ex: Nguyen Van A">
+                <mat-error *ngIf="formInfo.get('fullName').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Số điện thoại:</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <mat-label>Số điện thoại: </mat-label>
+              <input
+                type="tel"
+                matInput
+                required
+                formControlName = "phoneNumber"
+                placeholder="Ex: +84 012 345 505">
+                <mat-error *ngIf="formInfo.get('phoneNumber').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Email:</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <mat-label>Email: </mat-label>
+              <input
+                type="email"
+                matInput
+                required
+                formControlName = "email"
+                placeholder="Ex: example@gmail.com">
+                <mat-error *ngIf="formInfo.get('email').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+          <td>Địa chỉ:</td>
+          <td>
+            <mat-form-field appearance="outline">
+              <mat-label>Địa chỉ: </mat-label>
+              <input
+                type="text"
+                matInput
+                required
+                formControlName = "address"
+                placeholder="Ex: thon, xa, phuong,...">
+                <mat-error *ngIf="formInfo.get('address').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+            </mat-form-field>
+          </td>
+        </tr>
+        <div *ngIf="isChange" style="float: right;">
+          <button
+            mat-stroked-button
+            color="primary"
+            style="margin-right: 1rem;"
+            (click) = "isDisableForm()">Hủy</button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click) = "updateInfo()">Lưu thay đổi</button>
+        </div>
+
+      </form>
+    </mat-card>
+  </div>
+  <div class="action">
+    <mat-card>
+      <tr style="width: 100%;">
+        <td>Thay đổi mật khẩu</td>
+        <td  style="width: 5%;"><button mat-stroked-button color="warn">Đặt lại mật khẩu</button></td>
+      </tr>
+    </mat-card>
+    <mat-card>
+      <tr style="width: 100%;">
+        <td>Xóa tài khoản</td>
+        <td  style="width: 5%;"><button mat-stroked-button color="warn">Xóa</button></td>
+      </tr>
+    </mat-card>
+  </div>
+
+
+</section>

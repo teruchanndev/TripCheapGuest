@@ -112,8 +112,7 @@ export class OrdersService {
     itemService: Array<ServiceSelect>,
     payMethod: string,
     status: boolean,
-    isCancel: boolean,
-    
+    isCancel: boolean
   ) {
     // tslint:disable-next-line:prefer-const
     let orderData: Order | FormData;

@@ -30,7 +30,6 @@ import { CreateInfoComponent } from './infomations/create-info/create-info.compo
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HomeComponent } from './pages/home/home.component';
-import { DetailComponent } from './pages/detail/detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
@@ -54,7 +53,6 @@ import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
     InformationComponent,
     CreateInfoComponent,
     HomeComponent,
-    DetailComponent,
     CartComponent,
     TicketDetailComponent,
     TicketDetailUpdateComponent,

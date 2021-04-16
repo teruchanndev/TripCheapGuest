@@ -1,9 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { environment } from "src/environments/environment";
-import { Customer } from "../modals/customer.model";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Customer } from '../modals/customer.model';
 
 
 @Injectable({ providedIn: 'root' })
@@ -33,15 +33,16 @@ export class CustomerService {
         email: string,
         phoneNumber: string,
         fullName: string,
-        address: string
+        address: string,
+        username: string,
     ) {
         let infoData: Customer | FormData;
-        
             infoData = new FormData();
             infoData.append('email', email);
             infoData.append('phoneNumber', phoneNumber);
             infoData.append('fullName', fullName);
             infoData.append('address', address);
+            infoData.append('username', username);
 
         console.log(infoData);
 

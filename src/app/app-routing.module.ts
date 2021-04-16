@@ -25,11 +25,10 @@ const routes: Routes = [
   {path: '',
     redirectTo: 'home',
     pathMatch: 'full'},
-
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
   { path: '', component: HeaderComponent,
     children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignupComponent },
       { path: 'home', component: HomeComponent,
         children: [
           { path: '#', component: TicketsAllComponent},
@@ -37,7 +36,7 @@ const routes: Routes = [
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
       { path: 'cart', component: CartComponent },
-      { path: 'detail/info', component: DetailInfoComponent },
+      { path: 'setting', component: DetailInfoComponent },
       { path: 'pay/:idCart', component: PayComponent },
       { path: 'order', component: OrderComponent },
       { path: 'city/:city', component: TicketsAllComponent }

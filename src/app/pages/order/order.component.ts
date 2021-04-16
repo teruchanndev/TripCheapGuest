@@ -12,12 +12,12 @@ export interface ArrayOrder {
   orders: Order;
   price: number;
   dayLeft: number;
-};
+}
 
 export interface ArrayOrderTotal {
   label: string;
   arrOrders: Array<ArrayOrder>;
-};
+}
 
 @Component({
   selector: 'app-order',
@@ -37,9 +37,9 @@ export class OrderComponent implements OnInit, OnDestroy {
   characterAvt: string;
 
   ArrOrders: Array<ArrayOrder> = [];
-  ordersNotUseExpired: Array<ArrayOrder> = []; //order chưa sử dụng nhưng hết hạn (time)
-  ordersNotUse: Array<ArrayOrder> = []; //order chưa sử dụng
-  ordersCancel: Array<ArrayOrder> = []; //order đã hủy
+  ordersNotUseExpired: Array<ArrayOrder> = []; // order chưa sử dụng nhưng hết hạn (time)
+  ordersNotUse: Array<ArrayOrder> = []; // order chưa sử dụng
+  ordersCancel: Array<ArrayOrder> = []; // order đã hủy
 
   ArrayOrderTotal: Array<ArrayOrderTotal> = [];
   labels = ['Đơn đã thanh toán', 'Đơn hết hạn', 'Đơn đã hủy'];
@@ -61,11 +61,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.customerId = this.authService.getCustomerId();
     this.username = this.authService.getUsername();
 
-    this.authListenerSubs = this.authService
-      .getAuthStatusListener()
-      .subscribe(isAuthenticated => {
-        this.userIsAuthenticated = isAuthenticated;
-    });
 
     this.customerService.getInfoCustomer().subscribe(
       inforData => {
@@ -75,48 +70,44 @@ export class OrderComponent implements OnInit, OnDestroy {
           phoneNumber: inforData.phoneNumber,
           fullName: inforData.fullName,
           address: inforData.address
-        }
+        };
         this.characterAvt = inforData.username[0].toUpperCase();
       });
-    
+
     this.orderService.getOrders();
     this.orderListenerSubs = this.orderService.getOrderUpdateListener()
       .subscribe((order: Order[]) => {
 
-        //cal price total
-        for(let i = 0; i < order.length ; i++) {
+        // cal price total
+        for (let i = 0; i < order.length ; i++) {
           let sum = 0;
-          for(let j = 0; j < order[i].itemService.length; j++) {
+          for (let j = 0; j < order[i].itemService.length; j++) {
+            // tslint:disable-next-line:radix
             sum += parseInt(order[i].itemService[j].itemServicePrice) * order[i].itemService[j].quantity;
           }
           this.ArrOrders[i] = {
             orders: order[i],
             price: sum,
             dayLeft: this.calDaysLeft(order[i].dateEnd)
-          }
+          };
         }
-        this.ArrOrders.sort((a,b) => {
+        this.ArrOrders.sort((a, b) => {
           return a.dayLeft - b.dayLeft;
         });
 
-        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.orders.isCancel === false)); //đang sử dụng
-        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.dayLeft < 0)); //hết hạn
-        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.isCancel === true)); //đã hủy
+        // tslint:disable-next-line:max-line-length
+        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.orders.isCancel === false && element.dayLeft >= 0)); // đang sử dụng
+        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.status === false && element.dayLeft < 0)); // hết hạn
+        this.listTabValue.push(this.ArrOrders.filter(element => element.orders.isCancel === true)); // đã hủy
 
 
-        for(let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
           this.ArrayOrderTotal[i] = {
             label: this.labels[i],
             arrOrders: this.listTabValue[i]
-          }
+          };
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.authListenerSubs.unsubscribe();
-    this.orderListenerSubs.unsubscribe();
-    this.customerListenerSubs.unsubscribe();
   }
 
   checkCompareDate(date1): Number {
@@ -130,18 +121,18 @@ export class OrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  //tính ngày hết hạn
+  // tính ngày hết hạn
   calDaysLeft(date): number {
-    var part = date.split('/');
-    var d = new Date(part[2] + '-'+ part[1] + '-' + part[0]);
+    const part = date.split('/');
+    const d = new Date(part[2] + '-' + part[1] + '-' + part[0]);
     const dateNow = new Date();
     d.setHours(0);
     d.setMinutes(0, 0, 0);
     dateNow.setHours(0);
     dateNow.setMinutes(0, 0, 0);
-    var dated = Math.abs(d.getTime() - dateNow.getTime());
-    var x = dated/(24 * 60 * 60 * 1000);
-    return parseInt(x.toString(), 10);    
+    const dated = d.getTime() - dateNow.getTime();
+    const x = dated / (24 * 60 * 60 * 1000);
+    return parseInt(x.toString(), 10);
   }
 
 
@@ -156,4 +147,14 @@ export class OrderComponent implements OnInit, OnDestroy {
     this._document.defaultView.location.reload();
   }
 
+  navigateSetting() {
+    this.router.navigate(['setting']);
+  }
+
+
+  ngOnDestroy(): void {
+    // this.authListenerSubs.unsubscribe();
+    this.orderListenerSubs.unsubscribe();
+    // this.customerListenerSubs.unsubscribe();
+  }
 }

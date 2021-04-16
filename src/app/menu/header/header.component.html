@@ -1,48 +1,32 @@
 <mat-sidenav-container class="example-container">
 <mat-toolbar class="example-toolbar">
   <span>
-    <button mat-icon-button><mat-icon>menu</mat-icon></button>
+    <button mat-icon-button routerLink="/home">
+      <h1 class="logo_detail" style="color: rgb(153, 44, 255);"><span style="color: rgb(102, 160, 247);">Trip</span>Cheap</h1>
+    </button>
   </span>
   <span class="spacer"></span>
   <ul>
-	<!-- <span *ngIf='userIsAuthenticated'><img [src] = "user.imageAvt || ''" width="35px" height="35px" style="border-radius: 50%;"></span> -->
-	  <li *ngIf='userIsAuthenticated'>
-      <button
-      mat-button
-      [matMenuTriggerFor]="menu"
-      routerLinkActive="mat-accent">
-      <span>{{username}}</span>
-      </button>
-      <mat-menu #menu = "matMenu">
-        <button mat-menu-item routerLink="/order" > Đơn hàng </button>
-        <button mat-menu-item (click) = "showChild('setting')" > Thông tin chi tiết </button>
-        <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
-      </mat-menu>
-	  </li>
-    <li *ngIf='!userIsAuthenticated'>
-      <button
-      mat-button
-      routerLink = "/login"
-      routerLinkActive="mat-accent">
-      <span>Login</span>
-      </button>
-	  </li>
+
     <li>
       <button
         mat-button
-        matBadge="{{countCart}}"
-        matBadgePosition="before"
-        matBadgeColor="accent"
-        [matMenuTriggerFor] = 'menu1'
-        routerLinkActive="mat-accent"
+        routerLinkActive="mat-primary"
         (click) = 'navigateCart()'
-  
+        (mouseover)="showCart($event)"
+        (mouseout)="showCart($event)"
         >
+        <mat-icon
+          matBadge="{{countCart}}"
+          matBadgePosition="before"
+          matBadgeColor="accent"
+          class="material-icons"
+          style="padding-right: 0.5rem;" color="primary">add_shopping_cart</mat-icon>
         <span>Giỏ hàng</span>
       </button>
 
 
-      <mat-menu #menu1 = "matMenu" class="menuCart" style="width: 500px;">
+      <mat-menu *ngIf="isShowCart" #menu1 = "matMenu" class="menuCart" style="width: 500px;">
         <mat-card
           *ngFor="let cartItem of cart" style="min-width: 500px;">
           <mat-card-header>
@@ -56,11 +40,41 @@
             <mat-card-subtitle>{{cartItem.dateStart + ' - ' + cartItem.dateEnd}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-        <!-- <button mat-menu-item *ngFor="let cartItem of cart">
-          {{cartItem.nameTicket}}
-        </button> -->
       </mat-menu>
     </li>
+
+	  <li *ngIf='userIsAuthenticated'>
+      <mat-card-header>
+        <button
+          class="btn_username"
+          mat-button
+          [matMenuTriggerFor]="menu"
+          routerLinkActive="mat-accent">
+          <span>{{username}}</span>
+        </button>
+        <div mat-card-avatar style="margin: 0 1rem; position: absolute; text-align: center; display: flex; justify-content: center;">
+          <div class="img_avt">
+              <h1>{{characterAvt}}</h1>
+          </div>
+        </div>
+
+      </mat-card-header>
+
+      <mat-menu #menu = "matMenu">
+        <button mat-menu-item routerLink="/order" > Đơn hàng </button>
+        <button mat-menu-item routerLink = "setting" > Cài đặt tài khoản </button>
+        <button mat-menu-item routerLinkActive="mat-accent" (click) = 'onLogout()'>Đăng xuất</button>
+      </mat-menu>
+	  </li>
+
+    <li *ngIf='!userIsAuthenticated'>
+      <button
+      mat-button
+      routerLink = "/login"
+      routerLinkActive="mat-accent">
+      <span>Login</span>
+      </button>
+	  </li>
   </ul>
 </mat-toolbar>
 

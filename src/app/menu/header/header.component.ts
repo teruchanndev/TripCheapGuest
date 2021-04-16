@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/services/auth_customer.service';
 import { MenuService } from '../../services/menu.service';
 import { CartsService } from 'src/app/services/cart.service';
 import { Cart } from 'src/app/modals/cart.model';
+import { Customer } from 'src/app/modals/customer.model';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
   selector: 'app-header',
@@ -29,14 +31,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   customerId: string;
   username: string;
   countCart = 0;
-  user: User;
+  customer: Customer;
   cart: Cart[] = [];
+  infoCustomer: Customer;
+  characterAvt: string;
+
+  isShowCart = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
-    public cartService: CartsService
+    public cartService: CartsService,
+    public customerService: CustomerService
     ) {}
 
 
@@ -44,22 +51,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.autoAuthCustomer();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.customerId = this.authService.getCustomerId();
-    this.username = this.authService.getUsername();
+    // this.username = this.authService.getUsername();
 
-    // console.log(this.customerId);
-    // console.log(this.username);
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
     });
 
-    if(this.userIsAuthenticated) {
+    this.customerService.getInfoCustomer().subscribe(
+      inforData => {
+        this.infoCustomer = {
+          username: inforData.username,
+          email: inforData.email,
+          phoneNumber: inforData.phoneNumber,
+          fullName: inforData.fullName,
+          address: inforData.address
+        };
+        this.characterAvt = inforData.username[0].toUpperCase();
+        this.username = inforData.username;
+      });
+
+    if (this.userIsAuthenticated) {
       this.cartService.getCountCart().subscribe(
         countData => {
           this.countCart = countData.countCart;
       });
-  
+
       this.cartService.getCarts();
       this.cartListenerSubs = this.cartService.getCartUpdateListener()
         .subscribe((cart: Cart[]) => {
@@ -69,7 +87,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.countCart = 0;
       this.cart = [];
     }
-    
+
   }
 
   onLogout() {
@@ -77,7 +95,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateCart() {
-    if(this.userIsAuthenticated) {
+    if (this.userIsAuthenticated) {
       this.router.navigate(['/cart']);
     } else {
       this.router.navigate(['/login']);
@@ -88,11 +106,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['home', childPath]);
   }
 
+
+  showCart($event) {
+    console.log('hover: ' + $event.type );
+    this.isShowCart = $event.type === 'mouseover' ? true : false;
+    console.log(this.isShowCart);
+  }
+
   ngOnDestroy(): void {
-    if(this.userIsAuthenticated) {
+    if (this.userIsAuthenticated) {
       this.authListenerSubs.unsubscribe();
       this.cartListenerSubs.unsubscribe();
     }
-    
+
   }
 }

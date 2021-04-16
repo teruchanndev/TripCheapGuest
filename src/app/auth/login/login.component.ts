@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth_customer.service';
 import { RouterModule } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ import { RouterModule } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   private authStatusSub: Subscription;
-  constructor(public authService: AuthService) { }
+  constructor(
+    @Inject(DOCUMENT) private _document: Document,
+    public authService: AuthService) { }
 
   ngOnInit() {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -25,6 +28,7 @@ export class LoginComponent implements OnInit {
   onLogin(form: NgForm) {
     if (form.invalid) { return; }
     this.authService.login(form.value.email, form.value.password);
+    // this._document.defaultView.location.reload();
   }
 
   // tslint:disable-next-line:use-life-cycle-interface

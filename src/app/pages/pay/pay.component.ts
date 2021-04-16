@@ -14,6 +14,7 @@ import { Email } from 'src/app/modals/email.model';
 import { EmailService } from 'src/app/services/email.service';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels, QrcodeComponent } from '@techiediaries/ngx-qrcode';
 import html2canvas from 'html2canvas';
+import { Customer } from 'src/app/modals/customer.model';
 
 @Component({
   selector: 'app-pay',
@@ -28,6 +29,7 @@ export class PayComponent implements OnInit {
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
   customerId: string;
+  infoCustomer: Customer;
 
   formInfo: FormGroup;
   formPay: FormGroup;
@@ -103,6 +105,25 @@ export class PayComponent implements OnInit {
       .subscribe(isAuthenticated => {
         this.customerIsAuthenticated = isAuthenticated;
       });
+
+      this.customerService.getInfoCustomer().subscribe(
+        inforData => {
+          this.infoCustomer = {
+            username: inforData.username,
+            email: inforData.email,
+            phoneNumber: inforData.phoneNumber,
+            fullName: inforData.fullName,
+            address: inforData.address
+          };
+
+          this.formInfo.setValue({
+            fullName: this.infoCustomer.fullName,
+            phone_number: this.infoCustomer.phoneNumber,
+            email: this.infoCustomer.email,
+            address: this.infoCustomer.address
+          });
+        });
+
       this.route.paramMap.subscribe((paramMap: ParamMap) => {
         const index = 0;
         for (const item of paramMap.get('idCart').split(',')) {
@@ -212,7 +233,8 @@ export class PayComponent implements OnInit {
       this.formInfo.value.email,
       this.formInfo.value.phone_number.toString(),
       this.formInfo.value.fullName,
-      this.formInfo.value.address
+      this.formInfo.value.address,
+      this.infoCustomer.username
     );
 
   }

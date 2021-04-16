@@ -6,13 +6,7 @@
             </div>
         </div>
         <div style="text-align: center;">
-            
-            <tr style="width: 100%;display: flex; justify-content: center;">
-                <td><h1>{{infoCustomer.username}}</h1></td>
-                <td><button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
-                    <mat-icon>edit_border</mat-icon>
-                </button></td>
-            </tr>
+          <h1>{{infoCustomer.username}}</h1>
         </div>
         <mat-divider></mat-divider>
         <div>
@@ -40,31 +34,42 @@
                 <td>Đơn đã hủy: </td>
                 <td>{{ArrayOrderTotal[2].arrOrders.length}}</td>
             </tr>
+            <tr>
+              <td colspan="2">
+                <button mat-stroked-button color = "primary" style="width: 100%;" (click) = "navigateSetting()" >Cài đặt</button>
+              </td>
+            </tr>
 
         </div>
-        
-
-        
     </mat-card>
-    
+
     <mat-tab-group mat-align-tabs="center"  style="flex: 70%;">
         <mat-tab *ngFor="let itemTab of ArrayOrderTotal; index as indexTab">
             <ng-template mat-tab-label>
-                <span 
-                    matBadge="{{itemTab.arrOrders.length}}" 
+                <span
+                    matBadge="{{itemTab.arrOrders.length}}"
                     matBadgeSize="medium"
                     matBadgePosition="before" style="padding-left: 1rem;">{{itemTab.label}}</span>
             </ng-template>
-    
+
             <section>
-                <mat-card *ngFor="let item of itemTab.arrOrders; index as i" style="width: 800px; text-align: center;">
+                <div *ngIf="itemTab.arrOrders.length === 0" style="padding-top: 1rem; text-align: center;">
+                  <span>Bạn chưa có {{itemTab.label}} nào! </span>
+                </div>
+                <mat-card *ngFor="let item of itemTab.arrOrders; index as i" style="width: 800px;">
                     <table>
                         <tr style="flex: 100%;">
                             <td>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
                             <td
-                                colspan="2" 
-                                [ngClass] = "{'colorExpired': item.dayLeft < 2}" 
-                                style="position: absolute; right: 0;">còn lại {{item.dayLeft}} ngày</td>
+                              *ngIf="indexTab === 0 || indexTab === 2"
+                              colspan="2"
+                              [ngClass] = "{'colorExpired': item.dayLeft < 2}"
+                              style="position: absolute; right: 0;">còn lại {{item.dayLeft}} ngày</td>
+                            <td
+                              *ngIf="indexTab === 1"
+                              colspan="2"
+                              [ngClass] = "{'colorExpired': item.dayLeft < 2}"
+                              style="position: absolute; right: 0;">đã quá hạn {{item.dayLeft}} ngày</td>
                         </tr>
                         <mat-divider></mat-divider>
                         <tr>
@@ -77,7 +82,7 @@
                                     <div>{{itemService.quantity + ' x ' + itemService.itemServiceName}}</div>
                                 </td>
                             </div>
-                            
+
                             <td rowspan={{ordersNotUse.length}} style="width: 100px;">
                                 <div>{{item.price}}</div>
                             </td>
@@ -86,9 +91,9 @@
                             </td>
                             <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="indexTab === 2">
                                 <button mat-button mat-raised-button color="warn" disabled = "true">Đang chờ xác nhận</button>
-                                <button 
+                                <button
                                     style="width: 100%;"
-                                    mat-button 
+                                    mat-button
                                     mat-raised-button color="warn" (click) = "returnOrder(item.orders.id)">Hủy</button>
                             </td>
                         </tr>
