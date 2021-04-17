@@ -11,7 +11,9 @@ const orderSchema = mongoose.Schema({
   itemService: { type: Array },
   payMethod: { type: String },
   status: { type: Boolean },
-  isCancel: { type: Boolean }
+  isCancel: { type: Boolean },
+  isSuccess: {type: Boolean },
+  isConfirm: { type: Boolean }
 });
 
 module.exports = mongoose.model('Order', orderSchema);

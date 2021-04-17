@@ -13,4 +13,6 @@ export interface Order {
     payMethod: string;
     status: boolean;
     isCancel: boolean;
+    isSuccess: boolean;
+    isConfirm: boolean;
 }

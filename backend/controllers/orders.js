@@ -57,17 +57,11 @@ function checkCompareDate(date1) {
 exports.getAllOrder = (req, res, next) => {
 
   const now = new Date();
-
   Order.find({idCustomer: req.userData.customerId}).then(documents => {
     console.log('documents.length: ' + documents.length);
     for(let i = 0; i < documents.length; i++) {
-      // var part = documents[i].dateEnd.split('/');
-      // var d = new Date(part[2] + '-'+ part[1] + '-' + part[0]);
       var check = checkCompareDate(documents[i].dateEnd);
-      // var checkDate = (d < now); //true => đã quá hạn
-      console.log('checkDate: ' + check);
       if(check < 0) {
-        console.log('documents: ' + documents[i]);
         Order.updateOne({_id: documents[i]._id}, { $set:{ status: true } })
         .then(result => {
           console.log(result);
@@ -75,7 +69,7 @@ exports.getAllOrder = (req, res, next) => {
           console.log('error: ' + result);
         });
       }
-    } 
+    }
   });
 
   Order.find({idCustomer: req.userData.customerId}).then(documents => {

@@ -61,7 +61,6 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   customerId: string;
 
   listItemService: Array<ServiceSelect> = [];
- 
 
   range = new FormGroup({
     start: new FormControl(),
@@ -133,6 +132,10 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
   formatDate(date) {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+  }
+
+  formatPrice(number): string {
+    return number.toLocaleString('en-us', {minimumFractionDigits: 2});
   }
 
   showInfoService(index) {

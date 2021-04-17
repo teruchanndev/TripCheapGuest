@@ -61,6 +61,14 @@
                         <tr style="flex: 100%;">
                             <td>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
                             <td
+                              *ngIf="item.orders.isConfirm"
+                              colspan="2"
+                              style="margin-right: 1rem; font-style: italic; color: #9a9a9b;">(đã xác nhận)</td>
+                            <td
+                              *ngIf="!item.orders.isConfirm"
+                              colspan="2"
+                              style="margin-right: 1rem; font-style: italic; color: #af4a8c;">(đang chờ xác nhận)</td>
+                              <td
                               *ngIf="indexTab === 0 || indexTab === 2"
                               colspan="2"
                               [ngClass] = "{'colorExpired': item.dayLeft < 2}"

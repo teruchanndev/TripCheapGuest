@@ -37,7 +37,9 @@ export class OrdersService {
             idCustomer: order.idCustomer,
             itemService: order.itemService,
             status: order.status,
-            isCancel: order.isCancel
+            isCancel: order.isCancel,
+            isSuccess: order.isSuccess,
+            isConfirm: order.isConfirm
           };
         });
       })
@@ -91,7 +93,9 @@ export class OrdersService {
               idCustomer: order.idCustomer,
               itemService: order.itemService,
               status: order.status,
-              isCancel: order.isCancel
+              isCancel: order.isCancel,
+              isSuccess: order.isSuccess,
+              isConfirm: order.isConfirm
             };
           });
         })
@@ -112,7 +116,9 @@ export class OrdersService {
     itemService: Array<ServiceSelect>,
     payMethod: string,
     status: boolean,
-    isCancel: boolean
+    isCancel: boolean,
+    isSuccess: boolean,
+    isConfirm: boolean
   ) {
     // tslint:disable-next-line:prefer-const
     let orderData: Order | FormData;
@@ -128,7 +134,9 @@ export class OrdersService {
         itemService: itemService,
         payMethod: payMethod,
         status: status,
-        isCancel: isCancel
+        isCancel: isCancel,
+        isSuccess: isSuccess,
+        isConfirm: isConfirm
     };
     this.http
       .post<
@@ -153,7 +161,9 @@ export class OrdersService {
     itemService: Array<ServiceSelect>,
     payMethod: string,
     status: boolean,
-    isCancel: boolean
+    isCancel: boolean,
+    isSuccess: boolean,
+    isConfirm: boolean
   ) {
     let orderData: Order | FormData;
     orderData = {
@@ -168,7 +178,9 @@ export class OrdersService {
         itemService: itemService,
         payMethod: payMethod,
         status: status,
-        isCancel: isCancel
+        isCancel: isCancel,
+        isSuccess: isSuccess,
+        isConfirm: isConfirm
     };
 
     this.http
@@ -184,18 +196,9 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean
   ) {
-    let orderData: Order | FormData;
+    let orderData: Object;
     orderData = {
         id: id,
-        nameTicket: '',
-        imageTicket: '',
-        dateStart: '',
-        dateEnd: '',
-        idTicket: '',
-        idCreator: '',
-        idCustomer: '',
-        itemService: [],
-        payMethod: '',
         status: status,
         isCancel: isCancel
     };

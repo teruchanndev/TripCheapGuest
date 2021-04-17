@@ -1,10 +1,10 @@
-<section  *ngIf="ticket">
+<mat-card  *ngIf="ticket">
   <div style="width: 100%; height: auto; text-align:center;margin:0; padding:0;">
     <ng-image-slider #nav
       [images]="imageObject"
       [infinite]="false"
       [autoSlide]="imageObject.length"
-      [imageSize]="{width: '100%', height: 250}"
+      [imageSize]="{width: '100%', height: 450}"
       slideImage="1"></ng-image-slider>
   </div>
   <div class="detail">
@@ -14,7 +14,7 @@
     <h1>{{ticket.title || ''}}</h1>
     <mat-divider></mat-divider>
 
-    <div style="display: flex; flex-wrap: wrap;">
+    <div style="display: flex; flex-wrap: wrap; padding: 0.5rem 0;">
       <div class="icon_condition">
         <img src = "../../../assets/icon/dollar.svg" width="20px" height="20px">
         Không hoàn huỷ/Hoàn huỷ miễn phí trong 24h
@@ -49,47 +49,48 @@
       <p>Vui lòng chọn các gói dịch vụ</p>
       <div class="service_item">
         <button
+          class="button_select"
           mat-stroked-button
           *ngFor="let item of ticket.services[0]; index as i"
-          (click) = "showInfoService(i)">
+          (click) = "showInfoService(i)"
+          style="margin: 5px;">
            {{item.name}} </button>
       </div>
 
       <div>
         <form [formGroup]="form">
           <p>Số lượng</p>
-          <div
-            *ngFor="let item of listItemService; index as i"
-            class="service_price" >
-            <div>
-              <p>{{item.itemServiceName}}</p>
-            </div>
-            <div>
-              <p>{{item.itemServicePrice}}</p>
-            </div>
-            <div>
-              <button
-                mat-stroked-button
-                (click)="item.quantity=item.quantity+1">+</button>
-              <mat-form-field appearance="outline">
-                <input
-                  style="width: 30px;"
-                  formControlName = "quantity"
-                  matInput
-                  #incrementInput
-                  type="number"
-                  min="0"
-                  [value]="item.quantity"
-                  placeholder="0">
-              </mat-form-field>
-              <button
-                mat-stroked-button
-                (click)="item.quantity=item.quantity-1">-</button>
-            </div>
-          </div>
+          <mat-card *ngFor="let item of listItemService; index as i">
+            <tr>
+              <td style="width: 50%;">{{item.itemServiceName}}</td>
+              <td style="width: 10%;">{{formatPrice(item.itemServicePrice) + 'đ'}}</td>
+              <td>
+                <button
+                mat-raised-button
+                (click)="item.quantity=item.quantity+1"><mat-icon>add</mat-icon></button>
+              </td>
+              <td>
+                <mat-form-field appearance="outline">
+                  <input
+                    style="width: 10px;"
+                    formControlName = "quantity"
+                    matInput
+                    #incrementInput
+                    type="number"
+                    min="0"
+                    [value]="item.quantity"
+                    placeholder="0">
+                </mat-form-field>
+              </td>
+              <td><button
+                mat-raised-button
+                (click)="item.quantity=item.quantity-1"><mat-icon>remove</mat-icon></button></td>
+            </tr>
+          </mat-card>
+
 
           <div class="selectDate">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="outline">
               <mat-label>Nhập ngày</mat-label>
               <mat-date-range-input [rangePicker]="picker">
                 <input matStartDate placeholder="Start date" formControlName = "dateStart">
@@ -102,7 +103,7 @@
 
           <div class="btn-action">
             <button mat-raised-button color="primary" (click) = "AddCart()">Thêm vào giỏ hàng</button>
-            <button mat-raised-button color="warn">Đặt ngay</button>
+            <button mat-raised-button color="warn" style="margin-left: 1rem;">Đặt ngay</button>
           </div>
         </form>
 
@@ -160,7 +161,5 @@
       </div>
     </mat-card>
 
-
   </div>
-
-</section>
+</mat-card >
