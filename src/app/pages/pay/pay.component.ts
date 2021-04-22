@@ -12,7 +12,7 @@ import { OrdersService } from 'src/app/services/order.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { Email } from 'src/app/modals/email.model';
 import { EmailService } from 'src/app/services/email.service';
-import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels, QrcodeComponent } from '@techiediaries/ngx-qrcode';
+import { QRCodeModule, QRCodeComponent } from 'angularx-qrcode';
 import html2canvas from 'html2canvas';
 import { Customer } from 'src/app/modals/customer.model';
 
@@ -23,7 +23,7 @@ import { Customer } from 'src/app/modals/customer.model';
 })
 export class PayComponent implements OnInit {
 
-  @ViewChild('qrcode') qrcode: QrcodeComponent;
+  @ViewChild('qrcode') qrcode: QRCodeComponent;
   @ViewChild('canvas') canvas: ElementRef;
 
   private authListenerSubs: Subscription;
@@ -51,6 +51,7 @@ export class PayComponent implements OnInit {
   phone_number = 0;
   paySelect: string;
   pays: string[] = ['Đổi vé và thanh toán tại quầy vé', 'Thanh toán qua thẻ'];
+  qrcodeContent: string;
 
   constructor(
     public customerService: CustomerService,
@@ -141,6 +142,7 @@ export class PayComponent implements OnInit {
               itemService: cartData.itemService
             };
             this.carts.push(this.cartItem);
+            this.qrcodeContent = this.cartItem.id;
             let sum = 0;
             for (let j = 0; j < this.cartItem.itemService.length; j++) {
               // tslint:disable-next-line:radix
@@ -155,58 +157,6 @@ export class PayComponent implements OnInit {
       });
       this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
 
-  }
-
-  // tslint:disable-next-line:member-ordering
-  testQR;
-  // tslint:disable-next-line:member-ordering
-  elementType = NgxQrcodeElementTypes.IMG;
-  // tslint:disable-next-line:member-ordering
-  errorCorrectionLevel = NgxQrcodeErrorCorrectionLevels.MEDIUM;
-
-  sendEmail(qrcode) {
-
-    const arr = [];
-    for (const item of this.carts) {
-      for (const itemS of item.itemService) {
-       arr.push(
-         `<tr>
-            <td>` + item.nameTicket + `</td>
-            <td>` + itemS.name + `</td>
-            <td>` + item.dateStart + ` - ` + item.dateEnd + `</td>
-            <td>` + itemS.itemServiceName + `</td>
-            <td>` + itemS.quantity + `</td>
-          </tr>`);
-      }
-    }
-    const str = '<table>' + arr.join('') + '</table>';
-
-    this.testQR = str;
-
-    // console.log(this.qrcode.qrcElement);
-    // html2canvas(this.qrcode.qrcElement.nativeElement).then(canvas => {
-    //   this.canvas.nativeElement.src = canvas.toDataURL();
-    //   this.canvas.nativeElement.href = canvas.toDataURL("image/png");
-    // });
-
-
-    const html =
-    `<div>Quét mã QR để lấy vé:</div>`
-    + str +
-    `<img src = "http://192.168.0.47/images/lwlid7jn0quxuonwabzk.webp-1617979039092.webp">`
-    + this.qrcode.qrcElement.nativeElement.innerHTML +
-    `<ngx-qrcode
-      [elementType]="` + NgxQrcodeElementTypes.IMG + `"
-      [errorCorrectionLevel]="` + NgxQrcodeErrorCorrectionLevels.MEDIUM + `"
-      [value]="` + str + `"></ngx-qrcode>`;
-
-    this.emailService.sendEmail(
-      this.formInfo.value.email,
-      'tripcheap.pay@gmail.com',
-      'Thông tin thanh toán - TripCheap',
-      'this is email form TripCheap team.',
-      html
-    );
   }
 
 
@@ -226,7 +176,12 @@ export class PayComponent implements OnInit {
     //   }
     // }
     // const str = '<table>' + arr.join('') + '</table>';
-
+    this.qrcodeContent = this.cartItem.id;
+    const x = this.qrcode.qrcElement.nativeElement.innerHTML;
+    console.log(x);
+    console.log(typeof x);
+    const str = x.substr(10, x.length - 12);
+    console.log(str);
     for (const item of this.carts) {
       this.orderService.addOrder(
         item.nameTicket,
@@ -241,7 +196,8 @@ export class PayComponent implements OnInit {
         false,
         false,
         false,
-        false
+        false,
+        str
       );
       idCart.push(item.id);
     }
@@ -253,14 +209,6 @@ export class PayComponent implements OnInit {
       this.formInfo.value.address,
       this.infoCustomer.username
     );
-
-    // this.emailService.sendEmail(
-    //   this.formInfo.value.email,
-    //   'tripcheap.pay@gmail.com',
-    //   'Thông tin thanh toán - TripCheap',
-    //   'this is email form TripCheap team.',
-    //   str
-    // );
   }
 
   onVerify() {

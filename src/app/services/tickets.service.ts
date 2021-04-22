@@ -143,8 +143,6 @@ export class TicketsService {
   }
 
 
-
-
   addTicket(
     title: string,
     content: string,

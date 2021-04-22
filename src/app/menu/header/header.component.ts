@@ -59,18 +59,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userIsAuthenticated = isAuthenticated;
     });
 
-    this.customerService.getInfoCustomer().subscribe(
-      inforData => {
-        this.infoCustomer = {
-          username: inforData.username,
-          email: inforData.email,
-          phoneNumber: inforData.phoneNumber,
-          fullName: inforData.fullName,
-          address: inforData.address
-        };
-        this.characterAvt = inforData.username[0].toUpperCase();
-        this.username = inforData.username;
-      });
+    console.log(this.userIsAuthenticated);
+
+    if (this.userIsAuthenticated) {
+      this.customerService.getInfoCustomer().subscribe(
+        inforData => {
+          this.infoCustomer = {
+            username: inforData.username,
+            email: inforData.email,
+            phoneNumber: inforData.phoneNumber,
+            fullName: inforData.fullName,
+            address: inforData.address
+          };
+          this.characterAvt = inforData.username[0].toUpperCase();
+          this.username = inforData.username;
+        });
+    }
 
     if (this.userIsAuthenticated) {
       this.cartService.getCountCart().subscribe(

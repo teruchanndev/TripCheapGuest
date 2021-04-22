@@ -5,11 +5,10 @@ export interface Service {
     timeStart: string;
     timeStop: string;
     dayActive: string;
-    //set độ tuổi
+    // set độ tuổi
     itemService: Array<
     {
         name: string,
         price: number
-    }>
+    } >;
 }
-  

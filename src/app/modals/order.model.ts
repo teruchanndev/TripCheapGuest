@@ -12,7 +12,8 @@ export interface Order {
     itemService: Array<ServiceSelect>;
     payMethod: string;
     status: boolean;
-    isCancel: boolean;
-    isSuccess: boolean;
-    isConfirm: boolean;
+    isCancel: boolean; // đơn hàng bị hủy
+    isSuccess: boolean; // hoàn thành đơn hàng
+    isConfirm: boolean; // xác nhận đơn hàng
+    qrcode: string;
 }

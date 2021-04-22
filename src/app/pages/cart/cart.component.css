@@ -11,3 +11,33 @@
 .cart {
   display: flex;
 }
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+tr {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+td {
+  padding: 0.5rem;
+}
+.btn-add-sub {
+  display: flex;
+  height: 30px;
+  padding: 0.5rem 0;
+}
+
+.btn-add-sub > button {
+  display: flex;
+  align-items: center;
+
+}
+
+.total {
+  text-align: center;
+}
