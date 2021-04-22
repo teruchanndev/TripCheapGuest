@@ -35,9 +35,9 @@ import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
-import {NgxQRCodeModule} from '@techiediaries/ngx-qrcode';
 import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   declarations: [
@@ -76,7 +76,7 @@ import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
     MatDatepickerModule,
     MatNativeDateModule,
     NgImageSliderModule,
-    NgxQRCodeModule
+    QRCodeModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

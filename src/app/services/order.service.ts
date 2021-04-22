@@ -118,10 +118,11 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean,
     isSuccess: boolean,
-    isConfirm: boolean
+    isConfirm: boolean,
+    qrcode: File | string
   ) {
     // tslint:disable-next-line:prefer-const
-    let orderData: Order | FormData;
+    let orderData: Object | FormData;
     orderData = {
         id: null,
         nameTicket: nameTicket,
@@ -136,11 +137,12 @@ export class OrdersService {
         status: status,
         isCancel: isCancel,
         isSuccess: isSuccess,
-        isConfirm: isConfirm
+        isConfirm: isConfirm,
+        qrcode: qrcode
     };
     this.http
       .post<
-        { message: string; order: Order }>
+        { message: string; order: Object }>
         (this.BACKEND_URL, orderData)
       .subscribe(responseData => {
         console.log(responseData);
@@ -163,9 +165,10 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean,
     isSuccess: boolean,
-    isConfirm: boolean
+    isConfirm: boolean,
+    qrcode: File | string
   ) {
-    let orderData: Order | FormData;
+    let orderData: Object | FormData;
     orderData = {
         id: id,
         nameTicket: nameTicket,
@@ -180,11 +183,12 @@ export class OrdersService {
         status: status,
         isCancel: isCancel,
         isSuccess: isSuccess,
-        isConfirm: isConfirm
+        isConfirm: isConfirm,
+        qrcode: qrcode
     };
 
     this.http
-      .put<{ message: string; order: Order }>
+      .put<{ message: string; order: Object }>
         (this.BACKEND_URL + id, orderData)
       .subscribe(responseData => {
         console.log(responseData);

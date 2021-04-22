@@ -61,11 +61,11 @@
                         <tr style="flex: 100%;">
                             <td>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
                             <td
-                              *ngIf="item.orders.isConfirm"
+                              *ngIf="item.orders.isConfirm && indexTab < 3"
                               colspan="2"
                               style="margin-right: 1rem; font-style: italic; color: #9a9a9b;">(đã xác nhận)</td>
                             <td
-                              *ngIf="!item.orders.isConfirm"
+                              *ngIf="!item.orders.isConfirm && indexTab < 3"
                               colspan="2"
                               style="margin-right: 1rem; font-style: italic; color: #af4a8c;">(đang chờ xác nhận)</td>
                               <td
@@ -82,7 +82,7 @@
                         <mat-divider></mat-divider>
                         <tr>
                             <td rowspan={{ordersNotUse.length}} style="width: 250px;">
-                                <mat-card-title>{{item.orders.nameTicket}}</mat-card-title>
+                                <h3>{{item.orders.nameTicket}}</h3>
                                 <mat-card-title-sub>{{item.orders.itemService[0].name}}</mat-card-title-sub>
                             </td>
                             <div *ngFor="let itemService of item.orders.itemService">
@@ -92,17 +92,16 @@
                             </div>
 
                             <td rowspan={{ordersNotUse.length}} style="width: 100px;">
-                                <div>{{item.price}}</div>
+                                <div>{{item.price}}đ</div>
                             </td>
                             <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="item.dayLeft > 1 && indexTab === 0">
                                 <button mat-button mat-raised-button color="warn" (click) = "cancelOrder(item.orders.id)">Hủy</button>
                             </td>
                             <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="indexTab === 2">
-                                <button mat-button mat-raised-button color="warn" disabled = "true">Đang chờ xác nhận</button>
                                 <button
                                     style="width: 100%;"
                                     mat-button
-                                    mat-raised-button color="warn" (click) = "returnOrder(item.orders.id)">Hủy</button>
+                                    mat-raised-button color="warn" (click) = "returnOrder(item.orders.id)">Hoàn đơn</button>
                             </td>
                         </tr>
                     </table>

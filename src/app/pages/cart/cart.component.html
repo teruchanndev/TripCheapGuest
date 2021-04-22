@@ -1,32 +1,34 @@
-<mat-card>
+<div style="margin-left: 2rem;">
   <mat-card-title>
-    <div
-      matBadge="{{countCart}}"
-      matBadgeOverlap="false"
-      matBadgePosition = "before">Giỏ hàng</div>
+    <mat-icon
+          matBadge="{{countCart}}"
+          matBadgePosition="before"
+          matBadgeColor="accent"
+          class="material-icons"
+          style="padding-right: 0.5rem;" color="primary">add_shopping_cart</mat-icon>
+        <span>Giỏ hàng</span>
   </mat-card-title>
-</mat-card>
-
+</div>
 
 <section class="cart">
   <table>
-    <thead>
-      <mat-card>
-        <tr>
-          <td>
-            <mat-checkbox
+    <thead style="width: 100%;">
+      <mat-card class="option">
+        <div>
+          <mat-checkbox
               (change)="setAll($event.checked)">Tất cả
             </mat-checkbox>
-          </td>
-          <td><button (click) = "deleteServiceExpired()">Xóa các dịch vụ hết hạn</button></td>
-          <td><button (click) = "deleteServiceIsSelected()">Xóa các dịch vụ đã chọn</button></td>
-        </tr>
+        </div>
+        <div>
+          <td><button mat-stroked-button color="primary" (click) = "deleteServiceExpired()">Xóa các dịch vụ hết hạn</button></td>
+          <td><button mat-stroked-button color="accent" (click) = "deleteServiceIsSelected()">Xóa các dịch vụ đã chọn</button></td>
+        </div>
       </mat-card>
-
     </thead>
     <tbody>
       <tr *ngFor="let item of itemStill; index as i">
-        <mat-card>
+        <mat-card style="display: flex;
+        align-items: center;">
           <td>
             <mat-checkbox
               (change)="setSome($event.checked, i)"
@@ -34,7 +36,7 @@
           </td>
           <td><img [src] = "item.imageTicket" width="100px" height="50px"></td>
           <td class="infoName">
-            <a class="nameTicket" [routerLink]="['/detail/', item.idTicket]">{{item.nameTicket}}</a>
+            <h4 class="nameTicket" [routerLink]="['/detail/', item.idTicket]">{{item.nameTicket}}</h4>
             <p class="nameService">Loại dịch vụ: {{item.itemService[0].name}}</p>
           </td>
           <td class="date">
@@ -44,18 +46,14 @@
           <td class="uni">
             <section class="uniNumPrice" *ngFor="let itemNum of item.itemService; index as iNum">
               <div>{{itemNum.itemServiceName}}</div>
-              <div>
-                <button
-                  mat-button
-                  (click)="addQuantity(i, iNum)"
-                  style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
+              <div class="btn-add-sub">
+                <button mat-stroked-button color="primary"
+                  (click)="addQuantity(i, iNum)">
                   <mat-icon>add</mat-icon>
                 </button>
-                  <input matInput [value]="itemNum.quantity" style="height: 40px; width: 40px;">
-                <button
-                  mat-button
-                  (click)="subtractQuantity(i, iNum)"
-                  style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
+                  <input [value]="itemNum.quantity" style="height: 27px; width: 27px;">
+                <button mat-stroked-button color="primary"
+                  (click)="subtractQuantity(i, iNum)">
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
@@ -63,9 +61,10 @@
           </td>
           <td colspan="7">
             <div>
-              <button mat-button [routerLink]="['/detail/update', item.id]">Sửa</button>
-              <button mat-button (click) = "deleteOne(item.id)">Xóa</button>
-              <span>{{priceItemStill[i]}}</span>
+              <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
+              <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
+              <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
+                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2></div>
             </div>
           </td>
         </mat-card>
@@ -78,7 +77,7 @@
           </td>
           <td><img [src] = "item.imageTicket" width="100px" height="50px"></td>
           <td class="infoName">
-            <p class="nameTicket">{{item.nameTicket}}</p>
+            <h4 class="nameTicket">{{item.nameTicket}}</h4>
             <p class="nameService">Loại dịch vụ: {{item.itemService[0].name}}</p>
           </td>
           <td class="date">
@@ -88,16 +87,14 @@
           <td class="uni">
             <section class="uniNumPrice" *ngFor="let itemNum of item.itemService">
               <div>{{itemNum.itemServiceName}}</div>
-              <div>
-                <button
-                  style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
+              <div class="btn-add-sub">
+                <button mat-stroked-button color="primary">
                   <mat-icon>add</mat-icon>
                 </button>
                   <input
                     [value]="itemNum.quantity"
-                    style="height: 40px; width: 40px;">
-                <button
-                  style="border: 1px solid #f1f1f1; border-radius: 10px; height: 40px; width: 40px;">
+                    style="height: 30px; width: 30px;">
+                <button mat-stroked-button color="primary">
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
@@ -106,7 +103,8 @@
           <td colspan="7">
             <div>
               <button mat-button (click) = "deleteOne(item.id)">Xóa</button>
-              <span>{{priceItemExpired[i]}}</span>
+              <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
+              <h2>{{priceItemExpired[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2></div>
             </div>
           </td>
         </mat-card>
@@ -115,8 +113,9 @@
   </table>
 
   <mat-card class="total">
-    <div>{{countServiceSelect}} x dịch vụ được chọn - Tổng cộng:</div>
-    <div>{{priceTotal}}đ</div>
+    <div>{{countServiceSelect}} x đơn hàng được chọn</div>
+    <div><h3>Tổng cộng</h3></div>
+    <div><h2 style="color: red;">{{priceTotal.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2></div>
     <button mat-raised-button color="warn" (click) = "payCart()">Thanh toán ngay</button>
   </mat-card>
 </section>

@@ -10,7 +10,7 @@ import { OrdersService } from 'src/app/services/order.service';
 
 export interface ArrayOrder {
   orders: Order;
-  price: number;
+  price: string;
   dayLeft: number;
 }
 
@@ -42,7 +42,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   ordersCancel: Array<ArrayOrder> = []; // order đã hủy
 
   ArrayOrderTotal: Array<ArrayOrderTotal> = [];
-  labels = ['Đơn đã thanh toán', 'Đơn hết hạn', 'Đơn đã hủy'];
+  labels = ['Đơn đã thanh toán', 'Đơn hết hạn', 'Đơn đã hủy', 'Đơn đã hoàn thành'];
   listTabValue = [];
 
 
@@ -77,7 +77,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orderService.getOrders();
     this.orderListenerSubs = this.orderService.getOrderUpdateListener()
       .subscribe((order: Order[]) => {
-
+        console.log(order);
         // cal price total
         for (let i = 0; i < order.length ; i++) {
           let sum = 0;
@@ -87,7 +87,7 @@ export class OrderComponent implements OnInit, OnDestroy {
           }
           this.ArrOrders[i] = {
             orders: order[i],
-            price: sum,
+            price: sum.toLocaleString('en-us', {minimumFractionDigits: 0}),
             dayLeft: this.calDaysLeft(order[i].dateEnd)
           };
         }
@@ -102,9 +102,11 @@ export class OrderComponent implements OnInit, OnDestroy {
           this.ArrOrders.filter(element => element.orders.status && !element.orders.isCancel && element.dayLeft < 0)); // hết hạn
         this.listTabValue.push(
           this.ArrOrders.filter(element => element.orders.isCancel)); // đã hủy
+        this.listTabValue.push(
+          this.ArrOrders.filter(element => element.orders.isSuccess)); // đã hoàn thành
 
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 4; i++) {
           this.ArrayOrderTotal[i] = {
             label: this.labels[i],
             arrOrders: this.listTabValue[i]
