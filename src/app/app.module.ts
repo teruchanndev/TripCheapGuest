@@ -12,7 +12,6 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
-import { CreateTicketComponent } from './functions/create-ticket/create-ticket.component';
 import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
 import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
@@ -38,12 +37,13 @@ import { PayComponent } from './pages/pay/pay.component';
 import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { FooterComponent } from './menu/footer/footer.component';
+import { PageSearchComponent } from './pages/page-search/page-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    CreateTicketComponent,
     TicketCreateComponent,
     TicketListComponent,
     TicketEditComponent,
@@ -58,7 +58,9 @@ import { QRCodeModule } from 'angularx-qrcode';
     TicketDetailUpdateComponent,
     PayComponent,
     OrderComponent,
-    DetailInfoComponent
+    DetailInfoComponent,
+    FooterComponent,
+    PageSearchComponent
   ],
   imports: [
     BrowserModule,

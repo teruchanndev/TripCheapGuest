@@ -16,7 +16,7 @@ mat-icon{
 .example-toolbar{
   position: fixed;
   z-index: 9999;
-  box-shadow:  5px 5px 5px #f1f1f1;
+  /* box-shadow:  5px 5px 5px #f1f1f1; */
   border-bottom: 0.5px solid #f1f1f1;
   background-color: white;
 }
@@ -30,7 +30,7 @@ mat-icon{
   top: 3;
   top: 5rem;
   padding-top: 2rem;
-  width: 90%;
+  width: 70%;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
@@ -59,6 +59,7 @@ mat-icon{
 }
 
 .img_avt {
+  font-family: 'Quicksand', Tahoma, Geneva, Verdana, sans-serif;
   /* border: 2px solid pink; */
   font-weight: bolder;
   z-index: 1;
@@ -73,8 +74,12 @@ mat-icon{
   padding: 3px;
 }
 
+
 .logo_detail {
   font-weight: bolder;
   font-size: 30px;
 }
 
+.mat-icon-button {
+
+}

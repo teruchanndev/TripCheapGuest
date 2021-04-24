@@ -196,8 +196,7 @@ export class PayComponent implements OnInit {
         false,
         false,
         false,
-        false,
-        str
+        false
       );
       idCart.push(item.id);
     }

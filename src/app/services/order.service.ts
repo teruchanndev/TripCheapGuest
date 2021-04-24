@@ -118,8 +118,8 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean,
     isSuccess: boolean,
-    isConfirm: boolean,
-    qrcode: File | string
+    isConfirm: boolean
+    // qrcode: File | string
   ) {
     // tslint:disable-next-line:prefer-const
     let orderData: Object | FormData;
@@ -138,7 +138,7 @@ export class OrdersService {
         isCancel: isCancel,
         isSuccess: isSuccess,
         isConfirm: isConfirm,
-        qrcode: qrcode
+        // qrcode: qrcode
     };
     this.http
       .post<

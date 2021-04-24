@@ -1,15 +1,28 @@
 
-  .list-city {
-    display: flex;
-  }
+div {
+  box-sizing: border-box;
+}
+.list {
+  /* overflow: hidden; */
+  width: 1800px;
+  white-space: nowrap;
+  overflow:hidden;
+}
+#list-city {
+  width: 6000px;
+  position: relative;
+  display: inline-flex;
+  overflow: auto;
+}
   .city {
     text-align: center;
-    width: 200px;
-    height: 200px;
+    border-radius: 30px;
+    width: 200px !important;
+    height: 200px !important;
     margin: 1rem;
   }
   .city:hover {
-    margin: 0 auto;
+    margin-top: 0.5rem;
   }
   a {
     text-align: center;
@@ -17,4 +30,88 @@
     text-decoration: none;
   }
 
+  .btn-scoll-left {
+    position: absolute;
+    right: 0;
+    top: 86%;
+    background-color: white;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    z-index: 400;
+    box-shadow: 0 0 20px #e2e1e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-scoll-left:hover {
+    box-shadow: 0 0 20px #d1d1d1;
+  }
+
+  .material-icons {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+  }
+
+
+  /* search */
+  .search-container {
+    display: inline-flex;
+    position: absolute;
+    width: 70%;
+    right: 13%;
+    top: 30%;
+    border-radius: 50px;
+    margin: 1rem 1rem 3rem 1rem;
+    padding: 1rem 1rem;
+  }
+
+  .search-result {
+    position: absolute;
+    width: 70%;
+    right: 13%;
+    top: 40%;
+    border-radius: 13px;
+    margin: 1rem 1rem 3rem 1rem;
+    padding: 1rem 1rem;
+  }
+
+  .search-section {
+    border-radius: 50px;
+    /* background-color: white; */
+    width: 100%;
+    height: 576px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background:
+      center, 
+      linear-gradient(rgba(51, 30, 78, 0.418), rgba(109, 112, 160, 0.3)), 
+      url('../../../assets/images/bg1-png.png');
+  }
+
+  .input-search {
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 1rem;
+    /* padding: 1rem 0; */
+  }
+  .input-search:focus-visible {
+    border-color: white;
+    outline-color: white
+  }
  
+  /* .search-overlay {
+    border-radius: 50px;
+    width: 100%;
+    height: 738px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 22;
+  } */

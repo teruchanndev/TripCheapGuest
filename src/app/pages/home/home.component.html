@@ -1,11 +1,33 @@
 
-<div class="list-city">
-    <mat-card 
-        class="city" 
-        *ngFor="let item of city"
-        (click) = "navigateCity(item)">
+<div class="search-overlay">
+  <section class="search-section">
+    <mat-card class="search-container">
+        <span><img src="../../../assets/icon/search.svg" style="width: 40px; height: 40px; padding-left: 1rem;"></span>
+        <input id="input-search" class="input-search" placeholder="Tìm kiếm theo địa điểm, hoạt động"
+          onclick="searchResult == true"
+          onmouseover="searchResult()">
+    </mat-card>
+    <mat-card *ngIf="isShowSearchResult" #searchResult class="search-result">
+
+    </mat-card>
+  </section>
+</div>
+
+
+
+<div class="list" id="list">
+  <div id="list-city" #listCity>
+    <mat-card
+      class="city" 
+      *ngFor="let item of city"
+      (click) = "navigateCity(item)">
       <a>{{item}}</a>
     </mat-card>
+  </div>
+  <div class="btn-scoll-left" (click) = "scollLeft()">
+    <span class="material-icons">arrow_forward_ios</span>
+  </div>
+  
 </div>
 
 

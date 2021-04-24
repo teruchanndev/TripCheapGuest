@@ -13,9 +13,10 @@ import { TicketsService } from 'src/app/services/tickets.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+  isShowSearchResult = false;
   tickets: Ticket[] = [];
   categories: Category[] = [];
-  city = ['Đà Nẵng', 'Hà Nội', 'Nha Trang', 'TP Hồ Chí Minh', 'Phú Quốc', 'Đà Lạt'];
+  city = ['Đà Nẵng', 'Hà Nội', 'Nha Trang', 'TP Hồ Chí Minh', 'Phú Quốc', 'Đà Lạt', 'Hội An', 'Vũng Tàu', 'SaPa', 'Huế'];
   private categorySub: Subscription;
   constructor(
     public ticketsService: TicketsService,
@@ -30,6 +31,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.categories = category;
       });
   }
+
+  scollLeft() {
+    // document.getElementById('list-city').style.backgroundColor = "red";
+    const x = document.getElementById('list-city').scrollLeft = 200;
+    console.log(x);
+  }
+
+  searchResult() {
+    document.getElementById('input-search').click();
+  }
+
 
   navigateCity(nameCity) {
     let city = nameCity;

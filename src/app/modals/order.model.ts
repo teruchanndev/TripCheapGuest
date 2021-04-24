@@ -15,5 +15,5 @@ export interface Order {
     isCancel: boolean; // đơn hàng bị hủy
     isSuccess: boolean; // hoàn thành đơn hàng
     isConfirm: boolean; // xác nhận đơn hàng
-    qrcode: string;
+    // qrcode: string;
 }
