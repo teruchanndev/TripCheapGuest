@@ -5,6 +5,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css">
   <meta charset="utf-8">
   <title>MeanCourse</title>
   <base href="/">
@@ -14,6 +16,19 @@
 </head>
 <body>
   <app-root></app-root>
-
+  <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/vendors/jquery.min.js"></script>
+  <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('.owl-carousel-01').owlCarousel({
+          loop:true,
+          autoPlay:true,
+          margin:10,
+          nav:true,
+          items:4,
+          dots: false
+      })
+    })
+  </script>
 </body>
 </html>

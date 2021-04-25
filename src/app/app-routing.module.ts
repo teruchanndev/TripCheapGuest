@@ -18,6 +18,7 @@ import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/tick
 import { PayComponent } from './pages/pay/pay.component';
 import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
+import { PageSearchComponent } from './pages/page-search/page-search.component';
 
 const routes: Routes = [
   {path: '',
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
       { path: 'cart', component: CartComponent },
+      { path: 'search/:search', component: PageSearchComponent },
       { path: 'setting', component: DetailInfoComponent },
       { path: 'pay/:idCart', component: PayComponent },
       { path: 'order', component: OrderComponent },

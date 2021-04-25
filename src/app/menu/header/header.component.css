@@ -22,6 +22,7 @@ mat-icon{
 }
 
 .example-container {
+  position: relative;
   background-color: none !important;
   height: 100vh;
 }

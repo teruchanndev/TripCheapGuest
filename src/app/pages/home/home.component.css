@@ -4,50 +4,36 @@ div {
 }
 .list {
   /* overflow: hidden; */
-  width: 1800px;
+  /* width: 1800px; */
   white-space: nowrap;
   overflow:hidden;
+  padding-top: 3rem;
 }
 #list-city {
-  width: 6000px;
+  width: 100%;
   position: relative;
-  display: inline-flex;
+  /* display: inline-flex; */
   overflow: auto;
 }
   .city {
+    cursor: pointer;
     text-align: center;
     border-radius: 30px;
-    width: 200px !important;
+    /* width: 200px !important; */
     height: 200px !important;
-    margin: 1rem;
+    /* margin: 1rem; */
+    background-color: rgba(0,0,0,0.5);
   }
-  .city:hover {
-    margin-top: 0.5rem;
-  }
-  a {
+  .name-city {
     text-align: center;
     font-weight: bold;
     text-decoration: none;
-  }
-
-  .btn-scoll-left {
+    font-size: 25px;
+    color: white;
     position: absolute;
-    right: 0;
-    top: 86%;
-    background-color: white;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    z-index: 400;
-    box-shadow: 0 0 20px #e2e1e1;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .btn-scoll-left:hover {
-    box-shadow: 0 0 20px #d1d1d1;
+    bottom: 28px;
+    right: 0px;
+    width: 100%;
   }
 
   .material-icons {
@@ -71,10 +57,11 @@ div {
   }
 
   .search-result {
+    z-index: 2;
     position: absolute;
     width: 70%;
     right: 13%;
-    top: 40%;
+    top: 58%;
     border-radius: 13px;
     margin: 1rem 1rem 3rem 1rem;
     padding: 1rem 1rem;
@@ -82,14 +69,15 @@ div {
 
   .search-section {
     border-radius: 50px;
+    position: relative;
     /* background-color: white; */
     width: 100%;
-    height: 576px;
+    height: 300px;
     background-repeat: no-repeat;
     background-size: cover;
     background:
-      center, 
-      linear-gradient(rgba(51, 30, 78, 0.418), rgba(109, 112, 160, 0.3)), 
+      center,
+      linear-gradient(rgba(51, 30, 78, 0.418), rgba(109, 112, 160, 0.3)),
       url('../../../assets/images/bg1-png.png');
   }
 
@@ -105,13 +93,99 @@ div {
     border-color: white;
     outline-color: white
   }
- 
-  /* .search-overlay {
-    border-radius: 50px;
-    width: 100%;
-    height: 738px;
-    background-repeat: no-repeat;
+
+  .ticket-item {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5rem;
+  }
+
+  .image-ticket-item-search {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    margin-top: -19px;
+  }
+
+  .link-ticket {
+    cursor: pointer;
+    font-weight: bolder;
+  }
+
+  .link-ticket:hover {
+    color: rgba(137, 43, 226, 0.822);
+  }
+
+  .list-search-ticket {
+    flex: 50%;
+  }
+
+/* list city */
+  .title {
+    text-align: center;
+    font-size: 25px;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    font-weight: bold;
+    color: darkblue;;
+  }
+
+
+  /* list ticket */
+  .item-ticket{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 4;
+    align-items: center;
+    justify-content: center;
+    background-color: #af9fca38;
+    padding: 4rem;
+    border-radius: 37px;
+  }
+
+  .item-ticket > .item {
+    width: 270px;
+    margin: 1rem;
+    cursor: pointer;
+  }
+  .item > img {
     background-size: cover;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 22;
-  } */
+    height: 170px;
+  }
+  .mat-card-content {
+    width: 270px;
+    overflow: hidden;
+  }
+  .content {
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }
+
+  .content::after {
+    content: "...";
+    float: inherit;
+
+  }
+
+  .title-ticket {
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+  .mat-card-footer {
+    padding: 1rem;
+    bottom: 3px;
+    position: absolute;
+    width: 100%;
+  }
+
+  .item {
+    position: relative;
+    padding-bottom: 1rem;
+    width: 270px;
+    height: 270px;
+  }

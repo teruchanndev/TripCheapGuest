@@ -34,15 +34,16 @@
               (change)="setSome($event.checked, i)"
               [checked] = 'allComplete[i]'></mat-checkbox>
           </td>
-          <td><img [src] = "item.imageTicket" width="100px" height="50px"></td>
+          <td><img [src] = "item.imageTicket" width="100px" height="100px"></td>
           <td class="infoName">
             <h4 class="nameTicket" [routerLink]="['/detail/', item.idTicket]">{{item.nameTicket}}</h4>
             <p class="nameService">Loại dịch vụ: {{item.itemService[0].name}}</p>
+            <p style="font-weight: bolder;">{{item.dateStart + ' - ' + item.dateEnd}}</p>
           </td>
-          <td class="date">
+          <!-- <td class="date">
             <p>{{item.dateStart + ' - ' + item.dateEnd}}</p>
             <p>(Giờ địa phương)</p>
-          </td>
+          </td> -->
           <td class="uni">
             <section class="uniNumPrice" *ngFor="let itemNum of item.itemService; index as iNum">
               <div>{{itemNum.itemServiceName}}</div>
@@ -60,12 +61,17 @@
             </section>
           </td>
           <td colspan="7">
-            <div>
-              <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
-              <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
+            <!-- <div> -->
               <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
-                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2></div>
-            </div>
+                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
+              </div>
+              <div style="display: flex;">
+                <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
+                <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
+              </div>
+
+
+            <!-- </div> -->
           </td>
         </mat-card>
       </tr>
@@ -78,7 +84,7 @@
           <td><img [src] = "item.imageTicket" width="100px" height="50px"></td>
           <td class="infoName">
             <h4 class="nameTicket">{{item.nameTicket}}</h4>
-            <p class="nameService">Loại dịch vụ: {{item.itemService[0].name}}</p>
+            <p class="nameService">Loại dịch vụ: {{item.itemService.name}}</p>
           </td>
           <td class="date">
             <p>{{item.dateStart + ' - ' + item.dateEnd}}</p>

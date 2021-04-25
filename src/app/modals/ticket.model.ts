@@ -12,6 +12,6 @@ export interface Ticket {
   quantity: number;
   imagePath: Array<string>;
   address: string;
-  services: Array<object>;
+  services: Array<any>;
   creator: string;
 }

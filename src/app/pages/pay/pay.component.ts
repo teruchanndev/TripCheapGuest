@@ -162,26 +162,6 @@ export class PayComponent implements OnInit {
 
   payComplete() {
     const idCart = [];
-    // const arr = [];
-    // for (const item of this.carts) {
-    //   for (const itemS of item.itemService) {
-    //    arr.push(
-    //      `<tr>
-    //         <td>` + item.nameTicket + `</td>
-    //         <td>` + itemS.name + `</td>
-    //         <td>` + item.dateStart + ` - ` + item.dateEnd + `</td>
-    //         <td>` + itemS.itemServiceName + `</td>
-    //         <td>` + itemS.quantity + `</td>
-    //       </tr>`);
-    //   }
-    // }
-    // const str = '<table>' + arr.join('') + '</table>';
-    this.qrcodeContent = this.cartItem.id;
-    const x = this.qrcode.qrcElement.nativeElement.innerHTML;
-    console.log(x);
-    console.log(typeof x);
-    const str = x.substr(10, x.length - 12);
-    console.log(str);
     for (const item of this.carts) {
       this.orderService.addOrder(
         item.nameTicket,
@@ -208,6 +188,7 @@ export class PayComponent implements OnInit {
       this.formInfo.value.address,
       this.infoCustomer.username
     );
+    // this.router.navigate(['order']);
   }
 
   onVerify() {

@@ -142,15 +142,16 @@ export class TicketDetailUpdateComponent implements OnInit {
               thumbImage: this.ticket.imagePath[i]
             };
           }
-          const len = Object.keys(this.ticket.services[0]).length;
-          for (let i = 0; i < len ; i++) {
-            if (this.ticket.services[0][i].name === this.nameServiceSelect) {
-              console.log(this.ticket.services[0][i].name);
+          // const len = Object.keys(this.ticket.services[0]).length;
+          for (let i = 0; i < this.ticket.services.length ; i++) {
+            if (this.ticket.services[i].name === this.nameServiceSelect) {
+              console.log(this.ticket.services[i].name);
               this.index = i;
             }
           }
+          console.log('index: ' + this.index);
           this.setValue(this.index);
-
+          this.showInfoService(this.index);
           // tslint:disable-next-line:max-line-length
           const dateStartCover = this.cart.dateStart.split('/')[1] + '/' + this.cart.dateStart.split('/')[0] + '/' + this.cart.dateStart.split('/')[2];
           // tslint:disable-next-line:max-line-length
@@ -169,9 +170,6 @@ export class TicketDetailUpdateComponent implements OnInit {
         });
 
       }, 2000);
-
-
-
     });
   }
 
@@ -181,12 +179,12 @@ export class TicketDetailUpdateComponent implements OnInit {
   }
 
   setValue(index) {
-    const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
-    for (let i = 0; i < lenService; i++) {
+    // const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
+    for (let i = 0; i < this.ticket.services[this.index].itemService.length; i++) {
       this.listItemService[i] = {
-        name: this.ticket.services[0][this.index].name,
-        itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
-        itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
+        name: this.ticket.services[this.index].name,
+        itemServiceName: this.ticket.services[this.index].itemService[i].name,
+        itemServicePrice: this.ticket.services[this.index].itemService[i].price,
         quantity: this.cart.itemService[i].quantity
       };
     }
@@ -198,12 +196,13 @@ export class TicketDetailUpdateComponent implements OnInit {
     this.dateEndChoose = '';
     this.showInfoServiceItem = true;
 
-    const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
-    for (let i = 0; i < lenService; i++) {
+    // const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
+    for (let i = 0; i < this.ticket.services[index].itemService.length; i++) {
       this.listItemService[i] = {
-        name: this.ticket.services[0][this.index].name,
-        itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
-        itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
+        name: this.ticket.services[index].name,
+        itemServiceName: this.ticket.services[index].itemService[i].name,
+        // tslint:disable-next-line:radix
+        itemServicePrice: this.ticket.services[index].itemService[i].price,
         quantity: 0
       };
     }

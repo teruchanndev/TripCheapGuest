@@ -6,7 +6,7 @@
     <section>
       <div class="list-ticket">
         <mat-card class="ticket" *ngFor="let item of carts; index as i">
-          <mat-card-title>{{item.nameTicket}}</mat-card-title>
+          <mat-card-title style="font-size: 18px; font-weight: bolder;">{{item.nameTicket}}</mat-card-title>
           <mat-card-subtitle>{{item.itemService[0].name}}</mat-card-subtitle>
           <mat-divider></mat-divider>
           <div class="date">
@@ -27,7 +27,9 @@
           <mat-card-footer>
             <li>
               <div class="text-title">Tổng cộng</div>
-              <mat-card-title> {{priceItemStill[i]}}</mat-card-title>
+              <mat-card-title style="color: orangered; padding-top: 0.5rem;">
+                {{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}} đ
+              </mat-card-title>
             </li>
           </mat-card-footer>
         </mat-card>
@@ -38,16 +40,16 @@
           <li style="width: 100%;padding-bottom: 0.5rem;">
             <span class="text-title">Tổng cộng</span>
             <div class="text-des">
-              <div>
-                {{pricePay}}
+              <div style="font-weight: bolder;">
+                {{pricePay.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ
               </div>
             </div>
           </li>
           <li style="width: 100%;padding-bottom: 0.5rem;">
             <span class="text-title">Số tiền phải thanh toán</span>
             <div class="text-des">
-              <div>
-                {{pricePay}}
+              <div style="font-weight: bolder;">
+                {{pricePay.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ
               </div>
             </div>
           </li>
@@ -73,15 +75,20 @@
         <mat-hint>Nhập đầy đủ họ và tên</mat-hint>
       </mat-form-field>
 
-      <section>
-        <mat-form-field appearance="outline">
+      <section
+        style="display: flex;
+              align-items: center;
+              justify-content: center;">
+        <mat-form-field appearance="outline" style="width: 44%;">
           <mat-label>Số điện thoại:</mat-label>
           <input
             matInput
             placeholder="Nhập số điện thoại"
             formControlName="phone_number">
         </mat-form-field>
-        <button
+        <div style="height: 80px;">
+          <button
+            style="height: 60px;"
             mat-stroked-button
             color="primary"
             type="submit"
@@ -89,11 +96,9 @@
             (click)="onVerify()">
             <span *ngIf="busy">Gửi</span>
             <span *ngIf="!busy">Chờ trong vài giây</span>
-        </button>
-        <button
-          mat-stroked-button
-          color="primary" >Hủy
-        </button>
+          </button>
+        </div>
+
       </section>
       <div id="recaptcha-container"></div>
 

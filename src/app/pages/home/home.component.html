@@ -3,33 +3,94 @@
   <section class="search-section">
     <mat-card class="search-container">
         <span><img src="../../../assets/icon/search.svg" style="width: 40px; height: 40px; padding-left: 1rem;"></span>
-        <input id="input-search" class="input-search" placeholder="Tìm kiếm theo địa điểm, hoạt động"
-          onclick="searchResult == true"
-          onmouseover="searchResult()">
+        <input #inputSearch id="input-search" class="input-search" placeholder="Tìm kiếm theo địa điểm, hoạt động"
+          (click)= "searchResult()"
+          (keyup.enter) = "onEnter(inputSearch.value)">
     </mat-card>
     <mat-card *ngIf="isShowSearchResult" #searchResult class="search-result">
+      <h5>Điểm đến phổ biến</h5>
+      <mat-chip-list
+        style="padding-bottom: 1rem;"
+        class="example-chip"
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        (cdkDropListDropped)="drop($event)">
+        <mat-chip
+          style="background-color: rgb(242, 245, 255);"
+          class="example-box"
+          cdkDrag
+          *ngFor="let item of city"
+          (click) = "navigateCity(item)">
+          {{item}}
+        </mat-chip>
+      </mat-chip-list>
 
+      <div style="display: flex;">
+        <div class="list-search-ticket">
+          <h5>Hoạt động nổi bật</h5>
+          <div class="ticket-item" *ngFor="let ticket of ticketShowSearch">
+            <img class="image-ticket-item-search"
+              src={{ticket.imagePath[1]}}>
+            <div style="padding-left: 0.5rem;">
+              <a class="link-ticket"
+                (click) = "detailTicket(ticket.id)">{{ticket.title}}</a>
+              <p style="line-height: 0.5rem;">{{ticket.city}}</p>
+            </div>
+          </div>
+        </div>
+        <div style="flex: 50%; padding-left: 8rem;">
+          <h5>Bạn đường du lịch</h5>
+          <div class="ticket-item" *ngFor="let cate of categories">
+              <a class="link-ticket"
+                (click) = "detailTicket(ticket.id)">{{cate.name}}</a>
+          </div>
+        </div>
+      </div>
     </mat-card>
   </section>
 </div>
 
-
-
 <div class="list" id="list">
-  <div id="list-city" #listCity>
+  <div class="title">Địa Danh Nổi Tiếng</div>
+  <div id="list-city" #listCity class="owl-carousel owl-theme owl-carousel-01">
     <mat-card
-      class="city" 
-      *ngFor="let item of city"
+      *ngFor="let item of city; index as i"
+      [ngStyle] = "{'background':'center / cover no-repeat  url(' + srcImage[i] + ')'}"
+      style="background-size: cover;"
+      class="city"
       (click) = "navigateCity(item)">
-      <a>{{item}}</a>
+      <a class="name-city">{{item}}</a>
     </mat-card>
   </div>
-  <div class="btn-scoll-left" (click) = "scollLeft()">
-    <span class="material-icons">arrow_forward_ios</span>
-  </div>
-  
 </div>
 
+<div style="padding-top: 3rem;">
+  <div class="title">Dịch Vụ Được Yêu Thích</div>
+  <div class="item-ticket">
+    <mat-card
+    class="item"
+    *ngFor="let item of ticketSpecial; index as i"
+    (click) = "detailTicket(item.id)">
+      <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
+      <mat-card-title class="title-ticket">{{item.title}}</mat-card-title>
+      <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
+      <!-- <mat-card-content>
+        <p class="content">{{item.content}}</p>
+      </mat-card-content> -->
+      <mat-card-footer>Chỉ từ
+        <span
+          style="color: orangered;
+            font-weight: bolder;
+            font-size: 20px;">
+          {{item.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+        <span
+          style="padding-left: 1rem;
+          text-decoration: line-through;
+          color: #a7a7a7;">{{item.price.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
 
 
 

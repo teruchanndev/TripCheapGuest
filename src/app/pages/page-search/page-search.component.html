@@ -1,1 +1,25 @@
-<p>page-search works!</p>
+<mat-card>
+  <mat-card-title>Kết quả tìm kiếm cho:
+    <span
+      style="font-style: italic; font-weight: bold;">
+      {{textSearch}}
+    </span>
+  </mat-card-title>
+  <div class="list_ticket" *ngIf="tickets.length !== 0">
+    <div class="item-ticket">
+      <mat-card
+        class="item"
+        *ngFor="let item of tickets"
+        (click) = "detailTicket(item.id)"
+        >
+        <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
+        <mat-card-title>{{item.title}}</mat-card-title>
+        <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
+        <mat-card-content>
+          <p class="content">{{item.content}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div *ngIf="tickets.length === 0">Không có kết quả nào khớp.</div>
+</mat-card>

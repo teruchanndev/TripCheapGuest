@@ -1,0 +1,49 @@
+.item-ticket{
+  display: flex;
+  flex-wrap: wrap;
+}
+.item-ticket > .item {
+  width: 270px;
+  margin: 1rem;
+  cursor: pointer;
+}
+.item > img {
+  background-size: cover;
+  height: 170px;
+}
+.mat-card-content {
+  width: 270px;
+  overflow: hidden;
+}
+.content {
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.content::after {
+  content: "...";
+  float: inherit;
+
+}
+
+.category_filter {
+  display: flex;
+}
+
+.category {
+  flex: 25%;
+  margin: 1rem;
+}
+ul {
+  margin-left: -2rem;
+
+}
+
+.list_ticket {
+  margin: 1rem;
+  flex: 70%;
+}

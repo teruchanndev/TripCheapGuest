@@ -3,6 +3,10 @@
   padding: 1rem;
 }
 
+p {
+  line-height: 0.5rem;
+}
+
 .nameService {
   max-width: 300px;
   word-wrap: break-word;

@@ -120,6 +120,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           imagePath: ticketData.imagePath,
           creator: ticketData.creator
         };
+        console.log(this.ticket);
         for (let i = 0; i < this.ticket.imagePath.length; i++) {
           this.imageObject[i] = {
             image : this.ticket.imagePath[i],
@@ -134,9 +135,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
-  formatPrice(number): string {
-    return number.toLocaleString('en-us', {minimumFractionDigits: 2});
-  }
+  // formatPrice(number): string {
+  //   return number.toLocaleString('en-us', {minimumFractionDigits: 2});
+  // }
 
   showInfoService(index) {
     this.index = index;
@@ -144,13 +145,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.dateStartChoose = '';
     this.dateEndChoose = '';
     this.showInfoServiceItem = true;
-
-    const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
-    for (let i = 0; i < lenService; i++) {
+    // console.log(this.ticket.services[index].itemService);
+    // const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
+    for (let i = 0; i < this.ticket.services[index].itemService.length; i++) {
       this.listItemService[i] = {
-        name: this.ticket.services[0][this.index].name,
-        itemServiceName: this.ticket.services[0][this.index].itemService[i].name,
-        itemServicePrice: this.ticket.services[0][this.index].itemService[i].price,
+        name: this.ticket.services[index].name,
+        itemServiceName: this.ticket.services[index].itemService[i].name,
+        // tslint:disable-next-line:radix
+        itemServicePrice: this.ticket.services[index].itemService[i].price,
         quantity: 0
       };
     }
