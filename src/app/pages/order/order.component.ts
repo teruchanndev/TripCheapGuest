@@ -59,20 +59,45 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.authService.autoAuthCustomer();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.customerId = this.authService.getCustomerId();
-    this.username = this.authService.getUsername();
+    // this.username = this.authService.getUsername();
+
+    new Promise((resolve, reject) => {
+      this.customerService.getInfoCustomer().subscribe(
+        inforData => {
+          // this.infoCustomer = {
+          //   username: inforData.username,
+          //   email: inforData.email,
+          //   phoneNumber: inforData.phoneNumber,
+          //   fullName: inforData.fullName,
+          //   address: inforData.address
+          // };
+          this.characterAvt = inforData.username[0].toUpperCase();
+          resolve(inforData);
+        });
+    }).then((inforData: any) => {
+      console.log(inforData);
+      this.infoCustomer = {
+            username: inforData.username,
+            email: inforData.email,
+            phoneNumber: inforData.phoneNumber,
+            fullName: inforData.fullName,
+            address: inforData.address
+          };
+    })
 
 
-    this.customerService.getInfoCustomer().subscribe(
-      inforData => {
-        this.infoCustomer = {
-          username: inforData.username,
-          email: inforData.email,
-          phoneNumber: inforData.phoneNumber,
-          fullName: inforData.fullName,
-          address: inforData.address
-        };
-        this.characterAvt = inforData.username[0].toUpperCase();
-      });
+
+    // this.customerService.getInfoCustomer().subscribe(
+    //   inforData => {
+    //     this.infoCustomer = {
+    //       username: inforData.username,
+    //       email: inforData.email,
+    //       phoneNumber: inforData.phoneNumber,
+    //       fullName: inforData.fullName,
+    //       address: inforData.address
+    //     };
+    //     this.characterAvt = inforData.username[0].toUpperCase();
+    //   });
 
     this.orderService.getOrders();
     this.orderListenerSubs = this.orderService.getOrderUpdateListener()
@@ -99,7 +124,7 @@ export class OrderComponent implements OnInit, OnDestroy {
         this.listTabValue.push(
           this.ArrOrders.filter(element => !element.orders.status && !element.orders.isCancel && element.dayLeft >= 0)); // đang sử dụng
         this.listTabValue.push(
-          this.ArrOrders.filter(element => element.orders.status && !element.orders.isCancel && element.dayLeft < 0)); // hết hạn
+          this.ArrOrders.filter(element => element.orders.status && element.dayLeft < 0)); // hết hạn
         this.listTabValue.push(
           this.ArrOrders.filter(element => element.orders.isCancel)); // đã hủy
         this.listTabValue.push(
@@ -142,14 +167,15 @@ export class OrderComponent implements OnInit, OnDestroy {
 
 
   cancelOrder(id) {
-    console.log(id);
-    this.orderService.updateIsCancelOrder(id, false, true);
-    this._document.defaultView.location.reload();
+    this.orderService.updateIsCancelOrder(id, false, true).then((data) => {
+      this._document.defaultView.location.reload();
+    });
   }
 
   returnOrder(id) {
-    this.orderService.updateIsCancelOrder(id, false, false);
-    this._document.defaultView.location.reload();
+    this.orderService.updateIsCancelOrder(id, false, false).then((data) => {
+      this._document.defaultView.location.reload();
+    });
   }
 
   navigateSetting() {
@@ -158,8 +184,6 @@ export class OrderComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    // this.authListenerSubs.unsubscribe();
     this.orderListenerSubs.unsubscribe();
-    // this.customerListenerSubs.unsubscribe();
   }
 }

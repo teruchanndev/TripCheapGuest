@@ -181,6 +181,7 @@ export class PayComponent implements OnInit {
       idCart.push(item.id);
     }
     this.cartService.deleteCart(idCart);
+
     this.customerService.updateInfo(
       this.formInfo.value.email,
       this.formInfo.value.phone_number.toString(),

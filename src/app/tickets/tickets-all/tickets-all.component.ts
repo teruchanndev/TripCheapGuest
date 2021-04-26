@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { element } from 'protractor';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/modals/category.model';
+import { City } from 'src/app/modals/city.model';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { CategoriesService } from 'src/app/services/categories.service';
+import { CitiesService } from 'src/app/services/cities.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -18,10 +21,13 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   currentItemsToShow = [];
   checkSelect: Array<boolean> = [];
+  city: City[] = [];
   ischeckAll = true;
   private ticketsSub: Subscription;
   private categorySub: Subscription;
+  private citySub: Subscription;
   nameCity: string;
+  imageCity: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -30,28 +36,52 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
     public ticketsService: TicketsService,
     private router: Router,
     public categoryService: CategoriesService,
+    public citiesService: CitiesService,
     public route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.nameCity = paramMap.get('city');
-      this.ticketsService.getTicketOfCity(this.nameCity);
-      this.ticketsSub = this.ticketsService.getTicketUpdateListener()
-        .subscribe((ticket: Ticket[]) => {
-          this.tickets = ticket;
-          this.currentItemsToShow = ticket;
+
+    var tickets = new Promise((resolve, reject) => {
+      this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        this.nameCity = paramMap.get('city');
+        this.ticketsService.getTicketOfCity(this.nameCity);
+        this.ticketsSub = this.ticketsService.getTicketUpdateListener()
+          .subscribe((ticket: Ticket[]) => {
+            resolve(ticket);
+          });
+      });
+    });
+    var categories = new Promise((resolve, reject) => {
+      this.categoryService.getCategories();
+      this.categorySub = this.categoryService.getCategoryUpdateListener()
+        .subscribe((category: Category[]) => {
+          resolve(category);
         });
     });
 
-    this.categoryService.getCategories();
-    this.categorySub = this.categoryService.getCategoryUpdateListener()
-      .subscribe((category: Category[]) => {
-        this.categories = category;
-        for (let i = 0; i < category.length; i++) {
+    var city = new Promise((resolve, reject) => {
+      this.citiesService.getCities();
+      this.citySub = this.citiesService.getCityUpdateListener()
+        .subscribe((city: City[]) => {
+          resolve(city);
+        });
+    });
+
+    Promise.all([tickets, categories, city]).then(values => {
+      console.log(values);
+      this.currentItemsToShow = values[0] as Array<Ticket>;
+      this.tickets = values[0] as Array<Ticket>;
+      this.categories = values[1] as Array<Category>;
+        for (let i = 0; i < this.categories.length; i++) {
           this.checkSelect[i] = false;
         }
-      });
+      this.city = values[2] as Array<City>;
+        for (let i = 0; i < this.city.length; i++) {
+          this.checkSelect[i] = false;
+        }
+      this.imageCity = this.city.filter(element => element.name === this.nameCity)[0].image;
+    }); 
   }
 
   detailTicket(ticketId) {
@@ -85,7 +115,6 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
       this.checkAll();
     }
 
-
   }
 
   checkAll() {
@@ -95,6 +124,7 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ticketsSub.unsubscribe();
     this.categorySub.unsubscribe();
+    this.citySub.unsubscribe();
   }
 
 }

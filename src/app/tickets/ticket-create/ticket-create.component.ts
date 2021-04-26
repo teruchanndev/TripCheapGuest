@@ -330,7 +330,7 @@ export class TicketCreateComponent implements OnInit {
         this.categories = category;
       });
     this.citiesService.getCities();
-    this.citiesSub = this.citiesService.getCategoryUpdateListener()
+    this.citiesSub = this.citiesService.getCityUpdateListener()
       .subscribe((city: City[]) => {
         this.cities = city;
         console.log(city);

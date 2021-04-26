@@ -1,10 +1,18 @@
 
+<div class="list-category">
+  <div *ngFor="let item of categories; index as i" class="list-category-item">
+    <span><img src={{srcCategory[i]}} style="width: 30px; height: 30px;"></span>
+    <span class="list-category-item-name">{{item.name}}</span>
+  </div>
+    
+</div>
+
 <div class="search-overlay">
   <section class="search-section">
     <mat-card class="search-container">
         <span><img src="../../../assets/icon/search.svg" style="width: 40px; height: 40px; padding-left: 1rem;"></span>
         <input #inputSearch id="input-search" class="input-search" placeholder="Tìm kiếm theo địa điểm, hoạt động"
-          (click)= "searchResult()"
+          (click) = "searchResult()"
           (keyup.enter) = "onEnter(inputSearch.value)">
     </mat-card>
     <mat-card *ngIf="isShowSearchResult" #searchResult class="search-result">
@@ -13,8 +21,7 @@
         style="padding-bottom: 1rem;"
         class="example-chip"
         cdkDropList
-        cdkDropListOrientation="horizontal"
-        (cdkDropListDropped)="drop($event)">
+        cdkDropListOrientation="horizontal">
         <mat-chip
           style="background-color: rgb(242, 245, 255);"
           class="example-box"
@@ -42,7 +49,7 @@
           <h5>Bạn đường du lịch</h5>
           <div class="ticket-item" *ngFor="let cate of categories">
               <a class="link-ticket"
-                (click) = "detailTicket(ticket.id)">{{cate.name}}</a>
+                (click)="detailCategory(cate.name)">{{cate.name}}</a>
           </div>
         </div>
       </div>
@@ -55,11 +62,11 @@
   <div id="list-city" #listCity class="owl-carousel owl-theme owl-carousel-01">
     <mat-card
       *ngFor="let item of city; index as i"
-      [ngStyle] = "{'background':'center / cover no-repeat  url(' + srcImage[i] + ')'}"
+      [ngStyle] = "{'background':'center / cover no-repeat  url(' + item.image + ')'}"
       style="background-size: cover;"
       class="city"
-      (click) = "navigateCity(item)">
-      <a class="name-city">{{item}}</a>
+      (click) = "navigateCity(item.name)">
+      <a class="name-city">{{item.name}}</a>
     </mat-card>
   </div>
 </div>
@@ -91,6 +98,8 @@
     </mat-card>
   </div>
 </div>
+
+
 
 
 

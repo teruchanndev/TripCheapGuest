@@ -54,7 +54,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     MatDividerModule,
     MatStepperModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatDatepickerModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

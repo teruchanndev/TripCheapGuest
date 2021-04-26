@@ -189,3 +189,31 @@ div {
     width: 270px;
     height: 270px;
   }
+
+  /* list category */
+  .list-category {
+    display: flex;
+    /* flex-wrap: wrap; */
+  }
+
+  .list-category-item {
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem;
+    border: 2px solid #e1defb;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .list-category-item:hover {
+    background-color: #ecf1fb;
+  }
+
+  .list-category-item-name {
+    padding-left: 0.7rem;
+    font-weight: bolder;
+    color: #7878b3;
+  }
+

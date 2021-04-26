@@ -28,11 +28,11 @@
             </tr>
             <tr>
                 <td>Đơn đã đặt: </td>
-                <td>{{ArrayOrderTotal.length}}</td>
+                <td>{{ArrayOrderTotal.length || 0}}</td>
             </tr>
             <tr>
                 <td>Đơn đã hủy: </td>
-                <td>{{ArrayOrderTotal[2].arrOrders.length}}</td>
+                <td>{{ArrayOrderTotal[2].arrOrders.length || 0}}</td>
             </tr>
             <tr>
               <td colspan="2">
@@ -56,7 +56,7 @@
                 <div *ngIf="itemTab.arrOrders.length === 0" style="padding-top: 1rem; text-align: center;">
                   <span>Bạn chưa có {{itemTab.label}} nào! </span>
                 </div>
-                <mat-card *ngFor="let item of itemTab.arrOrders; index as i" style="width: 800px;">
+                <mat-card *ngFor="let item of itemTab.arrOrders; index as i">
                     <table>
                         <tr style="flex: 100%;">
                             <td>{{item.orders.dateStart + " - " + item.orders.dateEnd}}</td>
@@ -81,7 +81,7 @@
                         </tr>
                         <mat-divider></mat-divider>
                         <tr>
-                            <td rowspan={{ordersNotUse.length}} style="width: 250px;">
+                            <td style="width: 60%;">
                                 <h3>{{item.orders.nameTicket}}</h3>
                                 <mat-card-title-sub>{{item.orders.itemService[0].name}}</mat-card-title-sub>
                             </td>
@@ -91,13 +91,13 @@
                                 </td>
                             </div>
 
-                            <td rowspan={{ordersNotUse.length}} style="width: 100px;">
+                            <td style="width: 100px;">
                                 <div>{{item.price}}đ</div>
                             </td>
-                            <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="item.dayLeft > 1 && indexTab === 0">
+                            <td style="width: 100px;" *ngIf="item.dayLeft > 1 && indexTab === 0">
                                 <button mat-button mat-raised-button color="warn" (click) = "cancelOrder(item.orders.id)">Hủy</button>
                             </td>
-                            <td rowspan={{ordersNotUse.length}} style="width: 100px;" *ngIf="indexTab === 2">
+                            <td  style="width: 100px;" *ngIf="indexTab === 2">
                                 <button
                                     style="width: 100%;"
                                     mat-button

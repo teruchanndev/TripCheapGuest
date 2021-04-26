@@ -23,7 +23,8 @@ export class CitiesService {
                     return cityData.cities.map(city => {
                         return {
                             id: city._id,
-                            name: city.name
+                            name: city.name,
+                            image: city.image
                         };
                     });
                 })
@@ -33,7 +34,7 @@ export class CitiesService {
                 this.citiesUpdated.next([...this.cities]);
             });
     }
-    getCategoryUpdateListener() {
+    getCityUpdateListener() {
         return this.citiesUpdated.asObservable();
     }
 

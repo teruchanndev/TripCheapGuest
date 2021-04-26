@@ -27,7 +27,7 @@ export class CustomerService {
 
     getCustomerUpdateListener() {
         return this.infoCustomerUpdated.asObservable();
-      }
+    }
 
     updateInfo(
         email: string,
@@ -36,14 +36,13 @@ export class CustomerService {
         address: string,
         username: string,
     ) {
-        let infoData: Customer | FormData;
-            infoData = new FormData();
-            infoData.append('email', email);
-            infoData.append('phoneNumber', phoneNumber);
-            infoData.append('fullName', fullName);
-            infoData.append('address', address);
-            infoData.append('username', username);
-
+        let infoData = {
+            email: email,
+            phoneNumber: phoneNumber,
+            fullName: fullName,
+            address: address,
+            username: username
+        }
         console.log(infoData);
 
         this.http.put(this.BACKEND_URL + 'info/edit', infoData)

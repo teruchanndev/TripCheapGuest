@@ -44,7 +44,7 @@ export class TicketListComponent implements OnInit, OnDestroy {
     this.ticketsSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
         this.isLoading = false;
-        this.tickets = ticket;
+        this.tickets = ticket.filter(element => element.status);
         this.dataSource = new MatTableDataSource(ticket);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

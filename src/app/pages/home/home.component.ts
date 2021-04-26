@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/modals/category.model';
+import { City } from 'src/app/modals/city.model';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { CategoriesService } from 'src/app/services/categories.service';
+import { CitiesService } from 'src/app/services/cities.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
@@ -15,18 +17,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   isShowSearchResult = false;
   tickets: Ticket[] = [];
+  city: City[] = [];
   ticketShowSearch: Ticket[] = [];
   ticketSpecial: Ticket[] = [];
   categories: Category[] = [];
-  city = ['Đà Nẵng', 'Hà Nội', 'Nha Trang', 'TP Hồ Chí Minh', 'Phú Quốc', 'Đà Lạt', 'Hội An', 'Vũng Tàu', 'SaPa', 'Huế'];
-  srcImage = ['../../../assets/images/đanang.webp', '../../../assets/images/hanoi.webp', '../../../assets/images/nhatrang.webp',
-  '../../../assets/images/tpHCM.webp', '../../../assets/images/phuquoc.webp', '../../../assets/images/đalat.webp',
-  '../../../assets/images/hoian.webp', '../../../assets/images/vungtau.webp', '../../../assets/images/sapa.webp', '../../../assets/images/hue.webp'];
+  srcCategory = ['../../../assets/icon/location.svg','../../../assets/icon/ticket.svg', '../../../assets/icon/sunset.svg',
+  '../../../assets/icon/sunbed.svg', '../../../assets/icon/baggage.svg' ];
   private categorySub: Subscription;
   private ticketSub: Subscription;
+  private citySub: Subscription;
   constructor(
     public ticketsService: TicketsService,
     public categoryService: CategoriesService,
+    public citiesService: CitiesService,
     private router: Router
   ) { }
 
@@ -47,6 +50,11 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.ticketSpecial.push(ticket[i]);
         }
       });
+    this.citiesService.getCities();
+    this.citySub = this.citiesService.getCityUpdateListener()
+      .subscribe((city: City[]) => {
+        this.city = city;
+      });
 
 
   }
@@ -61,6 +69,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.isShowSearchResult) {
       this.isShowSearchResult = false;
     } else { this.isShowSearchResult = true; }
+
+  }
+
+  detailCategory(nameCategory) {
 
   }
 
@@ -81,6 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.categorySub.unsubscribe();
     this.ticketSub.unsubscribe();
+    this.citySub.unsubscribe();
   }
 
 }

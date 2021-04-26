@@ -165,8 +165,7 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean,
     isSuccess: boolean,
-    isConfirm: boolean,
-    qrcode: File | string
+    isConfirm: boolean
   ) {
     let orderData: Object | FormData;
     orderData = {
@@ -183,8 +182,7 @@ export class OrdersService {
         status: status,
         isCancel: isCancel,
         isSuccess: isSuccess,
-        isConfirm: isConfirm,
-        qrcode: qrcode
+        isConfirm: isConfirm
     };
 
     this.http
@@ -200,19 +198,23 @@ export class OrdersService {
     status: boolean,
     isCancel: boolean
   ) {
-    let orderData: Object;
-    orderData = {
-        id: id,
-        status: status,
-        isCancel: isCancel
-    };
 
-    this.http
-      .put<{ message: string; order: Order }>
-        (this.BACKEND_URL + id, orderData)
-      .subscribe(responseData => {
-        console.log(responseData);
-      });
+    return new Promise((resolve) => {
+      let orderData: Object;
+      orderData = {
+          id: id,
+          status: status,
+          isCancel: isCancel
+      };
+      this.http
+        .put<{ message: string; order: Order }>
+          (this.BACKEND_URL + id, orderData)
+        .subscribe(responseData => {
+          console.log(responseData);
+          resolve(true);
+        });
+  })
+    
   }
 
   deleteOrder(orderId: Array<string>) {

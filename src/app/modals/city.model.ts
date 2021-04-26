@@ -1,5 +1,5 @@
 export interface City {
     name: string;
-    districts: Object;
+    image: string;
 }
   
