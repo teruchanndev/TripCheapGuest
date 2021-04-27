@@ -211,10 +211,10 @@ export class OrdersService {
           (this.BACKEND_URL + id, orderData)
         .subscribe(responseData => {
           console.log(responseData);
-          resolve(true);
+          resolve(responseData);
         });
-  })
-    
+  });
+
   }
 
   deleteOrder(orderId: Array<string>) {

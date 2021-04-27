@@ -83,7 +83,7 @@ export class OrderComponent implements OnInit, OnDestroy {
             fullName: inforData.fullName,
             address: inforData.address
           };
-    })
+    });
 
 
 

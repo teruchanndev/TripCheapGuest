@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ticketShowSearch: Ticket[] = [];
   ticketSpecial: Ticket[] = [];
   categories: Category[] = [];
-  srcCategory = ['../../../assets/icon/location.svg','../../../assets/icon/ticket.svg', '../../../assets/icon/sunset.svg',
+  srcCategory = ['../../../assets/icon/location.svg', '../../../assets/icon/ticket.svg', '../../../assets/icon/sunset.svg',
   '../../../assets/icon/sunbed.svg', '../../../assets/icon/baggage.svg' ];
   private categorySub: Subscription;
   private ticketSub: Subscription;
@@ -55,10 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((city: City[]) => {
         this.city = city;
       });
-
-
   }
-
   scollLeft() {
     // document.getElementById('list-city').style.backgroundColor = "red";
     const x = document.getElementById('list-city').scrollLeft += 200;

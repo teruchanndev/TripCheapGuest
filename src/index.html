@@ -20,6 +20,11 @@
   <script src="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/owl.carousel.js"></script>
   <script>
     $(document).ready(function(){
+      setInterval(function(){
+        window.loadCarousel();
+      }, 3000)
+    })
+    window.loadCarousel = function(){
       $('.owl-carousel-01').owlCarousel({
           loop:true,
           autoPlay:true,
@@ -28,7 +33,7 @@
           items:4,
           dots: false
       })
-    })
+    }
   </script>
 </body>
 </html>
