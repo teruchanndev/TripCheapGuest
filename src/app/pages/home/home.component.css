@@ -187,7 +187,20 @@ div {
     position: relative;
     padding-bottom: 1rem;
     width: 270px;
-    height: 270px;
+    height: 290px;
+  }
+
+  .percent-item {
+    padding: 1rem;
+    background-color: red;
+    color: white;
+    font-weight: bolder;
+
+  }
+  .percent {
+    position: absolute;
+    top: 42%;
+    right: 0%;
   }
 
   /* list category */
@@ -216,4 +229,5 @@ div {
     font-weight: bolder;
     color: #7878b3;
   }
+
 

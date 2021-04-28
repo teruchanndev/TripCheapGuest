@@ -89,7 +89,7 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
   }
 
   onPageChange($event) {
-    this.currentItemsToShow =  this.tickets.slice($event.pageIndex * $event.pageSize,
+    this.currentItemsToShow = this.tickets.slice($event.pageIndex * $event.pageSize,
                               $event.pageIndex * $event.pageSize + $event.pageSize);
   }
 

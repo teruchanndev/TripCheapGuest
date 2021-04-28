@@ -107,14 +107,16 @@ export class PayComponent implements OnInit {
         this.customerIsAuthenticated = isAuthenticated;
       });
 
-      this.customerService.getInfoCustomer().subscribe(
-        inforData => {
+      this.customerService.getInfoCustomer().then(
+        // var info = inforData
+        (inforData) => {
+          var info = inforData as Customer;
           this.infoCustomer = {
-            username: inforData.username,
-            email: inforData.email,
-            phoneNumber: inforData.phoneNumber,
-            fullName: inforData.fullName,
-            address: inforData.address
+            username: info.username,
+            email: info.email,
+            phoneNumber: info.phoneNumber,
+            fullName: info.fullName,
+            address: info.address
           };
 
           this.formInfo.setValue({

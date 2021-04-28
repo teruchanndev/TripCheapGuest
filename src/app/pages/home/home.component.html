@@ -27,8 +27,8 @@
           class="example-box"
           cdkDrag
           *ngFor="let item of city"
-          (click) = "navigateCity(item)">
-          {{item}}
+          (click) = "navigateCity(item.name)">
+          {{item.name}}
         </mat-chip>
       </mat-chip-list>
 
@@ -84,17 +84,26 @@
       <!-- <mat-card-content>
         <p class="content">{{item.content}}</p>
       </mat-card-content> -->
-      <mat-card-footer>Chỉ từ
+      <mat-card-content style="
+        position: absolute;
+        bottom: 0;
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+        text-align: center;">Chỉ từ
         <span
           style="color: orangered;
             font-weight: bolder;
             font-size: 20px;">
           {{item.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
         <span
+          *ngIf="item.percent !== 0"
           style="padding-left: 1rem;
           text-decoration: line-through;
           color: #a7a7a7;">{{item.price.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
-      </mat-card-footer>
+      </mat-card-content>
+      <div class="percent" *ngIf="item.percent !== 0">
+        <span class="percent-item">{{item.percent}}%</span>
+      </div>
     </mat-card>
   </div>
 </div>

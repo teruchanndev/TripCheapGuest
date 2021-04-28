@@ -1,7 +1,7 @@
-.icon_condition {
+/* .icon_condition {
   padding: 0.5rem 2rem;
   border-radius: 5rem;
-  /* background-color: rgb(255, 240, 246); */
+  background-color: rgb(255, 240, 246);
   margin: 0.5rem;
 }
 
@@ -40,4 +40,38 @@ input[type="number"] {
 
 .mat-card {
   margin: 1rem;
+  padding: 0 0 1rem 0;
+}
+ .ng-image-slider > image  {
+  border-radius: 20px;
+ } */
+
+
+
+ /* ticket */
+
+ .detail-ticket {
+  width:80%; 
+  margin: 0 auto;
+ }
+
+ .title-ticket {
+  text-align: center;
+ }
+
+ .list-category-item {
+    width: 100%;
+    width: -moz-fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+
+.list-category-item-name {
+  padding-left: 0.7rem;
+  font-weight: bolder;
+  color: #7878b3;
 }

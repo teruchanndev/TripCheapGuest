@@ -1,5 +1,5 @@
-<mat-card  *ngIf="ticket">
-  <div style="width: 100%; height: auto; text-align:center; margin:0; padding:0;">
+<!-- <mat-card *ngIf="ticket" style="width: 80%; ">
+  <div style="width: 100%; height: auto; text-align:center; margin:0; padding:0; border-radius: 20px;">
     <ng-image-slider #nav
       [images]="imageObject"
       [infinite]="false"
@@ -168,4 +168,25 @@
     </mat-card>
 
   </div>
-</mat-card >
+</mat-card> -->
+
+<div *ngIf="ticket" class="detail-ticket" style = "width:80%; margin: 0 auto;">
+  <mat-card>
+    <div style="width: 100%; height: auto; text-align:center; margin:0; padding:0; border-radius: 20px;">
+      <ng-image-slider #nav
+        [images]="imageObject"
+        [infinite]="false"
+        [autoSlide]="imageObject.length"
+        [imageSize]="{width: '100%', height: 450}"
+        slideImage="1"></ng-image-slider>
+    </div>
+    <div class="title-ticket">
+      <h1>{{ticket.title || ''}}</h1>
+      <h3>{{ticket.city}}</h3>
+      <div class="list-category-item">
+        <span><img src="../../../assets/icon/location.svg" style="width: 30px; height: 30px;"></span>
+        <span class="list-category-item-name">{{ticket.category + " > " + ticket.categoryService}}</span>
+      </div>
+    </div>
+  </mat-card>
+</div>

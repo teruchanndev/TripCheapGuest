@@ -39,7 +39,7 @@ import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { FooterComponent } from './menu/footer/footer.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
-
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +78,8 @@ import { PageSearchComponent } from './pages/page-search/page-search.component';
     MatDatepickerModule,
     MatNativeDateModule,
     NgImageSliderModule,
-    QRCodeModule
+    QRCodeModule,
+    [SweetAlert2Module.forRoot()]
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [

@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -16,13 +17,15 @@ export class CustomerService {
     constructor(private http: HttpClient, private router: Router) {}
 
     getInfoCustomer() {
-        return this.http.get<{
-            username: string,
-            email: string,
-            phoneNumber: string,
-            fullName: string,
-            address: string
-        }>(this.BACKEND_URL + 'info');
+        return new Promise((resolve) => {
+            resolve(this.http.get<{
+                username: string,
+                email: string,
+                phoneNumber: string,
+                fullName: string,
+                address: string
+            }>(this.BACKEND_URL + 'info'));
+        });
     }
 
     getCustomerUpdateListener() {

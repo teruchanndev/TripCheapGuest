@@ -67,16 +67,17 @@ export class DetailInfoComponent implements OnInit {
         this.userIsAuthenticated = isAuthenticated;
     });
 
-    this.customerService.getInfoCustomer().subscribe(
-      inforData => {
+    this.customerService.getInfoCustomer().then(
+      (inforData) => {
+        var info = inforData as Customer;
         this.infoCustomer = {
-          username: inforData.username,
-          email: inforData.email,
-          phoneNumber: inforData.phoneNumber,
-          fullName: inforData.fullName,
-          address: inforData.address
+          username: info.username,
+          email: info.email,
+          phoneNumber: info.phoneNumber,
+          fullName: info.fullName,
+          address: info.address
         };
-        this.characterAvt = inforData.username[0].toUpperCase();
+        this.characterAvt = info.username[0].toUpperCase();
 
         this.formInfo.setValue({
           username: this.infoCustomer.username,

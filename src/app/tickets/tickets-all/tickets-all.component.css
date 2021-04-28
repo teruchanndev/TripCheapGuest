@@ -1,37 +1,74 @@
-.item-ticket{
-  display: flex;
-  flex-wrap: wrap;
-  flex-grow: 4;
-  /* align-items: center; */
-  justify-content: center;
-}
-.item-ticket > .item {
-  width: 250px;
-  margin: 1rem;
-  cursor: pointer;
-}
-.item > img {
-  background-size: cover;
-  height: 170px;
-}
-.mat-card-content {
-  width: 270px;
-  overflow: hidden;
-}
-.content {
-  overflow: hidden;
-  word-wrap: break-word;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
-  -webkit-box-orient: vertical;
-}
+  /* list ticket */
+  .item-ticket{
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 4;
+    align-items: center;
+    justify-content: center;
+    background-color: #af9fca38;
+    padding: 3rem;
+    border-radius: 37px;
+  }
 
-.content::after {
-  content: "...";
-  float: inherit;
+  .item-ticket > .item {
+    width: 270px;
+    margin: 1rem;
+    cursor: pointer;
+  }
+  .item > img {
+    background-size: cover;
+    height: 170px;
+  }
+  .mat-card-content {
+    width: 270px;
+    overflow: hidden;
+  }
+  .content {
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }
 
-}
+  .content::after {
+    content: "...";
+    float: inherit;
+
+  }
+
+  .title-ticket {
+    font-size: 16px;
+    font-weight: bolder;
+  }
+
+  .mat-card-footer {
+    padding: 1rem;
+    bottom: 3px;
+    position: absolute;
+    width: 100%;
+  }
+
+  .item {
+    position: relative;
+    padding-bottom: 1rem;
+    width: 270px;
+    height: 290px;
+  }
+
+  .percent-item {
+    padding: 1rem;
+    background-color: red;
+    color: white;
+    font-weight: bolder;
+
+  }
+  .percent {
+    position: absolute;
+    top: 42%;
+    right: 0%;
+  }
 
 .category_filter {
   display: flex;
@@ -40,6 +77,9 @@
 .category {
   flex: 25%;
   margin: 1rem;
+  height: fit-content;
+  position: sticky;
+  top: 104px;
 }
 ul {
   margin-left: -2rem;
@@ -53,7 +93,7 @@ ul {
 }
 .image-section {
   width: 100%;
-  height: 350px;
+  height: 188px;
   background-position: 29% 49%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -61,7 +101,7 @@ ul {
 }
 .overlay {
   width: 100%;
-  height: 350px;
+  height: 188px;
   border-radius: 20px;
   top: 0;
   position: absolute;
@@ -70,10 +110,12 @@ ul {
 
 .nameCity {
   color: white;
-  font-size: 57px;
+  font-size: 34px;
   font-weight: bolder;
   position: absolute;
   top: 41%;
-  right: 43%;
+  width: 100%;
+  /* right: 6%; */
+  text-align: center;
   text-transform: uppercase;
 }
