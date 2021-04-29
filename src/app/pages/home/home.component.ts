@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/modals/category.model';
@@ -30,10 +31,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ticketsService: TicketsService,
     public categoryService: CategoriesService,
     public citiesService: CitiesService,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private _document: Document,
   ) { }
 
   ngOnInit(): void {
+    // this._document.defaultView.location.reload();
     this.categoryService.getCategories();
     this.categorySub = this.categoryService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
@@ -70,7 +73,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   detailCategory(nameCategory) {
-
+    this.router.navigate(['category/' + nameCategory]);
   }
 
   detailTicket(ticketId) {

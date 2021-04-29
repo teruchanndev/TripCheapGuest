@@ -1,6 +1,9 @@
 
 <div class="list-category">
-  <div *ngFor="let item of categories; index as i" class="list-category-item">
+  <div 
+    *ngFor="let item of categories; index as i" 
+    class="list-category-item"
+    (click)="detailCategory(item.name)">
     <span><img src={{srcCategory[i]}} style="width: 30px; height: 30px;"></span>
     <span class="list-category-item-name">{{item.name}}</span>
   </div>

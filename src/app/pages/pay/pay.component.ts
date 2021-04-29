@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators  } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,13 @@ import html2canvas from 'html2canvas';
 import { Customer } from 'src/app/modals/customer.model';
 import Swal from 'sweetalert2';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import { DOCUMENT } from '@angular/common';
+import { TicketsService } from 'src/app/services/tickets.service';
 
+export interface QuantityTicket {
+  id: string,
+  quantity: number
+}
 
 @Component({
   selector: 'app-pay',
@@ -40,6 +46,7 @@ export class PayComponent implements OnInit {
 
   email: Email;
 
+  quantityItemInTicket: Array<QuantityTicket> = [];
   carts: Array<Cart> = [];
   priceItemStill: Array<number> = [];
   pricePay = 0;
@@ -57,6 +64,7 @@ export class PayComponent implements OnInit {
   qrcodeContent: string;
 
   constructor(
+    @Inject(DOCUMENT) private _document: Document,
     public customerService: CustomerService,
     public cartService: CartsService,
     public route: ActivatedRoute,
@@ -64,7 +72,8 @@ export class PayComponent implements OnInit {
     private router: Router,
     private _formBuilder: FormBuilder,
     public orderService: OrdersService,
-    public emailService: EmailService
+    public emailService: EmailService,
+    public ticketService: TicketsService
   ) {
     const firebaseConfig = {
       apiKey: 'AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ',
@@ -94,7 +103,6 @@ export class PayComponent implements OnInit {
       phone_number: new FormControl(null, {
       }),
     });
-
     this.formPay = new FormGroup({
       phone_number: new FormControl(null, {
       }),
@@ -131,7 +139,7 @@ export class PayComponent implements OnInit {
         });
 
       this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        const index = 0;
+        let index = 0;
         for (const item of paramMap.get('idCart').split(',')) {
           this.cartService.getOneCart(item).subscribe( cartData => {
             console.log(cartData);
@@ -147,18 +155,25 @@ export class PayComponent implements OnInit {
               itemService: cartData.itemService
             };
             this.carts.push(this.cartItem);
+
             this.qrcodeContent = this.cartItem.id;
             let sum = 0;
+            let quantity = 0;
             for (let j = 0; j < this.cartItem.itemService.length; j++) {
               // tslint:disable-next-line:radix
               sum += parseInt(this.cartItem.itemService[j].itemServicePrice) * this.cartItem.itemService[j].quantity;
+              quantity += this.cartItem.itemService[j].quantity;
             }
+            this.quantityItemInTicket.push( {
+              id: cartData.idTicket,
+              quantity: quantity
+            });
             this.priceItemStill.push(sum);
             this.pricePay += sum;
           });
-
+          
         }
-
+        console.log(this.quantityItemInTicket);
       });
       this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
 
@@ -166,29 +181,13 @@ export class PayComponent implements OnInit {
 
 
   payComplete() {
-    const idCart = [];
-    // for (const item of this.carts) {
-    //   this.orderService.addOrder(
-    //     item.nameTicket,
-    //     item.imageTicket,
-    //     item.dateStart,
-    //     item.dateEnd,
-    //     item.idTicket,
-    //     item.idCreator,
-    //     item.idCustomer,
-    //     item.itemService,
-    //     this.paySelect,
-    //     false,
-    //     false,
-    //     false,
-    //     false
-    //   );
-    //   idCart.push(item.id);
+    // for(const item of this.quantityItemInTicket) {
+    //   this.ticketService.ticketUpdateQuantity(item.id, item.quantity).then(() => {});
     // }
-
-    // tslint:disable-next-line:no-shadowed-variable
+    const idCart = [];
     new Promise((resolve) => {
       for (const item of this.carts) {
+        idCart.push(item.id);
         this.orderService.addOrder(
           item.nameTicket,
           item.imageTicket,
@@ -204,11 +203,10 @@ export class PayComponent implements OnInit {
           false,
           false
         ).then(() => {
-          idCart.push(item.id);
         });
       }
       resolve(idCart);
-    }).then(() => {
+    }).then((result) => {
       this.cartService.deleteCart(idCart)
         .subscribe(() => {
           this.customerService.updateInfo(
@@ -218,6 +216,11 @@ export class PayComponent implements OnInit {
             this.formInfo.value.address,
             this.infoCustomer.username
           ).then(() => {
+            for(const item of this.quantityItemInTicket) {
+              this.ticketService.ticketUpdateQuantity(item.id, item.quantity).then(() => {});
+            }
+          })
+          .then(() => {
             Swal.fire({
               title: 'Bạn đã mua hàng!',
               icon: 'success'}).then(() => {
@@ -232,44 +235,56 @@ export class PayComponent implements OnInit {
           });
       });
     });
-
-    // this.cartService.deleteCart(idCart);
-    // this.customerService.updateInfo(
-    //   this.formInfo.value.email,
-    //   this.formInfo.value.phone_number.toString(),
-    //   this.formInfo.value.fullName,
-    //   this.formInfo.value.address,
-    //   this.infoCustomer.username
-    // );
-    // this.router.navigate(['order']);
   }
 
   onVerify() {
     this.busy = false;
-    // tslint:disable-next-line:prefer-const
-    let applicationVerifier = new firebase.auth.RecaptchaVerifier(
-      'recaptcha-container');
+
+    let applicationVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
     const phoneNumberString = '+' + this.formInfo.value.phone_number.toString();
 
-      // tslint:disable-next-line:prefer-const
       let provider = new firebase.auth.PhoneAuthProvider();
       provider.verifyPhoneNumber(phoneNumberString, applicationVerifier)
-          .then((verificationId) => {
-            this.isCaptcha = true;
-            // var verificationCode = this.sendCaptcha(this.formPay.value.captcha).toString();
-            // tslint:disable-next-line:prefer-const
-            let verificationCode = window.prompt('Please enter the verification ' +
-                'code that was sent to your mobile device.');
-            console.log(verificationCode);
-            return firebase.auth.PhoneAuthProvider.credential(verificationId,
-              verificationCode);
-          })
-          .then(function(phoneCredential) {
-            this.isOrderVerify = true;
-            return firebase.auth().signInWithCredential(phoneCredential);
-          }).catch( (error) => {
+        .then(async (verificationId) => {
+          this.isCaptcha = true;
+          // var verificationCode = this.sendCaptcha(this.formPay.value.captcha).toString();
+          // tslint:disable-next-line:prefer-const
+          // Swal.fire({
+          //   title: 'Nhập mã xác nhận nhận từ số điện thoại:' + this.formInfo.value.phone_number,
+          //   input: 'number',
 
+          // })
+          const { value: number } = await Swal.fire({
+            title: 'Nhập mã xác nhận nhận từ số điện thoại: +' + this.formInfo.value.phone_number,
+            input: 'text',
+            inputPlaceholder: 'Nhập mã tại đây'
           });
+
+          if(number) {
+            return firebase.auth.PhoneAuthProvider.credential(verificationId, number);
+          }
+        })
+        .then(function(phoneCredential) {
+          this.isOrderVerify = true;
+          console.log(phoneCredential);
+          Swal.fire({
+            title: 'Đã xác nhận số điện thoại thành công!',
+            icon: 'success'
+          }).then(() => {
+            // this.isOrderVerify = true;
+            return firebase.auth().signInWithCredential(phoneCredential);
+          });
+          
+        }).catch( (error) => {
+          Swal.fire({
+            title: 'Bạn đã nhập sai mã xác nhận! Xem lại số điện thoại!',
+            icon: 'error'
+          }).then(() => {
+            this.busy = true;
+            this._document.defaultView.location.reload();
+          })
+
+        });
   }
 
 

@@ -4,7 +4,8 @@ import { AuthData } from '../modals/auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -53,6 +54,17 @@ export class AuthService {
             });
     }
 
+    chagePassword(password: string) {
+      return new Promise((resolve, reject) => {
+        this.http.put(this.BACKEND_URL + 'password', password)
+          .subscribe(() => {
+            resolve(true);
+          }, error => {
+            reject(false);
+          });
+      });
+    }
+
     login(email: string, password: string) {
         const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
         console.log(authData);
@@ -61,7 +73,7 @@ export class AuthService {
           authData
           )
             .subscribe(response => {
-                console.log('res: ' + response.created_at);
+                // console.log('res: ' + response.created_at);
                 const token = response.token;
                 this.token = token;
                 if (token) {
@@ -79,8 +91,12 @@ export class AuthService {
                   this.router.navigate(['/home']);
                 }
             }, error => {
-              console.log('error ' + error);
+              // console.log('error ' + error);
               this.authStatusListener.next(false);
+              Swal.fire({
+                title: 'Đăng nhập thất bại!',
+                icon: 'error'
+              })
             });
     }
 
@@ -108,7 +124,21 @@ export class AuthService {
       clearTimeout(this.tokenTimer);
       this.clearAuthData();
       this.router.navigate(['/login']);
+    }
 
+    deleteAccount(id: string) {
+      return new Promise((resolve) => {
+        this.http.delete(this.BACKEND_URL + 'delete/' + id).subscribe(() => {
+          this.token = null;
+          this.isAuthenticated = false;
+          this.authStatusListener.next(false);
+          this.customerId = null;
+          clearTimeout(this.tokenTimer);
+          this.clearAuthData();
+          this.router.navigate(['/home']);
+        }
+        );
+      })
     }
 
     private setAuthTimer(duration: number) {

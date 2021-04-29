@@ -21,5 +21,8 @@
       </mat-card>
     </div>
   </div>
-  <div *ngIf="tickets.length === 0">Không có kết quả nào khớp.</div>
+  <div *ngIf="tickets.length === 0" style="text-align: center;">
+    <div style="font-size: 20px; padding-top: 1rem; padding-bottom: 5rem;">Không có kết quả nào khớp.</div>
+    <img src="../../../assets/images/seach-not-found.png" height="70%" width="60%">
+  </div>
 </mat-card>

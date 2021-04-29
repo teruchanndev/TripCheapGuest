@@ -28,6 +28,18 @@ li {
   border-radius: 50% !important;
 }
 
+#pay-list-ticket .owl-nav > button{
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
+  background-color: white;
+  width: 44px;
+  height: 44px;
+  z-index: 400;
+  box-shadow: 0 0 20px #e2e1e1;
+  border-radius: 50% !important;
+}
+
 
 .owl-nav .owl-prev {
   left: 0;

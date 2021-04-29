@@ -105,13 +105,57 @@
     <mat-card>
       <tr style="width: 100%;">
         <td>Thay đổi mật khẩu</td>
-        <td  style="width: 5%;"><button mat-stroked-button color="warn">Đặt lại mật khẩu</button></td>
+        <td  style="width: 5%;">
+          <button mat-stroked-button color="warn" (click)="showChangePass = !showChangePass">
+            <span *ngIf="!showChangePass">Đặt lại mật khẩu</span>
+            <span *ngIf="showChangePass">Hủy</span>
+          </button>
+        </td>
       </tr>
+    </mat-card>
+    <mat-card class="change-pass" *ngIf="showChangePass">
+      <form style="width: 100%;" (submit)='chagePassword(formChangePass)' #formChangePass = 'ngForm'>
+        <div class="change-pass-item">
+          <h5>Nhập mật khẩu mới:</h5>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Nhập mật khẩu mới:</mat-label>
+            <input 
+              type="password"
+              matInput placeholder=""
+              name = "passwordChange"
+              ngModel
+              #passwordChange = 'ngModel'
+              required
+              >
+              <mat-error *ngIf="passwordChange.invalid">Vui lòng nhập mật khẩu.</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="change-pass-item">
+          <h5>Nhập lại mật khẩu mới:</h5>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Nhập lại mật khẩu mới:</mat-label>
+            <input 
+              type="password" 
+              matInput placeholder=""
+              name = "rePasswordChange"
+              ngModel
+              #rePasswordChange = 'ngModel'
+              required
+              >
+              <mat-error *ngIf="rePasswordChange.invalid">Vui lòng nhập mật khẩu.</mat-error>
+          </mat-form-field>
+        </div>
+        <div style="margin: 1rem;">
+          <button mat-stroked-button color="accent" (click) = "cancelChangePass()">Hủy</button>
+          <button type="submit" mat-raised-button color="primary" style="margin-left: 1rem;">Lưu thay đổi</button>
+        </div>
+      </form>
+      
     </mat-card>
     <mat-card>
       <tr style="width: 100%;">
         <td>Xóa tài khoản</td>
-        <td  style="width: 5%;"><button mat-stroked-button color="warn">Xóa</button></td>
+        <td style="width: 5%;"><button mat-stroked-button color="warn" (click) = "deleteAccount()">Xóa</button></td>
       </tr>
     </mat-card>
   </div>

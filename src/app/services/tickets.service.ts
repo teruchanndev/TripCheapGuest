@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Ticket } from '../modals/ticket.model';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 
 @Injectable({ providedIn: 'root' })
@@ -112,6 +113,40 @@ export class TicketsService {
     // console.log(city);
     this.http
       .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'city/' + city)
+      .pipe(
+        map(ticketData => {
+          console.log(ticketData);
+          return ticketData.ticket.map(ticket => {
+            return {
+              id: ticket._id,
+              title: ticket.title,
+              content: ticket.content,
+              status: ticket.status,
+              price: ticket.price,
+              price_reduce: ticket.price_reduce,
+              percent: ticket.percent,
+              category: ticket.category,
+              categoryService: ticket.categoryService,
+              city: ticket.city,
+              quantity: ticket.quantity,
+              imagePath: ticket.imagePath,
+              address: ticket.address,
+              creator: ticket.creator,
+              services: ticket.services
+            };
+          });
+        })
+      ).subscribe(transformedTickets => {
+        console.log(transformedTickets);
+        this.tickets = transformedTickets;
+        this.ticketsUpdated.next([...this.tickets]);
+      });
+  }
+
+  getTicketOfCategory(category: string) {
+    // console.log(city);
+    this.http
+      .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'category/' + category)
       .pipe(
         map(ticketData => {
           console.log(ticketData);
@@ -271,5 +306,17 @@ export class TicketsService {
         console.log(response);
         this.getTickets();
       });
+  }
+
+  ticketUpdateQuantity(ticketId: string, quantity: number) {
+    return new Promise((resolve) => {
+      let data: Object = {
+        id: ticketId,
+        quantity: quantity
+      };
+      this.http.put(this.BACKEND_URL + 'update/' + ticketId, data).subscribe(response => {
+        resolve(true);
+      });
+    });
   }
 }

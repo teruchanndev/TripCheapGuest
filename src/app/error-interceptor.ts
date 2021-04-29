@@ -9,7 +9,7 @@ import {
   import { Injectable } from '@angular/core';
   import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-  import { ErrorComponent } from './error/error/error.component';
+  // import { ErrorComponent } from './error/error/error.component';
 
   @Injectable()
   export class ErrorInterceptor implements HttpInterceptor {
@@ -23,7 +23,7 @@ import {
           if (error.error.message) {
             errorMessage = error.error.message;
           }
-          this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
+          // this.dialog.open(ErrorComponent, {data: {message: errorMessage}});
           return throwError(error);
         })
       );

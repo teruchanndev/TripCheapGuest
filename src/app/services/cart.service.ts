@@ -173,8 +173,10 @@ export class CartsService {
   }
 
   deleteCart(cartId: Array<string>) {
+    console.log('service: ', cartId);
+    console.log(cartId.toString());
     return this.http
-      .delete(this.BACKEND_URL + 'list/' + cartId.join());
+      .delete(this.BACKEND_URL + 'list/' + cartId.toString());
   }
 
   getCartToPay(cartId: Array<string>) {

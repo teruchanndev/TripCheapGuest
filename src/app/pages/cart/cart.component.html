@@ -11,7 +11,7 @@
 </div>
 
 <section class="cart">
-  <table>
+  <table style="width: 73%;">
     <thead style="width: 100%;">
       <mat-card class="option">
         <div>
@@ -28,7 +28,7 @@
     <tbody>
       <tr *ngFor="let item of itemStill; index as i">
         <mat-card style="display: flex;
-        align-items: center;width: 100%; ">
+        align-items: center;width: 100%; position: relative; ">
           <td>
             <mat-checkbox
               (change)="setSome($event.checked, i)"
@@ -60,58 +60,59 @@
               </div>
             </section>
           </td>
-          <td colspan="7">
+          <td colspan="7" class="price_last">
             <!-- <div> -->
               <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
                 <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
               </div>
-              <div style="display: flex;">
-              <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
+              <div style="display: flex; justify-content: center;">
+                <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
                 <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
               </div>
-
-
-            <!-- </div> -->
           </td>
         </mat-card>
       </tr>
-
       <tr *ngFor="let item of itemExpired; index as i">
-        <mat-card style="width: 100%;">
+        <mat-card class="item_expired" style="display: flex;
+        align-items: center; width: 100%; ">
           <td>
             <mat-checkbox disabled = "true"></mat-checkbox>
           </td>
-          <td><img [src] = "item.imageTicket" width="100px" height="50px"></td>
+          <td><img [src] = "item.imageTicket" width="100px" height="100px"></td>
           <td class="infoName">
-            <h4 class="nameTicket">{{item.nameTicket}}</h4>
-            <p class="nameService">Loại dịch vụ: {{item.itemService.name}}</p>
+            <h4 class="nameTicket" [routerLink]="['/detail/', item.idTicket]">{{item.nameTicket}}</h4>
+            <p class="nameService">Loại dịch vụ: {{item.itemService[0].name}}</p>
+            <p style="font-weight: bolder;">{{item.dateStart + ' - ' + item.dateEnd}}</p>
           </td>
-          <td class="date">
+          <!-- <td class="date">
             <p>{{item.dateStart + ' - ' + item.dateEnd}}</p>
             <p>(Giờ địa phương)</p>
-          </td>
+          </td> -->
           <td class="uni">
-            <section class="uniNumPrice" *ngFor="let itemNum of item.itemService">
+            <section class="uniNumPrice" *ngFor="let itemNum of item.itemService; index as iNum">
               <div>{{itemNum.itemServiceName}}</div>
               <div class="btn-add-sub">
-                <button mat-stroked-button color="primary">
+                <button mat-stroked-button color=""
+                  (click)="addQuantity(i, iNum)">
                   <mat-icon>add</mat-icon>
                 </button>
-                  <input
-                    [value]="itemNum.quantity"
-                    style="height: 30px; width: 30px;">
-                <button mat-stroked-button color="primary">
+                  <input disabled [value]="itemNum.quantity" style="height: 27px; width: 27px;">
+                <button mat-stroked-button color=""
+                  (click)="subtractQuantity(i, iNum)">
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
             </section>
           </td>
-          <td colspan="7">
-            <div>
-              <button mat-button (click) = "deleteOne(item.id)">Xóa</button>
-              <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
-              <h2>{{priceItemExpired[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2></div>
-            </div>
+          <td colspan="7" class="price_last">
+            <!-- <div> -->
+              <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: #cacaca; text-align: center;">
+                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
+              </div>
+              <div style="display: flex; justify-content: center;">
+                <!-- <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button> -->
+                <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
+              </div>
           </td>
         </mat-card>
       </tr>

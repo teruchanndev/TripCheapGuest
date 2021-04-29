@@ -46,4 +46,19 @@ td {
   text-align: center;
   height: fit-content;
   width: 20%;
+  position: sticky;
+  top: 20%;
+}
+
+.price_last {
+  position: absolute;
+  right: 0;
+  padding-right: 2rem;
+}
+.item_expired {
+  color: #cacaca;
+}
+
+.infoName {
+  width: 37%;
 }

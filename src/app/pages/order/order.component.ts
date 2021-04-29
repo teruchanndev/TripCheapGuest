@@ -7,6 +7,7 @@ import { Order } from 'src/app/modals/order.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { OrdersService } from 'src/app/services/order.service';
+import Swal from 'sweetalert2';
 
 export interface ArrayOrder {
   orders: Order;
@@ -170,13 +171,40 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   cancelOrder(id) {
     this.orderService.updateIsCancelOrder(id, false, true).then((data) => {
-      this._document.defaultView.location.reload();
+      Swal.fire({
+        title: 'Bạn có muốn hủy đơn hàng đã đặt?',
+        icon: 'question',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Hủy thành công!',
+            icon: 'success'
+          }).then(() => {
+            this._document.defaultView.location.reload();
+          });
+          
+        } else {}
+      });
     });
   }
 
   returnOrder(id) {
     this.orderService.updateIsCancelOrder(id, false, false).then((data) => {
-      this._document.defaultView.location.reload();
+      Swal.fire({
+        title: 'Bạn có muốn hoàn lại đơn hàng đã hủy?',
+        icon: 'question',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: 'Hoàn đơn thành công!',
+            icon: 'success'
+          }).then(() => {
+            this._document.defaultView.location.reload();
+          });
+        } else {}
+      });
     });
   }
 

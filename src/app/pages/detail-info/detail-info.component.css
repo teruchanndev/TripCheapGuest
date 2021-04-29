@@ -31,3 +31,12 @@ td {
 td > .mat-form-field {
   width: 400px;
 }
+.change-pass {
+  display: flex;
+  flex-wrap: wrap;
+  /* width: 100%; */
+}
+
+.change-pass-item {
+  width: 100%;
+}

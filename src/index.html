@@ -8,11 +8,11 @@
 <link rel="stylesheet" href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.carousel.min.css">
 <link rel="stylesheet" href="https://owlcarousel2.github.io/OwlCarousel2/assets/owlcarousel/assets/owl.theme.default.min.css">
   <meta charset="utf-8">
-  <title>MeanCourse</title>
+  <title>TripCheap</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="./assets/icon/brand.svg">
 </head>
 <body>
   <app-root></app-root>
@@ -22,7 +22,7 @@
     $(document).ready(function(){
       setInterval(function(){
         window.loadCarousel();
-      }, 3000)
+      }, 1000)
     })
     window.loadCarousel = function(){
       $('.owl-carousel-01').owlCarousel({
@@ -31,6 +31,14 @@
           margin:10,
           nav:true,
           items:4,
+          dots: false
+      });
+      $('.owl-carousel-02').owlCarousel({
+          loop:true,
+          autoPlay:true,
+          margin:10,
+          nav:true,
+          items:2,
           dots: false
       })
     }

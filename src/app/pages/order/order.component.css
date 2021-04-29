@@ -31,3 +31,10 @@ button {
     font-size: 3rem;
     
 }
+
+.info_detail {
+    flex: 30%;
+    height: fit-content;
+    position: sticky;
+    top: 20%;
+}

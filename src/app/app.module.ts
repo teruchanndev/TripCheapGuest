@@ -20,7 +20,6 @@ import { NgImageSliderModule } from 'ng-image-slider';
 
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
-import { ErrorComponent } from './error/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
@@ -40,6 +39,9 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { FooterComponent } from './menu/footer/footer.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AngularFireModule } from "@angular/fire";
+import { environment } from 'src/environments/environment';
+import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     TicketEditComponent,
     TicketsAllComponent,
     CategoryComponent,
-    ErrorComponent,
     InformationComponent,
     CreateInfoComponent,
     HomeComponent,
@@ -60,7 +61,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     OrderComponent,
     DetailInfoComponent,
     FooterComponent,
-    PageSearchComponent
+    PageSearchComponent,
+    TicketsCategoryComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MatNativeDateModule,
     NgImageSliderModule,
     QRCodeModule,
-    [SweetAlert2Module.forRoot()]
+    [SweetAlert2Module.forRoot()],
+    AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
@@ -87,7 +90,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     MatDatepickerModule
   ],
-  bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

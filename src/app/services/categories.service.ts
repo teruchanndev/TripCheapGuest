@@ -35,9 +35,18 @@ export class CategoriesService {
                 this.categoriesUpdated.next([...this.categories]);
             });
     }
+
+
     getCategoryUpdateListener() {
         return this.categoriesUpdated.asObservable();
     }
 
+    getCategory(name: string) {
+        return this.http.get<{
+            _id: string;
+            name: string;
+            categoryItem: Array<string>
+          }>(this.BACKEND_URL + name);
+      }
 
 }

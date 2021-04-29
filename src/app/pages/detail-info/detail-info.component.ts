@@ -1,11 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Customer } from 'src/app/modals/customer.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detail-info',
@@ -26,7 +27,7 @@ export class DetailInfoComponent implements OnInit {
   isChange = false;
   isDisabled = true;
   formInfo: FormGroup;
-
+  showChangePass = false;
 
 
   constructor(
@@ -98,15 +99,21 @@ export class DetailInfoComponent implements OnInit {
   }
 
   isDisableForm() {
-    this.formInfo.setValue({
-      username: this.infoCustomer.username,
-      fullName: this.infoCustomer.fullName,
-      phoneNumber: this.infoCustomer.phoneNumber,
-      email: this.infoCustomer.email,
-      address: this.infoCustomer.address
+    Swal.fire({
+      title: 'Hủy thay đổi?',
+      icon: 'question'
+    }).then(() => {
+      this.formInfo.setValue({
+        username: this.infoCustomer.username,
+        fullName: this.infoCustomer.fullName,
+        phoneNumber: this.infoCustomer.phoneNumber,
+        email: this.infoCustomer.email,
+        address: this.infoCustomer.address
+      });
+      this.isChange = false;
+      this.formInfo.disable();
     });
-    this.isChange = false;
-    this.formInfo.disable();
+    
   }
 
   updateInfo()  {
@@ -117,9 +124,70 @@ export class DetailInfoComponent implements OnInit {
       this.formInfo.value.fullName,
       this.formInfo.value.address,
       this.formInfo.value.username
-    );
-
-    this._document.defaultView.location.reload();
+    ).then(() => {
+      Swal.fire({
+        title: 'Thay đổi thông tin thành công!',
+        icon: 'success'
+      }).then(() => {
+        this._document.defaultView.location.reload();
+      });
+    });
   }
 
+  chagePassword(form: NgForm) {
+
+    if (form.invalid) { return; }
+    if(form.value.passwordChange !== form.value.rePasswordChange) {
+      Swal.fire({
+        title: 'Mật khẩu không trùng khớp!',
+        icon: 'error'
+      });
+    } else {
+      this.authService.chagePassword(form.value.passwordChange).then(
+        (result) => {
+          if(result) {
+            Swal.fire({
+              title: 'Bạn đã thay đổi mật khẩu thành công! Vui lòng đăng nhập lại!',
+              icon: 'success'
+            }).then(() => {
+              this.router.navigate(['/login']);
+            });
+          } else {
+            Swal.fire({
+              title: 'Thay đổi mật khẩu thất bại! Vui lòng kiểm tra lại!',
+              icon: 'error'
+            }).then(() => {
+              // this.router.navigate(['/login']);
+            });
+          }
+        });
+    }
+    
+  }
+
+  cancelChangePass() {
+    this.showChangePass = false;
+  }
+
+  deleteAccount() {
+    Swal.fire({
+      title: 'Bạn có muốn xóa tài khoản không?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((result) => {
+      if(result.isConfirmed) {
+        console.log('customerId: ', this.customerId);
+        this.authService.deleteAccount(this.customerId).then(() => {
+          Swal.fire({
+            title: 'Bạn đã xóa thành công!',
+            icon: 'success'
+          }).then(() => {
+            this.router.navigate(['home']);
+          })
+        });
+      } else {
+
+      }
+    })
+  }
 }

@@ -21,7 +21,6 @@ export class SignupComponent implements OnInit, OnDestroy {
     );
   }
 
-
   onSignUp(form: NgForm) {
     if (form.invalid) { return; }
     this.authService.createCustomer(form.value.email, form.value.password, form.value.username);

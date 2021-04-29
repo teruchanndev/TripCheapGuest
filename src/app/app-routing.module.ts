@@ -19,6 +19,7 @@ import { PayComponent } from './pages/pay/pay.component';
 import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
+import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 
 const routes: Routes = [
   {path: '',
@@ -39,7 +40,8 @@ const routes: Routes = [
       { path: 'setting', component: DetailInfoComponent },
       { path: 'pay/:idCart', component: PayComponent },
       { path: 'order', component: OrderComponent },
-      { path: 'city/:city', component: TicketsAllComponent }
+      { path: 'city/:city', component: TicketsAllComponent },
+      { path: 'category/:category', component: TicketsCategoryComponent }
     ]
   },
   { path: 'shop/info', component: CreateInfoComponent, canActivate: [AuthGuard] },

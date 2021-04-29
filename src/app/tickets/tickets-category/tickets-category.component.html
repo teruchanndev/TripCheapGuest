@@ -1,0 +1,75 @@
+
+
+
+
+<section class="category_filter">
+    <mat-card class="category">
+      <div style="position: relative;">
+        <div class="image-section" style="background-image: url({{imageCity}});">
+        </div>
+        <div class="overlay"></div>
+        <div class="nameCity">{{categoryName}}</div>
+      </div>
+      <ul>
+          <li>
+              <mat-checkbox (change) = "checkAll()" [checked] = 'ischeckAll'>Tất cả</mat-checkbox>
+          </li>
+          <li *ngFor="let item of category.categoryItem; index as i">
+              <mat-checkbox (change) = "checkCategory(i)">{{item}}</mat-checkbox>
+          </li>
+      </ul>
+    </mat-card>
+  
+  
+    <div class="list_ticket" >
+      <div class="item-ticket">
+        <mat-card
+          class="item"
+          *ngFor="let item of currentItemsToShow"
+          (click) = "detailTicket(item.id)"
+          >
+          <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
+          <mat-card-title class="title-ticket">{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
+          <mat-card-content style="
+            position: absolute;
+            bottom: 0;
+            padding-bottom: 1rem;
+            padding-top: 1rem;
+            text-align: center;">Chỉ từ
+            <span
+              style="color: orangered;
+                font-weight: bolder;
+                font-size: 20px;">
+              {{item.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+            <span
+              *ngIf="item.percent !== 0"
+              style="padding-left: 1rem;
+              text-decoration: line-through;
+              color: #a7a7a7;">{{item.price.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+          </mat-card-content>
+          <div class="percent" *ngIf="item.percent !== 0">
+            <span class="percent-item">{{item.percent}}%</span>
+          </div>
+          <!-- <mat-card-content>
+            <p class="content">{{item.content}}</p>
+          </mat-card-content> -->
+        </mat-card>
+        <mat-paginator
+        style="background-color: #e9e6ef;
+        font-size: 18px;
+        font-weight: 600;
+        width: 100%;
+        justify-content: center;"
+        (page)="onPageChange($event)"
+        [length]="100"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
+      </div>
+      
+    </div>
+  
+  </section>
+  
+  

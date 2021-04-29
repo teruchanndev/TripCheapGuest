@@ -4,17 +4,18 @@
   <mat-step>
     <ng-template matStepLabel>Xác nhận đơn hàng</ng-template>
     <section>
-      <div class="list-ticket">
+      <div id="pay-list-ticket" class="list-ticket owl-carousel owl-theme"
+      [ngClass]="carts.length > 1 ? 'owl-carousel-02' : 'list-ticket'">
         <mat-card class="ticket" *ngFor="let item of carts; index as i">
           <mat-card-title style="font-size: 18px; font-weight: bolder;">{{item.nameTicket}}</mat-card-title>
           <mat-card-subtitle>{{item.itemService[0].name}}</mat-card-subtitle>
           <mat-divider></mat-divider>
           <div class="date">
-            <li style="width: 100%;">
+            <li style="width: 100%; padding-bottom: 0.5rem;">
               <span class="text-title">Ngày</span>
               <span class="text-des">{{ item.dateStart + ' - ' + item.dateEnd }}</span>
             </li>
-            <li style="width: 100%;padding-bottom: 0.5rem;">
+            <li style="width: 100%; padding-bottom: 0.5rem;">
               <span class="text-title">Đơn vị</span>
               <div class="text-des">
                 <div *ngFor="let itemService of item.itemService">
@@ -23,9 +24,12 @@
               </div>
             </li>
           </div>
-          <mat-divider></mat-divider>
+          <!-- <mat-divider></mat-divider> -->
           <mat-card-footer>
-            <li>
+            <li style=" display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding-right: 1rem;">
               <div class="text-title">Tổng cộng</div>
               <mat-card-title style="color: orangered; padding-top: 0.5rem;">
                 {{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}} đ
@@ -40,7 +44,7 @@
           <li style="width: 100%;padding-bottom: 0.5rem;">
             <span class="text-title">Tổng cộng</span>
             <div class="text-des">
-              <div style="font-weight: bolder;">
+              <div style="font-weight: bolder; color: red;">
                 {{pricePay.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ
               </div>
             </div>
@@ -48,7 +52,7 @@
           <li style="width: 100%;padding-bottom: 0.5rem;">
             <span class="text-title">Số tiền phải thanh toán</span>
             <div class="text-des">
-              <div style="font-weight: bolder;">
+              <div style="font-weight: bolder; color: red;">
                 {{pricePay.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ
               </div>
             </div>
@@ -95,12 +99,14 @@
             [disabled]="!busy"
             (click)="onVerify()">
             <span *ngIf="busy">Gửi</span>
-            <span *ngIf="!busy">Chờ trong vài giây</span>
+            <span *ngIf="!busy">Chờ</span>
           </button>
         </div>
-
       </section>
-      <div id="recaptcha-container"></div>
+ 
+      <div id="recaptcha-container" style="width: 100%;"></div>
+
+     
 
       <mat-form-field appearance="outline">
         <mat-label>Email:</mat-label>
