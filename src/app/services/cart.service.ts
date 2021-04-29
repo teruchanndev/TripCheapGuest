@@ -9,6 +9,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { stringify } from '@angular/compiler/src/util';
 import { ServiceSelect } from '../modals/serviceSelect.model';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 @Injectable({ providedIn: 'root' })
 export class CartsService {
@@ -52,6 +53,7 @@ export class CartsService {
   }
 
   getOneCart(id: string) {
+    console.log('id: ', id);
     return this.http.get<{
       _id: string;
       nameTicket: string;
@@ -119,15 +121,19 @@ export class CartsService {
         idCustomer: idCustomer,
         itemService: itemService
     };
-    this.http
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve) => {
+      this.http
       .post<
         { message: string; cart: Cart }>
         (this.BACKEND_URL, cartData)
       .subscribe(responseData => {
-        console.log(responseData);
+        resolve(responseData);
       });
-        console.log(cartData);
-    return cartData;
+        // console.log(cartData);
+    // return cartData;
+    });
+
   }
 
   updateCart(
@@ -154,25 +160,24 @@ export class CartsService {
         itemService: itemService
     };
 
-    this.http
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve) => {
+      this.http
       .put<{ message: string; cart: Cart }>
         (this.BACKEND_URL + id, cartData)
       .subscribe(responseData => {
-        console.log(responseData);
+        resolve(responseData);
       });
+    });
+
   }
 
   deleteCart(cartId: Array<string>) {
-    console.log(cartId);
-    this.http
-      .delete(this.BACKEND_URL + 'list/' + cartId.join()).subscribe(response => {
-        console.log(response);
-        this.getCarts();
-      });
+    return this.http
+      .delete(this.BACKEND_URL + 'list/' + cartId.join());
   }
 
   getCartToPay(cartId: Array<string>) {
-    console.log(cartId);
     this.http.get<{ message: string; cart: any }>(this.BACKEND_URL + 'pay/' +  cartId.join())
     .pipe(
       map(cartData => {

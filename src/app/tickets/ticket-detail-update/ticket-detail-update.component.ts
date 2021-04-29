@@ -14,6 +14,8 @@ import {
 } from '@angular/material/datepicker';
 import { CartsService } from 'src/app/services/cart.service';
 import { ServiceSelect } from 'src/app/modals/serviceSelect.model';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
@@ -70,6 +72,7 @@ export class TicketDetailUpdateComponent implements OnInit {
   listItemService: Array<ServiceSelect> = [];
   private authListenerSubs: Subscription;
   customerIsAuthenticated = false;
+  checkColorService = [];
 
 
   constructor(
@@ -95,9 +98,19 @@ export class TicketDetailUpdateComponent implements OnInit {
       .subscribe(isAuthenticated => {
         this.customerIsAuthenticated = isAuthenticated;
     });
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      this.idCart = paramMap.get('idCart');
-      this.cartService.getOneCart(this.idCart).subscribe( cartData => {
+
+
+      // tslint:disable-next-line:no-shadowed-variable
+      const cartDt = new Promise((resolve) => {
+        this.route.paramMap.subscribe((paramMap: ParamMap) => {
+          this.idCart = paramMap.get('idCart');
+          this.cartService.getOneCart(this.idCart).subscribe( cartData => {
+            resolve(cartData);
+          });
+        });
+      });
+      cartDt.then((value) => {
+        const cartData = value as any;
         this.cart = {
           id: cartData._id,
           nameTicket: cartData.nameTicket ,
@@ -111,37 +124,25 @@ export class TicketDetailUpdateComponent implements OnInit {
         };
         this.idTicket = cartData.idTicket;
         this.nameServiceSelect = cartData.itemService[0].name;
-        console.log(this.nameServiceSelect);
-      });
-
-      // const app = this;
-      setTimeout(() => {
-        this.ticketsService.getTicket(this.idTicket)
-          .subscribe(ticketData => {
-            this.ticket = {
-              id: ticketData._id,
-              title: ticketData.title,
-              content: ticketData.content,
-              status: ticketData.status,
-              price: ticketData.price,
-              city: ticketData.city,
-              category: ticketData.category,
-              categoryService: ticketData.categoryService,
-              percent: ticketData.percent,
-              price_reduce: ticketData.price_reduce,
-              quantity: ticketData.quantity,
-              address: ticketData.address,
-              services: ticketData.services,
-              imagePath: ticketData.imagePath,
-              creator: ticketData.creator
+        this.ticketsService.getTicket(cartData.idTicket)
+        .subscribe(ticketData => {
+          this.ticket = {
+            id: ticketData._id,
+            title: ticketData.title,
+            content: ticketData.content,
+            status: ticketData.status,
+            price: ticketData.price,
+            city: ticketData.city,
+            category: ticketData.category,
+            categoryService: ticketData.categoryService,
+            percent: ticketData.percent,
+            price_reduce: ticketData.price_reduce,
+            quantity: ticketData.quantity,
+            address: ticketData.address,
+            services: ticketData.services,
+            imagePath: ticketData.imagePath,
+            creator: ticketData.creator
           };
-          console.log(this.ticket);
-          for (let i = 0; i < this.ticket.imagePath.length; i++) {
-            this.imageObject[i] = {
-              image : this.ticket.imagePath[i],
-              thumbImage: this.ticket.imagePath[i]
-            };
-          }
           // const len = Object.keys(this.ticket.services[0]).length;
           for (let i = 0; i < this.ticket.services.length ; i++) {
             if (this.ticket.services[i].name === this.nameServiceSelect) {
@@ -149,8 +150,23 @@ export class TicketDetailUpdateComponent implements OnInit {
               this.index = i;
             }
           }
+
+          for (let i = 0; i < ticketData.services.length; i++) {
+            if (i === this.index) {
+              this.checkColorService.push(true);
+            } else {this.checkColorService.push(false); }
+          }
+          console.log('check: ', this.checkColorService);
+
+          for (let i = 0; i < this.ticket.imagePath.length; i++) {
+            this.imageObject[i] = {
+              image : this.ticket.imagePath[i],
+              thumbImage: this.ticket.imagePath[i]
+            };
+          }
+
           console.log('index: ' + this.index);
-          this.setValue(this.index);
+          // this.setValue(this.index);
           this.showInfoService(this.index);
           // tslint:disable-next-line:max-line-length
           const dateStartCover = this.cart.dateStart.split('/')[1] + '/' + this.cart.dateStart.split('/')[0] + '/' + this.cart.dateStart.split('/')[2];
@@ -168,44 +184,47 @@ export class TicketDetailUpdateComponent implements OnInit {
             dateEnd: dateSp
           });
         });
-
-      }, 2000);
-    });
+      });
   }
 
 
   formatDate(date) {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
-
-  setValue(index) {
-    // const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
-    for (let i = 0; i < this.ticket.services[this.index].itemService.length; i++) {
-      this.listItemService[i] = {
-        name: this.ticket.services[this.index].name,
-        itemServiceName: this.ticket.services[this.index].itemService[i].name,
-        itemServicePrice: this.ticket.services[this.index].itemService[i].price,
-        quantity: this.cart.itemService[i].quantity
-      };
+  formatPrice(string) {
+    return Number(string).toLocaleString('en-us', {minimumFractionDigits: 0});
+  }
+  checkColor(index) {
+    for (let i = 0; i < this.checkColorService.length; i++) {
+      if (i !== index) {
+        this.checkColorService[i] = false;
+      }
     }
   }
-  showInfoService(index) {
-    this.index = index;
-    this.listItemService = [];
-    this.dateStartChoose = '';
-    this.dateEndChoose = '';
-    this.showInfoServiceItem = true;
 
+  setValue(index) {
+    console.log(index);
     // const lenService = Object.keys(this.ticket.services[0][this.index].itemService).length;
     for (let i = 0; i < this.ticket.services[index].itemService.length; i++) {
       this.listItemService[i] = {
         name: this.ticket.services[index].name,
         itemServiceName: this.ticket.services[index].itemService[i].name,
-        // tslint:disable-next-line:radix
         itemServicePrice: this.ticket.services[index].itemService[i].price,
-        quantity: 0
+        quantity: this.cart.itemService[i].quantity
       };
+      console.log('listItemService: ' + this.cart.itemService[i].quantity);
     }
+
+  }
+  showInfoService(index) {
+    this.checkColorService[index] = true;
+    this.checkColor(index);
+    this.index = index;
+    this.listItemService = [];
+    this.dateStartChoose = '';
+    this.dateEndChoose = '';
+    this.showInfoServiceItem = true;
+    this.setValue(index);
   }
 
   getDate() {
@@ -239,7 +258,12 @@ export class TicketDetailUpdateComponent implements OnInit {
       this.cart.idCreator,
       this.cart.idCustomer,
       this.cart.itemService
-    );
+    ).then((value) => {
+      Swal.fire({
+        title: 'Cập nhật đơn hàng thành công!',
+        icon: 'success'
+      });
+    });
 
       // console.log(this.cart);
     }

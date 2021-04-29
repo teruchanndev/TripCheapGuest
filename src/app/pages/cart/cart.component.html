@@ -28,7 +28,7 @@
     <tbody>
       <tr *ngFor="let item of itemStill; index as i">
         <mat-card style="display: flex;
-        align-items: center;">
+        align-items: center;width: 100%; ">
           <td>
             <mat-checkbox
               (change)="setSome($event.checked, i)"
@@ -66,7 +66,7 @@
                 <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
               </div>
               <div style="display: flex;">
-                <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
+              <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
                 <button mat-stroked-button color="accent" (click) = "deleteOne(item.id)">Xóa</button>
               </div>
 
@@ -77,7 +77,7 @@
       </tr>
 
       <tr *ngFor="let item of itemExpired; index as i">
-        <mat-card>
+        <mat-card style="width: 100%;">
           <td>
             <mat-checkbox disabled = "true"></mat-checkbox>
           </td>

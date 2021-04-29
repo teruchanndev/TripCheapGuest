@@ -64,7 +64,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.userIsAuthenticated) {
       this.customerService.getInfoCustomer().then(
         (inforData) => {
-          var info = inforData as Customer;
+          console.log(inforData);
+          const info = inforData as Customer;
           this.infoCustomer = {
             username: info.username,
             email: info.email,
@@ -72,7 +73,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             fullName: info.fullName,
             address: info.address
           };
-          this.characterAvt = info.username[0].toUpperCase();
+          this.characterAvt = this.infoCustomer.username[0].toUpperCase();
           this.username = info.username;
         });
     }

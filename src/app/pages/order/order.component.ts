@@ -64,7 +64,8 @@ export class OrderComponent implements OnInit, OnDestroy {
     new Promise((resolve, reject) => {
       this.customerService.getInfoCustomer().then(
         (inforData) => {
-          var info = inforData as Customer;
+          // tslint:disable-next-line:prefer-const
+          let info = inforData as Customer;
           // this.infoCustomer = {
           //   username: info.username,
           //   email: info.email,

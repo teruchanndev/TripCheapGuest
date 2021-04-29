@@ -15,6 +15,9 @@ import { EmailService } from 'src/app/services/email.service';
 import { QRCodeModule, QRCodeComponent } from 'angularx-qrcode';
 import html2canvas from 'html2canvas';
 import { Customer } from 'src/app/modals/customer.model';
+import Swal from 'sweetalert2';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+
 
 @Component({
   selector: 'app-pay',
@@ -110,7 +113,7 @@ export class PayComponent implements OnInit {
       this.customerService.getInfoCustomer().then(
         // var info = inforData
         (inforData) => {
-          var info = inforData as Customer;
+          const info = inforData as Customer;
           this.infoCustomer = {
             username: info.username,
             email: info.email,
@@ -164,33 +167,80 @@ export class PayComponent implements OnInit {
 
   payComplete() {
     const idCart = [];
-    for (const item of this.carts) {
-      this.orderService.addOrder(
-        item.nameTicket,
-        item.imageTicket,
-        item.dateStart,
-        item.dateEnd,
-        item.idTicket,
-        item.idCreator,
-        item.idCustomer,
-        item.itemService,
-        this.paySelect,
-        false,
-        false,
-        false,
-        false
-      );
-      idCart.push(item.id);
-    }
-    this.cartService.deleteCart(idCart);
+    // for (const item of this.carts) {
+    //   this.orderService.addOrder(
+    //     item.nameTicket,
+    //     item.imageTicket,
+    //     item.dateStart,
+    //     item.dateEnd,
+    //     item.idTicket,
+    //     item.idCreator,
+    //     item.idCustomer,
+    //     item.itemService,
+    //     this.paySelect,
+    //     false,
+    //     false,
+    //     false,
+    //     false
+    //   );
+    //   idCart.push(item.id);
+    // }
 
-    this.customerService.updateInfo(
-      this.formInfo.value.email,
-      this.formInfo.value.phone_number.toString(),
-      this.formInfo.value.fullName,
-      this.formInfo.value.address,
-      this.infoCustomer.username
-    );
+    // tslint:disable-next-line:no-shadowed-variable
+    new Promise((resolve) => {
+      for (const item of this.carts) {
+        this.orderService.addOrder(
+          item.nameTicket,
+          item.imageTicket,
+          item.dateStart,
+          item.dateEnd,
+          item.idTicket,
+          item.idCreator,
+          item.idCustomer,
+          item.itemService,
+          this.paySelect,
+          false,
+          false,
+          false,
+          false
+        ).then(() => {
+          idCart.push(item.id);
+        });
+      }
+      resolve(idCart);
+    }).then(() => {
+      this.cartService.deleteCart(idCart)
+        .subscribe(() => {
+          this.customerService.updateInfo(
+            this.formInfo.value.email,
+            this.formInfo.value.phone_number.toString(),
+            this.formInfo.value.fullName,
+            this.formInfo.value.address,
+            this.infoCustomer.username
+          ).then(() => {
+            Swal.fire({
+              title: 'Bạn đã mua hàng!',
+              icon: 'success'}).then(() => {
+                this.router.navigate(['order']);
+              });
+          }).catch(() => {
+            Swal.fire({
+              title: 'Thanh toán không thành công!',
+              icon: 'error'}).then(() => {
+                this.router.navigate(['cart']);
+              });
+          });
+      });
+    });
+
+    // this.cartService.deleteCart(idCart);
+    // this.customerService.updateInfo(
+    //   this.formInfo.value.email,
+    //   this.formInfo.value.phone_number.toString(),
+    //   this.formInfo.value.fullName,
+    //   this.formInfo.value.address,
+    //   this.infoCustomer.username
+    // );
     // this.router.navigate(['order']);
   }
 

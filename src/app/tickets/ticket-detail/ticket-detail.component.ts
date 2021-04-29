@@ -15,6 +15,7 @@ import {
 } from '@angular/material/datepicker';
 import { CartsService } from 'src/app/services/cart.service';
 import { ServiceSelect } from 'src/app/modals/serviceSelect.model';
+import Swal from 'sweetalert2';
 
 @Injectable()
 export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
@@ -68,7 +69,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   });
 
   form: FormGroup;
-
+  checkColorService = [];
 
 
   private authListenerSubs: Subscription;
@@ -120,7 +121,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
           imagePath: ticketData.imagePath,
           creator: ticketData.creator
         };
-        console.log(this.ticket);
+
+        for (let i = 0; i < ticketData.services.length; i++) {
+          if (i === 0) {
+            this.checkColorService.push(true);
+          } else {this.checkColorService.push(false); }
+        }
+        // console.log(this.checkColorService);
+
         for (let i = 0; i < this.ticket.imagePath.length; i++) {
           this.imageObject[i] = {
             image : this.ticket.imagePath[i],
@@ -135,11 +143,21 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
   }
 
-  // formatPrice(number): string {
-  //   return number.toLocaleString('en-us', {minimumFractionDigits: 2});
-  // }
+  formatPrice(string) {
+    return Number(string).toLocaleString('en-us', {minimumFractionDigits: 0});
+  }
+
+  checkColor(index) {
+    for (let i = 0; i < this.checkColorService.length; i++) {
+      if (i !== index) {
+        this.checkColorService[i] = false;
+      }
+    }
+  }
 
   showInfoService(index) {
+    this.checkColorService[index] = true;
+    this.checkColor(index);
     this.index = index;
     this.listItemService = [];
     this.dateStartChoose = '';
@@ -156,6 +174,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
         quantity: 0
       };
     }
+    console.log(this.listItemService);
   }
 
   getDate() {
@@ -178,6 +197,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       idCreator: this.ticket.creator,
       idCustomer: this.customerId
       };
+
     const cartData = this.cartService.addCart(
       this.cart.nameTicket,
       this.cart.imageTicket,
@@ -187,9 +207,14 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       this.cart.idCreator,
       this.cart.idCustomer,
       this.cart.itemService
-    );
+    ).then((value) => {
+      Swal.fire({
+        title: 'Thêm vào giỏ hàng thành công!',
+        icon: 'success'
+      });
+    });
 
-      console.log(this.cart);
+      // console.log(this.cart);
     }
   }
 

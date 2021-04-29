@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Customer } from 'src/app/modals/customer.model';
@@ -69,7 +69,8 @@ export class DetailInfoComponent implements OnInit {
 
     this.customerService.getInfoCustomer().then(
       (inforData) => {
-        var info = inforData as Customer;
+        // tslint:disable-next-line:prefer-const
+        let info = inforData as Customer;
         this.infoCustomer = {
           username: info.username,
           email: info.email,

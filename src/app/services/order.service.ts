@@ -140,15 +140,25 @@ export class OrdersService {
         isConfirm: isConfirm,
         // qrcode: qrcode
     };
-    this.http
+    return new Promise((resolve) => {
+      this.http
       .post<
         { message: string; order: Object }>
         (this.BACKEND_URL, orderData)
       .subscribe(responseData => {
-        console.log(responseData);
+        resolve(responseData);
       });
-        console.log(orderData);
-    return orderData;
+    });
+
+    // this.http
+    //   .post<
+    //     { message: string; order: Object }>
+    //     (this.BACKEND_URL, orderData)
+    //   .subscribe(responseData => {
+    //     console.log(responseData);
+    //   });
+    //     console.log(orderData);
+    // return orderData;
   }
 
   updateOrder(

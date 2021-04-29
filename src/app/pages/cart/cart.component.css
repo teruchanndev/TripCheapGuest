@@ -44,4 +44,6 @@ td {
 
 .total {
   text-align: center;
+  height: fit-content;
+  width: 20%;
 }

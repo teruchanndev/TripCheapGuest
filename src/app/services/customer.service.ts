@@ -17,14 +17,17 @@ export class CustomerService {
     constructor(private http: HttpClient, private router: Router) {}
 
     getInfoCustomer() {
+        // tslint:disable-next-line:no-shadowed-variable
         return new Promise((resolve) => {
-            resolve(this.http.get<{
+            this.http.get<{
                 username: string,
                 email: string,
                 phoneNumber: string,
                 fullName: string,
                 address: string
-            }>(this.BACKEND_URL + 'info'));
+            }>(this.BACKEND_URL + 'info').subscribe(responseData => {
+              resolve(responseData);
+            });
         });
     }
 
@@ -39,19 +42,23 @@ export class CustomerService {
         address: string,
         username: string,
     ) {
-        let infoData = {
+        const infoData = {
             email: email,
             phoneNumber: phoneNumber,
             fullName: fullName,
             address: address,
             username: username
-        }
-        console.log(infoData);
+        };
+        // console.log(infoData);
 
-        this.http.put(this.BACKEND_URL + 'info/edit', infoData)
-        .subscribe(response => {
-            this.getInfoCustomer();
+        // tslint:disable-next-line:no-shadowed-variable
+        return new Promise((resolve) => {
+          this.http.put(this.BACKEND_URL + 'info/edit', infoData)
+          .subscribe(response => {
+              resolve(response);
+          });
         });
+
     }
 
     // getAvatar(){

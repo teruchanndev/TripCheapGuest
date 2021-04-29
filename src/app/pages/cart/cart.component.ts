@@ -1,11 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Cart } from 'src/app/modals/cart.model';
 import { ServiceSelect } from 'src/app/modals/serviceSelect.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { CartsService } from 'src/app/services/cart.service';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cart',
@@ -33,6 +34,7 @@ export class CartComponent implements OnInit, OnDestroy {
   allComplete: Array<boolean> = [];
 
   constructor(
+    @Inject(DOCUMENT) private _document: Document,
     private authService: AuthService,
     private router: Router,
     public route: ActivatedRoute,
@@ -196,7 +198,31 @@ export class CartComponent implements OnInit, OnDestroy {
     for (const item of this.itemExpired) {
       arrId.push(item.id);
     }
-    this.cartService.deleteCart(arrId);
+    // if (arrId.length > 0) {
+      Swal.fire({
+        title: 'Xóa hết những đơn hàng hết hạn?',
+        icon: 'question',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.cartService.deleteCart(arrId).subscribe((res) => {
+            Swal.fire({
+              title: 'Đã xóa tất cả những đơn hàng đã chọn',
+              icon: 'success'
+            }).then(() => {
+              this._document.defaultView.location.reload();
+            });
+          });
+        } else {}
+      });
+    // } else {
+    //   Swal.fire({
+    //     title: 'Bạn chưa lựa chọn đơn hàng nào!',
+    //     icon: 'error'
+    //   });
+    // }
+
+
   }
 
   deleteServiceIsSelected() {
@@ -206,12 +232,52 @@ export class CartComponent implements OnInit, OnDestroy {
         arrId.push(this.itemStill[i].id);
       }
     }
-    this.cartService.deleteCart(arrId);
+    if (arrId.length > 0) {
+      Swal.fire({
+        title: 'Xóa hết những đơn hàng đã chọn?',
+        icon: 'question',
+        showCancelButton: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.cartService.deleteCart(arrId).subscribe((res) => {
+            Swal.fire({
+              title: 'Đã xóa tất cả những đơn hàng đã chọn',
+              icon: 'success'
+            }).then(() => {
+              this._document.defaultView.location.reload();
+            });
+          });
+        } else {}
+      });
+    } else {
+      Swal.fire({
+        title: 'Bạn chưa lựa chọn đơn hàng nào!',
+        icon: 'error'
+      });
+    }
+
+    // this.cartService.deleteCart(arrId);
   }
 
   deleteOne(id: string) {
     const arrId: Array<string> = [id];
-    this.cartService.deleteCart(arrId);
+    // this.cartService.deleteCart(arrId);
+    Swal.fire({
+      title: 'Xóa đơn hàng?',
+      icon: 'question',
+      showCancelButton: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cartService.deleteCart(arrId).subscribe((res) => {
+          Swal.fire({
+            title: 'Đã xóa đơn hàng đã chọn',
+            icon: 'success'
+          }).then(() => {
+            this._document.defaultView.location.reload();
+          });
+        });
+      } else {}
+    });
   }
 
   updateCart(index) {
@@ -236,8 +302,22 @@ export class CartComponent implements OnInit, OnDestroy {
         arrId.push(this.itemStill[i].id);
       }
     }
-    console.log(arrId.join());
-    this.router.navigate(['pay', arrId.join()]);
+    if (arrId.length > 0) {
+      Swal.fire({
+        title: 'Bạn muốn thanh toán những đơn hàng đã chọn?',
+        icon: 'question'}).then((result) => {
+          if (result.isConfirmed) {
+            this.router.navigate(['pay', arrId.join()]);
+          } else {}
+        });
+    } else {
+      Swal.fire({
+        title: 'Bạn chưa lựa chọn đơn hàng nào để thanh toán!',
+        icon: 'error'
+      });
+    }
+    // console.log(arrId.join());
+
   }
 
 
