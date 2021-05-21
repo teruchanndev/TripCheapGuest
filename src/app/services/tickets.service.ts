@@ -7,8 +7,6 @@ import { Router } from '@angular/router';
 import { Ticket } from '../modals/ticket.model';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
-
 
 @Injectable({ providedIn: 'root' })
 export class TicketsService {

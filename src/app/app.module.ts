@@ -42,6 +42,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AngularFireModule } from "@angular/fire";
 import { environment } from 'src/environments/environment';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
+import { CommentComponent } from './tickets/comment/comment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,8 @@ import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-cat
     DetailInfoComponent,
     FooterComponent,
     PageSearchComponent,
-    TicketsCategoryComponent
+    TicketsCategoryComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

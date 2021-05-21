@@ -63,7 +63,7 @@
           <td colspan="7" class="price_last">
             <!-- <div> -->
               <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: red; text-align: center;">
-                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
+                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0}) || 0}} đ</h2>
               </div>
               <div style="display: flex; justify-content: center;">
                 <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button>
@@ -72,7 +72,9 @@
           </td>
         </mat-card>
       </tr>
-      <tr *ngFor="let item of itemExpired; index as i">
+
+      <!-- đơn hàng hết hạn -->
+      <tr *ngFor="let item of itemExpired; index as ie">
         <mat-card class="item_expired" style="display: flex;
         align-items: center; width: 100%; ">
           <td>
@@ -93,12 +95,12 @@
               <div>{{itemNum.itemServiceName}}</div>
               <div class="btn-add-sub">
                 <button mat-stroked-button color=""
-                  (click)="addQuantity(i, iNum)">
+                  (click)="addQuantity(ie, iNum)">
                   <mat-icon>add</mat-icon>
                 </button>
                   <input disabled [value]="itemNum.quantity" style="height: 27px; width: 27px;">
                 <button mat-stroked-button color=""
-                  (click)="subtractQuantity(i, iNum)">
+                  (click)="subtractQuantity(ie, iNum)">
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
@@ -107,7 +109,7 @@
           <td colspan="7" class="price_last">
             <!-- <div> -->
               <div style="font-style: 18px; padding-top: 0.5rem; font-weight: bold; color: #cacaca; text-align: center;">
-                <h2>{{priceItemStill[i].toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</h2>
+                <h2>{{ priceItemExpired[ie].toLocaleString('en-us', {minimumFractionDigits: 0})}} đ</h2>
               </div>
               <div style="display: flex; justify-content: center;">
                 <!-- <button mat-stroked-button color="primary" [routerLink]="['/detail/update', item.id]">Sửa</button> -->

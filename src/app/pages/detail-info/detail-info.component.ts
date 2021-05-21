@@ -42,16 +42,12 @@ export class DetailInfoComponent implements OnInit {
 
     this.formInfo = new FormGroup({
       username: new FormControl(null, {
-        validators: [Validators.required]
       }),
       fullName: new FormControl(null, {
-        validators: [Validators.required]
       }),
       phoneNumber: new FormControl(null, {
-        validators: [Validators.required]
       }),
       email: new FormControl(null, {
-        validators: [Validators.required]
       }),
       address: new FormControl(null, {
       }),
@@ -82,11 +78,11 @@ export class DetailInfoComponent implements OnInit {
         this.characterAvt = info.username[0].toUpperCase();
 
         this.formInfo.setValue({
-          username: this.infoCustomer.username,
-          fullName: this.infoCustomer.fullName,
-          phoneNumber: this.infoCustomer.phoneNumber,
-          email: this.infoCustomer.email,
-          address: this.infoCustomer.address
+          username: this.infoCustomer.username || '',
+          fullName: this.infoCustomer.fullName || '',
+          phoneNumber: this.infoCustomer.phoneNumber || 0,
+          email: this.infoCustomer.email || '',
+          address: this.infoCustomer.address || ''
         });
         this.formInfo.disable();
       });
