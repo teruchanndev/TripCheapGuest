@@ -1,5 +1,5 @@
 
-<div>
+<div style="width: 100%;">
     <div *ngIf="comments == null || comments == []"> Chưa có nhận xét nào!</div>
     <div *ngIf="comments">
     </div>
@@ -8,9 +8,28 @@
         <button mat-stroked-button  routerLink="/login" (click)="navigateToLogin()"> Để viết nhận xét hãy đăng nhập.</button>
     </div>
     <div *ngIf="userIsAuthenticated" style="display: flex;">
-        <div class="img_avt">
-            <h1>{{characterAvt}}</h1>
+        <div class="my-comment">
+            <div class="img_avt">
+                <span>{{characterAvt}}</span>
+            </div>
+    
+            <div style="display: flex;">
+                <mat-form-field 
+                    appearance="outline" 
+                    style="padding-left: 1rem; width: 40rem;">
+                    <mat-label>Để lại bình luận</mat-label>
+                    <textarea 
+                        matInput 
+                        placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
+                        ></textarea>
+                </mat-form-field>
+                <button mat-stroked-button color="primary" 
+                    style="height: 3rem; margin-top: 2rem; margin-left: 1rem;"
+                    (click)="onSaveComment()">
+                    Bình luận
+                </button>
+            </div>
         </div>
-        <div style="border: 1px solid #f1f1f1; border-radius: 20px; width: 400px;"></div>
+        
     </div>
 </div>

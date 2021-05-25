@@ -55,17 +55,21 @@ export class CommentComponent implements OnInit, OnDestroy {
       console.log(paramMap);
       this.ticketId = paramMap.get('ticketId');
 
-      // this.commentService.getCommentsOfTicket(this.ticketId);
-      // this.commentSub = this.commentService.getTicketUpdateListener().subscribe((comments: Comment[]) =>  {
-      //   this.comments = comments;
-      //   console.log(this.comments);
-      // });
+      this.commentService.getCommentsOfTicket(this.ticketId);
+      this.commentSub = this.commentService.getTicketUpdateListener().subscribe((comments: Comment[]) =>  {
+        this.comments = comments;
+        console.log(this.comments);
+      });
     });
   }
 
   navigateToLogin() {
     localStorage.setItem('ticketId',this.ticketId);
     localStorage.setItem('type', 'detailTicket');
+  }
+
+  onSaveComment() {
+    
   }
 
   ngOnDestroy(): void {
