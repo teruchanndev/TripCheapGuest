@@ -52,7 +52,7 @@ export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionSt
 export class TicketDetailComponent implements OnInit, OnDestroy {
 
   ticket: Ticket;
-  private ticketId: string;
+  ticketId: string;
   imageObject: Array<Object> = [];
   cart: Cart;
   showInfoServiceItem = false;

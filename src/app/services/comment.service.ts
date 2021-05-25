@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Comment } from '../modals/comment.model';
 
+@Injectable({ providedIn: 'root' })
 export class CommentService {
     private comments: Comment[] = [];
     private commentUpdated = new Subject<Comment[]>();
@@ -38,6 +40,10 @@ export class CommentService {
                 this.comments = transformedComment;
                 this.commentUpdated.next([...this.comments]);
             });
+    }
+
+    getTicketUpdateListener() {
+        return this.commentUpdated.asObservable();
     }
 
     addComment(

@@ -54,7 +54,7 @@ export class AuthService {
 
     login(email: string, password: string) {
         const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
-        console.log(authData);
+
         this.http.post<{token: string, expiresIn: number, userId: string, username: string, created_at: string }>(
           'http://localhost:3000/api/user/login',
           authData
@@ -75,7 +75,13 @@ export class AuthService {
                   const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
                   console.log(expirationDate);
                   this.saveAuthData(token, expirationDate, this.userId, this.username, this.created_at);
-                  this.router.navigate(['/home']);
+                  if(localStorage.getItem('ticketId') && localStorage.getItem('type') == 'detailTicket') {
+                    console.log('navigate to detailTicket: ', localStorage.getItem('ticketId'));
+                    this.router.navigate(['/detail/', localStorage.getItem('ticketId')]);
+                  } else {
+                    this.router.navigate(['/home']);
+                  }
+                  
                 }
             }, error => {
               console.log('error ' + authData);

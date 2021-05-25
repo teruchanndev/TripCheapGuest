@@ -65,9 +65,9 @@ export class DetailInfoComponent implements OnInit {
     });
 
     this.customerService.getInfoCustomer().then(
-      (inforData) => {
+      (infoData) => {
         // tslint:disable-next-line:prefer-const
-        let info = inforData as Customer;
+        let info = infoData as Customer;
         this.infoCustomer = {
           username: info.username,
           email: info.email,
