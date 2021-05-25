@@ -129,6 +129,7 @@ export class CartComponent implements OnInit, OnDestroy {
           }
           this.priceItemStill[i] = sum;
         }
+        console.log('priceItemStill: ', this.priceItemStill);
 
         // set price in cart expired
         for (let i = 0; i < this.itemExpired.length; i++) {
@@ -139,6 +140,7 @@ export class CartComponent implements OnInit, OnDestroy {
           }
           this.priceItemExpired[i] = sum;
         }
+        console.log('priceItemExpired: ', this.priceItemExpired);
 
     });
 

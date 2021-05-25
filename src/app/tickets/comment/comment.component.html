@@ -1,0 +1,16 @@
+
+<div>
+    <div *ngIf="comments == null || comments == []"> Chưa có nhận xét nào!</div>
+    <div *ngIf="comments">
+    </div>
+
+    <div *ngIf="!userIsAuthenticated">
+        <button mat-stroked-button  routerLink="/login" (click)="navigateToLogin()"> Để viết nhận xét hãy đăng nhập.</button>
+    </div>
+    <div *ngIf="userIsAuthenticated" style="display: flex;">
+        <div class="img_avt">
+            <h1>{{characterAvt}}</h1>
+        </div>
+        <div style="border: 1px solid #f1f1f1; border-radius: 20px; width: 400px;"></div>
+    </div>
+</div>
