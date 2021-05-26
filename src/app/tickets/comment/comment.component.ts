@@ -68,8 +68,8 @@ export class CommentComponent implements OnInit, OnDestroy {
     localStorage.setItem('type', 'detailTicket');
   }
 
-  onSaveComment() {
-    
+  onSaveComment(mes) {
+    console.log(mes);
   }
 
   ngOnDestroy(): void {

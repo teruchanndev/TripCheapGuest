@@ -86,7 +86,7 @@ export class AuthService {
                   this.authStatusListener.next(true);
                   const now = new Date();
                   const expirationDate = new Date(now.getTime() + expiresInDuration * 1000 );
-                  console.log(expirationDate);
+                  localStorage.setItem('customerName', this.username);
                   this.saveAuthData(token, expirationDate, this.customerId, this.username, this.created_at);
                   if(localStorage.getItem('ticketId') && localStorage.getItem('type') == 'detailTicket') {
                     this.router.navigate(['/detail/', localStorage.getItem('ticketId')]);

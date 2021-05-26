@@ -41,7 +41,8 @@
             <mat-card-title>{{cartItem.nameTicket}}</mat-card-title>
             <mat-card-subtitle>{{cartItem.itemService[0].name}}</mat-card-subtitle>
             <mat-card-subtitle *ngFor="let item of cartItem.itemService">
-              {{item.quantity + ' ' + item.itemServiceName}}</mat-card-subtitle>
+              {{item.quantity + ' ' + item.itemServiceName}}
+            </mat-card-subtitle>
             <mat-card-subtitle>{{cartItem.dateStart + ' - ' + cartItem.dateEnd}}</mat-card-subtitle>
           </mat-card-header>
         </mat-card>

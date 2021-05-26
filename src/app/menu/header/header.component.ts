@@ -62,6 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log(this.userIsAuthenticated);
 
     if (this.userIsAuthenticated) {
+      this.characterAvt = localStorage.getItem("customerName")[0].toUpperCase();
+      this.username = localStorage.getItem("customerName");
       this.customerService.getInfoCustomer().then(
         (inforData) => {
           console.log(inforData);
@@ -73,8 +75,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
             fullName: info.fullName,
             address: info.address
           };
-          this.characterAvt = this.infoCustomer.username[0].toUpperCase();
-          this.username = info.username;
+          // this.characterAvt = this.infoCustomer.username[0].toUpperCase();
+          // this.username = info.username;
         });
     }
 

@@ -19,13 +19,15 @@
                     style="padding-left: 1rem; width: 40rem;">
                     <mat-label>Để lại bình luận</mat-label>
                     <textarea 
-                        matInput 
+                        matInput
+                        #inputComment 
                         placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
-                        ></textarea>
+                        >
+                    </textarea>
                 </mat-form-field>
                 <button mat-stroked-button color="primary" 
                     style="height: 3rem; margin-top: 2rem; margin-left: 1rem;"
-                    (click)="onSaveComment()">
+                    (click)="onSaveComment(inputComment.value)">
                     Bình luận
                 </button>
             </div>
