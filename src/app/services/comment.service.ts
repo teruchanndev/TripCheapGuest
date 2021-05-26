@@ -30,9 +30,12 @@ export class CommentService {
                             idTicket: comment.idTicket,
                             idCreator: comment.idCreator,
                             message: comment.message,
+                            username: comment.username,
                             images: comment.images,
                             rating: comment.rating,
-                            likeCount: comment.likeCount
+                            likeCount: comment.likeCount,
+                            isMyLike: comment.isMyLike,
+                            created_at: comment.created_at
                         };
                     });
                 })
@@ -42,7 +45,7 @@ export class CommentService {
             });
     }
 
-    getTicketUpdateListener() {
+    getCommentUpdateListener() {
         return this.commentUpdated.asObservable();
     }
 
@@ -51,28 +54,52 @@ export class CommentService {
         idTicket: string,
         idCreator: string,
         message: string,
+        username: string,
         images: Array<string>,
         rating: number,
-        likeCount: number
+        likeCount: number,
+        isMyLike: boolean
     ) {
         const commentData = {
             idUser: idUser,
             idTicket: idTicket,
             idCreator: idCreator,
             message: message,
+            username: username,
             images: images,
             rating: rating,
-            likeCount: likeCount
+            likeCount: likeCount,
+            isMyLike: isMyLike
           };
+        console.log('commentDt: ', commentData);
         // tslint:disable-next-line:no-shadowed-variable
         return new Promise((resolve) => {
         this.http
         .post<
-            { message: string; ticket: Object }>
+            { message: string; comments: Object }>
             (this.BACKEND_URL, commentData)
-        .subscribe(responseData => {
+            .subscribe(responseData => {
             resolve(commentData);
         });
+        });
+    }
+
+    updateIsLike(
+        idComment: string,
+        likeCount: number,
+        isMyLike: boolean
+    ) {
+        const dateChange = {
+            idComment: idComment,
+            likeCount: likeCount,
+            isMyLike: isMyLike
+        }
+        return new Promise((resolve) => {
+            this.http
+                .put(this.BACKEND_URL + idComment, dateChange)
+                .subscribe(response => {
+                    resolve(response);
+                });
         });
     }
 

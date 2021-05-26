@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiURL: 'https://tripcheap-2f380.web.app/api',
+  // apiURL: 'https://tripcheap-2f380.web.app/api',
+  apiURL: 'http://localhost:5000/api',
   firebaseConfig: {
     apiKey: 'AIzaSyCRuIhPpUBprXRGjIeAUDtenTQybLzrSlQ',
     authDomain: 'tripcheap-2f380.firebaseapp.com',

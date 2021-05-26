@@ -1,11 +1,54 @@
 
 <div style="width: 100%;">
-    <div *ngIf="comments == null || comments == []"> Chưa có nhận xét nào!</div>
-    <div *ngIf="comments">
+    <div *ngIf="comments.length == 0"
+        style="padding: 1rem; font-size: 20px; color: gray;">
+        <span>Chưa có bình luận nào!
+            <span *ngIf="!userIsAuthenticated"> Đăng nhập để bình luận về dịch vụ này!</span>
+            <span *ngIf="userIsAuthenticated">  Nếu bạn đã sử dụng dịch vụ, hãy để lại nhận xét!</span>
+        </span>
+    </div>
+    <div *ngIf="comments.length > 0">
+        <div class="my-comment" *ngFor="let item of comments, index as i">
+            <div>
+                <div class="img_avt">
+                    <span>{{item.username[0].toUpperCase()}}</span>
+                </div>
+            </div>
+            <div style="padding-left: 1rem; width: 100%;">
+                <div>
+                    <span style="color: #5f0474; font-weight: bold;">{{item.username}} </span>
+                    <span 
+                        style="color: gray; font-style: italic; padding-left: 0.5rem; font-size: 14px;">
+                        {{formatDate(item.created_at)}}
+                    </span>
+                </div>
+                <div style="color: gray; padding-top: 0.5rem;">
+                    {{item.message}}
+                </div>
+                <div 
+                    class="like-item"
+                    style="padding-top: 1rem;"
+                    (click)="likeComment(countLikeComments[i], i)">
+                    <span style="color: gray;">
+                        {{countLikeComments[i]}}
+                    </span>
+                    <img width="20px" height="20px" 
+                        style="cursor: pointer;"
+                        *ngIf="!isLikeComment[i]"
+                        src="../../../assets/icon/like.svg">
+                    <img width="20px" height="20px" 
+                        style="cursor: pointer;"
+                        *ngIf="isLikeComment[i]"
+                        src="../../../assets/icon/like-action.svg">
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div *ngIf="!userIsAuthenticated">
-        <button mat-stroked-button  routerLink="/login" (click)="navigateToLogin()"> Để viết nhận xét hãy đăng nhập.</button>
+        <button mat-stroked-button  routerLink="/login" (click)="navigateToLogin()"> 
+            Đăng nhập.</button>
     </div>
     <div *ngIf="userIsAuthenticated" style="display: flex;">
         <div class="my-comment">
@@ -16,11 +59,11 @@
             <div style="display: flex;">
                 <mat-form-field 
                     appearance="outline" 
-                    style="padding-left: 1rem; width: 40rem;">
+                    style="margin-left: 1rem; width: 40rem;">
                     <mat-label>Để lại bình luận</mat-label>
                     <textarea 
                         matInput
-                        #inputComment 
+                        #inputComment
                         placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
                         >
                     </textarea>
