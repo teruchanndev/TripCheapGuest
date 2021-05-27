@@ -43,6 +43,7 @@ import { AngularFireModule } from "@angular/fire";
 import { environment } from 'src/environments/environment';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 import { CommentComponent } from './tickets/comment/comment.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,6 +84,7 @@ import { CommentComponent } from './tickets/comment/comment.component';
     MatNativeDateModule,
     NgImageSliderModule,
     QRCodeModule,
+    CarouselModule,
     [SweetAlert2Module.forRoot()],
     AngularFireModule.initializeApp(environment.firebaseConfig, "cloud")
   ],
