@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Comment } from 'src/app/modals/comment.model';
@@ -10,7 +10,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import Swal from 'sweetalert2';
 import { AngularFireStorage, AngularFireStorageReference } from "@angular/fire/storage";
 import { finalize } from 'rxjs/operators';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
@@ -28,8 +28,10 @@ export class CommentComponent implements OnInit, OnDestroy {
   customerId: string;
   infoCustomer: Customer;
   characterAvt: string;
+
   isLikeComment = [];
   countLikeComments = [];
+
   enterMessage = "";
   fileImage : Array<File> = [];
   previewImage: Array<String> = [];
@@ -37,6 +39,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   imageObject: Array<Object> = [];
   
   constructor(
+    @Inject(DOCUMENT) private _document: Document,
     public commentService: CommentService,
     public route: ActivatedRoute,
     public customerService: CustomerService,
@@ -71,11 +74,20 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.ticketId = paramMap.get('ticketId');
       this.commentService.getCommentsOfTicket(this.ticketId);
+
       this.commentSub = this.commentService.getCommentUpdateListener()
         .subscribe((comments: Comment[]) =>  {
         this.comments = comments;
-        comments.forEach( el =>{
-          this.isLikeComment.push(el.isMyLike);
+        comments.forEach( el => {
+          console.log('el: ', el.listUserLike);
+          if(el.listUserLike != []) {
+            const MyLike = el.listUserLike.find(elLike => elLike == this.customerId);
+            console.log('MyLike',MyLike);
+            if(MyLike) {
+              this.isLikeComment.push(true);
+            } else this.isLikeComment.push(false);
+          } else this.isLikeComment.push(false);
+          
           this.countLikeComments.push(el.likeCount);
           var img = [];
           for (let i = 0; i < el.images.length; i++) {
@@ -85,7 +97,9 @@ export class CommentComponent implements OnInit, OnDestroy {
             };
           }
           this.imageObject.push(img);
-          console.log('imageObj: ', this.imageObject);
+          // console.log('imageObj: ', this.imageObject);
+          // console.log('isLikeComment: ', this.isLikeComment);
+          // console.log('countLikeComments: ', this.countLikeComments);
         })
         console.log('comment get: ',comments);
       });
@@ -127,20 +141,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       }
       Promise.all(listUploadImage).then(values => {
         console.log('list file upload: ', values);
-        var comment : Comment = {
-          id: '',
-          idUser: this.customerId,
-          idTicket: this.ticketId,
-          idCreator: this.ticket.creator,
-          username: this.infoCustomer.username,
-          message: mes,
-          images: values,
-          rating: 0,
-          likeCount: 0,
-          isMyLike: false,
-          created_at: dateNow.toString()
-        }
-        console.log('comment: ', comment);
         this.commentService.addComment(
           this.customerId,
           this.ticketId,
@@ -150,16 +150,22 @@ export class CommentComponent implements OnInit, OnDestroy {
           values,
           0,
           0,
-          false
+          [],
+          []
         ).then((value) => {
+            this.previewImage = [];
+            this.fileImage = [];
+            this.isLikeComment = [];
+            this.countLikeComments = [];
           Swal.fire({
             title: 'Đã gửi bình luận của bạn!',
             icon: 'success'
           }).then(() => {
-            this.comments.push(comment);
-            this.countLikeComments.push(0);
-            this.isLikeComment.push(false);
-            this.previewImage = [];
+            this.ngOnInit();
+            // this.comments.push(comment);
+            // this.countLikeComments.push(0);
+            // this.isLikeComment.push(false);
+            // this.previewImage = [];
           });
         })
       });
@@ -167,23 +173,38 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   likeComment(count, i) {
-    let Ilike = false;
+    let ischeckLike;
     if(this.isLikeComment[i]) {
       this.countLikeComments[i] = count - 1;
-      Ilike = false;
+      ischeckLike = false;
     } else {
       this.countLikeComments[i] = count + 1;
-      Ilike = true;
+      ischeckLike = true;
     }
     this.isLikeComment[i] = !this.isLikeComment[i];
     this.commentService.updateIsLike(
       this.comments[i].id,
-      this.countLikeComments[i],
-      Ilike
+      ischeckLike
     ).then((value : any) => {
       console.log(value);
     })
+  }
 
+  disLikeComment(count, i) {
+    let ischeckLike = false;
+    if(this.isLikeComment[i]) {
+      this.countLikeComments[i] = count - 1;
+      ischeckLike = false;
+    } else {
+      this.countLikeComments[i] = count + 1;
+      ischeckLike = true;
+    }
+    this.isLikeComment[i] = !this.isLikeComment[i];
+    this.commentService.updateIsDisLike(
+      this.comments[i].id,
+    ).then((value : any) => {
+      console.log(value);
+    })
   }
 
   onDeleteComment(idComment, index) {
@@ -221,7 +242,7 @@ export class CommentComponent implements OnInit, OnDestroy {
 
   onUploadImageToFirebase(img) {
     var n = Date.now();
-    console.log(img);
+    // console.log(img);
     const filePath = `image_customer_comment/${n}`;
     const fileRef = this.storage.ref(filePath);
 

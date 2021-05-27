@@ -32,9 +32,10 @@ export class CommentService {
                             message: comment.message,
                             username: comment.username,
                             images: comment.images,
-                            rating: comment.rating,
                             likeCount: comment.likeCount,
-                            isMyLike: comment.isMyLike,
+                            disLikeCount: comment.disLikeCount,
+                            lisUserLike: comment.lisUserLike,
+                            lisUserDisLike: comment.lisUserDisLike,
                             created_at: comment.created_at
                         };
                     });
@@ -56,9 +57,10 @@ export class CommentService {
         message: string,
         username: string,
         images: Array<string>,
-        rating: number,
         likeCount: number,
-        isMyLike: boolean
+        disLikeCount: number,
+        listUserLike: Array<string>,
+        listUserDisLike: Array<string>
     ) {
         const commentData = {
             idUser: idUser,
@@ -67,9 +69,10 @@ export class CommentService {
             message: message,
             username: username,
             images: images,
-            rating: rating,
             likeCount: likeCount,
-            isMyLike: isMyLike
+            disLikeCount: disLikeCount,
+            listUserLike: listUserLike,
+            listUserDisLike: listUserDisLike
           };
         console.log('commentDt: ', commentData);
         // tslint:disable-next-line:no-shadowed-variable
@@ -86,17 +89,31 @@ export class CommentService {
 
     updateIsLike(
         idComment: string,
-        likeCount: number,
-        isMyLike: boolean
+        ischeckLike: boolean
     ) {
         const dateChange = {
             idComment: idComment,
-            likeCount: likeCount,
-            isMyLike: isMyLike
+            ischeckLike: ischeckLike
+        }
+        console.log('dateChange: ', dateChange);
+        return new Promise((resolve) => {
+            this.http
+                .put(this.BACKEND_URL + 'like/' + idComment, dateChange)
+                .subscribe(response => {
+                    resolve(response);
+                });
+        });
+    }
+
+    updateIsDisLike(
+        idComment: string,
+    ) {
+        const dateChange = {
+            idComment: idComment,
         }
         return new Promise((resolve) => {
             this.http
-                .put(this.BACKEND_URL + idComment, dateChange)
+                .put(this.BACKEND_URL + 'dislike/' + idComment, dateChange)
                 .subscribe(response => {
                     resolve(response);
                 });

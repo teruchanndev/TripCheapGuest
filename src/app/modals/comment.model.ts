@@ -6,9 +6,10 @@ export interface Comment {
     message: string;
     username: string;
     images: Array<string>;
-    rating: number;
     likeCount: number;
-    isMyLike: boolean;
+    disLikeCount: number;
+    listUserLike: Array<string>;
+    listUserDisLike: Array<string>;
     created_at: string;
 }
   
