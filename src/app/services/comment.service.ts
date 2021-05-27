@@ -103,5 +103,14 @@ export class CommentService {
         });
     }
 
+    deleteComment(idComment: string) {
+        return new Promise((resolve) => {
+            this.http
+            .delete(this.BACKEND_URL + idComment).subscribe(response => {
+                resolve(response);  
+            });
+        }); 
+    }
+
 
 }

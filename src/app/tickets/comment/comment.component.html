@@ -7,6 +7,7 @@
             <span *ngIf="userIsAuthenticated">  Nếu bạn đã sử dụng dịch vụ, hãy để lại nhận xét!</span>
         </span>
     </div>
+    <!-- list comment -->
     <div *ngIf="comments.length > 0">
         <div class="my-comment" *ngFor="let item of comments, index as i">
             <div>
@@ -16,28 +17,59 @@
             </div>
             <div style="padding-left: 1rem; width: 100%;">
                 <div>
-                    <span style="color: #5f0474; font-weight: bold;">{{item.username}} </span>
+                    <span style="color: #5f0474; font-weight: bold;">
+                        {{item.username}}
+                        <span 
+                            *ngIf="item.idUser == customerId" 
+                            style="font-style: italic;">(tôi)
+                        </span>
+                    </span>
                     <span 
                         style="color: gray; font-style: italic; padding-left: 0.5rem; font-size: 14px;">
                         {{formatDate(item.created_at)}}
+                    </span>
+                    <span 
+                        *ngIf="item.idUser == customerId"
+                        (click)="onDeleteComment(item.id, i)">
+                        <img width="20px" height="20px"
+                            class="on-cancel"
+                            onmouseover="this.src='../../../assets/icon/cancel-action.svg'"
+                            onmouseout="this.src='../../../assets/icon/cancel.svg'"
+                            src="../../../assets/icon/cancel.svg">
                     </span>
                 </div>
                 <div style="color: gray; padding-top: 0.5rem;">
                     {{item.message}}
                 </div>
+                <div *ngIf="item.images[0] !== ''"
+                    style="margin-top: 1rem;">
+                    <!-- <img 
+                        *ngFor="let url of item.images"
+                        [src]="url"
+                        width="120px" height="80px"
+                        style="margin: 3px; cursor: pointer;"
+                        (click)="showImage(url)"> -->
+                    <ng-image-slider #comment
+                        [images]="imageObject[i]"
+                        [infinite]="false"
+                        [autoSlide]="imageObject[i].length"
+                        [imageSize]="{width: 120, height: 80}"
+                        slideImage="1"></ng-image-slider>
+                </div>
+
                 <div 
                     class="like-item"
                     style="padding-top: 1rem;"
-                    (click)="likeComment(countLikeComments[i], i)">
+                    [ngStyle]="{'cursor':userIsAuthenticated === false ? 'no-drop' : 'pointer' }"
+                    (click)="likeComment(countLikeComments[i], i)"
+                    >
                     <span style="color: gray;">
                         {{countLikeComments[i]}}
                     </span>
                     <img width="20px" height="20px" 
-                        style="cursor: pointer;"
                         *ngIf="!isLikeComment[i]"
                         src="../../../assets/icon/like.svg">
                     <img width="20px" height="20px" 
-                        style="cursor: pointer;"
                         *ngIf="isLikeComment[i]"
                         src="../../../assets/icon/like-action.svg">
                 </div>
@@ -46,10 +78,16 @@
         </div>
     </div>
 
+    <!-- button login -->
     <div *ngIf="!userIsAuthenticated">
-        <button mat-stroked-button  routerLink="/login" (click)="navigateToLogin()"> 
-            Đăng nhập.</button>
+        <button 
+            mat-stroked-button 
+            routerLink="/login" 
+            (click)="navigateToLogin()"> 
+            Đăng nhập và để lại nhận xét
+        </button>
     </div>
+    <!-- my comment -->
     <div *ngIf="userIsAuthenticated" style="display: flex;">
         <div class="my-comment">
             <div class="img_avt">
@@ -57,24 +95,58 @@
             </div>
     
             <div style="display: flex;">
-                <mat-form-field 
-                    appearance="outline" 
-                    style="margin-left: 1rem; width: 40rem;">
-                    <mat-label>Để lại bình luận</mat-label>
-                    <textarea 
-                        matInput
-                        #inputComment
-                        placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
-                        >
-                    </textarea>
-                </mat-form-field>
-                <button mat-stroked-button color="primary" 
-                    style="height: 3rem; margin-top: 2rem; margin-left: 1rem;"
-                    (click)="onSaveComment(inputComment.value)">
-                    Bình luận
-                </button>
+                <div>
+                    <mat-form-field 
+                        appearance="outline" 
+                        style="margin-left: 1rem; width: 40rem;">
+                        <mat-label>Để lại bình luận</mat-label>
+                        <textarea 
+                            matInput
+                            #inputComment
+                            [value]=''
+                            placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
+                            >
+                        </textarea>
+                    </mat-form-field>
+                    <input 
+                        style="display: none;"
+                        type="file" 
+                        multiple 
+                        #inputUploadImage
+                        (change)="onFileChange($event)"/>
+                    <div style="padding-left: 1rem;  color:gray; fill:gray; display: flex;">
+                        <div style="font-size: 13px;">Thêm hình ảnh </div>
+                        <div>
+                            <img width="30px" height="30px"
+                            title="Tải ảnh lên từ máy tính"
+                            class="upload-image"
+                            (click)="inputUploadImage.click()"
+                            onmouseover="this.src='../../../assets/icon/image-action.svg'"
+                            onmouseout="this.src='../../../assets/icon/image.svg'"
+                            src="../../../assets/icon/image.svg">
+                        </div>
+                        
+                        <div style="border: 1px solid #f2f2f2; border-radius: 20px; padding: 0.5rem;">
+                            <img 
+                            *ngFor='let url of previewImage' 
+                            [src]="url" 
+                            height="60px" width="100px" 
+                            style="margin: 3px; border: 1px solid #e0e0e0;">
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div style="width: 100%;">
+                    <button mat-raised-button 
+                        color="primary" 
+                        style="height: 3rem; margin-top: 2rem; margin-left: 1rem;"
+                        (click)="onSaveComment(inputComment.value)">
+                        Bình luận
+                    </button>
+                </div>
+                
             </div>
         </div>
-        
     </div>
 </div>

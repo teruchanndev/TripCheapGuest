@@ -21,3 +21,17 @@
   .like-item:hover {
     transform: scale(1);
   }
+  .on-cancel {
+    width: 12px;
+    padding-left: 1rem;
+    position: absolute;
+    cursor: pointer;
+  }
+  .upload-image {
+    padding: 0 1rem;
+    /* position: absolute;
+    bottom: 24px; */
+  }
+  .myClass {
+    
+  }
