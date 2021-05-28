@@ -75,10 +75,9 @@ export class CommentComponent implements OnInit, OnDestroy {
       this.ticketId = paramMap.get('ticketId');
       // this.commentService.getCommentsOfTicket(this.ticketId);
       this.commentService.getComments(this.ticketId).then(value => {
-        console.log('value: ', value);
         this.comments = value as Array<Comment>;
+        console.log('comments: ', this.comments);
         this.comments.forEach(cmt => {
-
           // add array listMyLike
           if(cmt.listUserLike != []){
             const MyLike = cmt.listUserLike.find(elLike => elLike == this.customerId);
@@ -99,56 +98,21 @@ export class CommentComponent implements OnInit, OnDestroy {
 
         });
       });
-      // this.commentSub = this.commentService.getCommentUpdateListener()
-      //   .subscribe((comments: Comment[]) =>  {
-      //   this.comments = comments;
-      //   console.log('comment: ',comments);
-      //   comments.forEach( (el) => {
-      //     console.log('el: ', el);
-      //     if(el.listUserLike != undefined) {
-      //       const MyLike = el.listUserLike.find(elLike => elLike == this.customerId);
-      //       console.log('MyLike',MyLike);
-      //       if(MyLike) {
-      //         this.isLikeComment.push(true);
-      //       } else this.isLikeComment.push(false);
-      //     } else this.isLikeComment.push(false);
-          
-      //     this.countLikeComments.push(el.likeCount);
-      //     var img = [];
-      //     for (let i = 0; i < el.images.length; i++) {
-      //       img[i] = {
-      //         image : el.images[i],
-      //         thumbImage: el.images[i]
-      //       };
-      //     }
-      //     this.imageObject.push(img);
-      //     // console.log('imageObj: ', this.imageObject);
-      //     // console.log('isLikeComment: ', this.isLikeComment);
-      //     // console.log('countLikeComments: ', this.countLikeComments);
-      //   })
-      //   console.log('comment get: ',comments);
-      // });
     });
 
   }
 
   formatDate(date) {
-    console.log('time: ', date);
     var d = new Date(date);
     var hours = d.getHours();
     var minutes = d.getMinutes();
-    console.log('getUTCDay: ', d.getUTCDay());
-    console.log('day: ', d.getDate());
-    console.log('getUTCMonth: ', d.getUTCMonth());
-    console.log('getMonth: ', d.getMonth());
-    console.log('getFullYear: ', d.getFullYear());
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     var minutescovert = minutes < 10 ? '0' + minutes : minutes;
     var strTime = hours + ':' + minutescovert + ' ' + ampm;
 
-    return d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear()
+    return d.getDate() + '/' + d.getMonth() + 1 + '/' + d.getFullYear()
       + ' (' + strTime + ')';
   }
 
@@ -159,7 +123,6 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   onSaveComment(mes) {
-    var dateNow = new Date();
     if(mes.trim() == '') {
       Swal.fire({
         title:'Bạn chưa nhận xét! Hãy để lại nhận xét của bạn!',
@@ -171,7 +134,7 @@ export class CommentComponent implements OnInit, OnDestroy {
         listUploadImage.push(this.onUploadImageToFirebase(item));
       }
       Promise.all(listUploadImage).then(values => {
-        console.log('list file upload: ', values);
+        // console.log('list file upload: ', values);
         this.commentService.addComment(
           this.customerId,
           this.ticketId,
@@ -188,9 +151,24 @@ export class CommentComponent implements OnInit, OnDestroy {
             title: 'Đã gửi bình luận của bạn!',
             icon: 'success'
           }).then(() => {
+            var dateNow = new Date();
+            var commentNew = {
+              _id: '',
+              idUser: this.customerId,
+              idTicket: this.ticketId,
+              idCreator: this.ticket.creator,
+              message: mes,
+              username: this.infoCustomer.username,
+              images: values,
+              likeCount: 0,
+              disLikeCount: 0,
+              listUserLike: [],
+              listUserDisLike: [],
+              created_at: dateNow.toString()
+            };
             //this.ngOnInit();
-            this.comments.push(value as Comment);
-            console.log('value: ', value);
+            this.comments.push(commentNew);
+            console.log('valueAdd: ', value);
             // this.countLikeComments.push(0);
             // this.isLikeComment.push(false);
             // this.previewImage = [];

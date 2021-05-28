@@ -30,7 +30,7 @@
                     </span>
                     <span 
                         *ngIf="item.idUser == customerId"
-                        (click)="onDeleteComment(item.id, i)">
+                        (click)="onDeleteComment(item._id, i)">
                         <img width="20px" height="20px"
                             class="on-cancel"
                             onmouseover="this.src='../../../assets/icon/cancel-action.svg'"
@@ -41,7 +41,8 @@
                 <div style="color: gray; padding-top: 0.5rem;">
                     {{item.message}}
                 </div>
-                <div *ngIf="item.images[0] !== ''"
+                <div 
+                    [ngStyle]="{'display':item.images.length == 0 ? 'none' : 'block' }"
                     style="margin-top: 1rem;">
                     <!-- <img 
                         *ngFor="let url of item.images"
