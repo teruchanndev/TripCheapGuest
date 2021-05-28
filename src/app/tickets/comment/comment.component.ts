@@ -73,44 +73,75 @@ export class CommentComponent implements OnInit, OnDestroy {
     // get comment
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.ticketId = paramMap.get('ticketId');
-      this.commentService.getCommentsOfTicket(this.ticketId);
+      // this.commentService.getCommentsOfTicket(this.ticketId);
+      this.commentService.getComments(this.ticketId).then(value => {
+        console.log('value: ', value);
+        this.comments = value as Array<Comment>;
+        this.comments.forEach(cmt => {
 
-      this.commentSub = this.commentService.getCommentUpdateListener()
-        .subscribe((comments: Comment[]) =>  {
-        this.comments = comments;
-        comments.forEach( el => {
-          console.log('el: ', el.listUserLike);
-          if(el.listUserLike != []) {
-            const MyLike = el.listUserLike.find(elLike => elLike == this.customerId);
-            console.log('MyLike',MyLike);
+          // add array listMyLike
+          if(cmt.listUserLike != []){
+            const MyLike = cmt.listUserLike.find(elLike => elLike == this.customerId);
             if(MyLike) {
               this.isLikeComment.push(true);
             } else this.isLikeComment.push(false);
           } else this.isLikeComment.push(false);
-          
-          this.countLikeComments.push(el.likeCount);
+
+          this.countLikeComments.push(cmt.likeCount);
           var img = [];
-          for (let i = 0; i < el.images.length; i++) {
+          for (let i = 0; i < cmt.images.length; i++) {
             img[i] = {
-              image : el.images[i],
-              thumbImage: el.images[i]
+              image : cmt.images[i],
+              thumbImage: cmt.images[i]
             };
           }
           this.imageObject.push(img);
-          // console.log('imageObj: ', this.imageObject);
-          // console.log('isLikeComment: ', this.isLikeComment);
-          // console.log('countLikeComments: ', this.countLikeComments);
-        })
-        console.log('comment get: ',comments);
+
+        });
       });
+      // this.commentSub = this.commentService.getCommentUpdateListener()
+      //   .subscribe((comments: Comment[]) =>  {
+      //   this.comments = comments;
+      //   console.log('comment: ',comments);
+      //   comments.forEach( (el) => {
+      //     console.log('el: ', el);
+      //     if(el.listUserLike != undefined) {
+      //       const MyLike = el.listUserLike.find(elLike => elLike == this.customerId);
+      //       console.log('MyLike',MyLike);
+      //       if(MyLike) {
+      //         this.isLikeComment.push(true);
+      //       } else this.isLikeComment.push(false);
+      //     } else this.isLikeComment.push(false);
+          
+      //     this.countLikeComments.push(el.likeCount);
+      //     var img = [];
+      //     for (let i = 0; i < el.images.length; i++) {
+      //       img[i] = {
+      //         image : el.images[i],
+      //         thumbImage: el.images[i]
+      //       };
+      //     }
+      //     this.imageObject.push(img);
+      //     // console.log('imageObj: ', this.imageObject);
+      //     // console.log('isLikeComment: ', this.isLikeComment);
+      //     // console.log('countLikeComments: ', this.countLikeComments);
+      //   })
+      //   console.log('comment get: ',comments);
+      // });
     });
 
   }
 
   formatDate(date) {
+    console.log('time: ', date);
     var d = new Date(date);
     var hours = d.getHours();
     var minutes = d.getMinutes();
+    console.log('getUTCDay: ', d.getUTCDay());
+    console.log('day: ', d.getDate());
+    console.log('getUTCMonth: ', d.getUTCMonth());
+    console.log('getMonth: ', d.getMonth());
+    console.log('getFullYear: ', d.getFullYear());
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
@@ -153,16 +184,13 @@ export class CommentComponent implements OnInit, OnDestroy {
           [],
           []
         ).then((value) => {
-            this.previewImage = [];
-            this.fileImage = [];
-            this.isLikeComment = [];
-            this.countLikeComments = [];
           Swal.fire({
             title: 'Đã gửi bình luận của bạn!',
             icon: 'success'
           }).then(() => {
-            this.ngOnInit();
-            // this.comments.push(comment);
+            //this.ngOnInit();
+            this.comments.push(value as Comment);
+            console.log('value: ', value);
             // this.countLikeComments.push(0);
             // this.isLikeComment.push(false);
             // this.previewImage = [];
@@ -183,7 +211,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     }
     this.isLikeComment[i] = !this.isLikeComment[i];
     this.commentService.updateIsLike(
-      this.comments[i].id,
+      this.comments[i]._id,
       ischeckLike
     ).then((value : any) => {
       console.log(value);
@@ -201,7 +229,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     }
     this.isLikeComment[i] = !this.isLikeComment[i];
     this.commentService.updateIsDisLike(
-      this.comments[i].id,
+      this.comments[i]._id,
     ).then((value : any) => {
       console.log(value);
     })
@@ -283,7 +311,7 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.commentSub.unsubscribe();
+    // this.commentSub.unsubscribe();
   }
 
 }

@@ -17,38 +17,50 @@ export class CommentService {
         private router: Router
     ) {}
 
-    getCommentsOfTicket(ticketId: string) {
-        this.http
+    // getCommentsOfTicket(ticketId: string) {
+    //     this.http
+    //         .get<{ message: string, comment: any }>
+    //         (this.BACKEND_URL + ticketId)
+    //         .pipe(
+    //             map(commentData => {
+    //                 return commentData.comment.map( comment => {
+    //                     return {
+    //                         id: comment._id,
+    //                         idUser: comment.idUser,
+    //                         idTicket: comment.idTicket,
+    //                         idCreator: comment.idCreator,
+    //                         message: comment.message,
+    //                         username: comment.username,
+    //                         images: comment.images,
+    //                         likeCount: comment.likeCount,
+    //                         disLikeCount: comment.disLikeCount,
+    //                         lisUserLike: comment.lisUserLike,
+    //                         lisUserDisLike: comment.lisUserDisLike,
+    //                         created_at: comment.created_at
+    //                     };
+    //                 });
+    //             })
+    //         ).subscribe(transformedComment => {
+    //             console.log('transformedComment:', transformedComment);
+    //             this.comments = transformedComment;
+    //             this.commentUpdated.next([...this.comments]);
+    //         });
+    // }
+
+    getComments(ticketId: string) {
+        return new Promise((resolve) => {
+            this.http
             .get<{ message: string, comment: any }>
-            (this.BACKEND_URL + ticketId)
-            .pipe(
-                map(commentData => {
-                    return commentData.comment.map( comment => {
-                        return {
-                            id: comment._id,
-                            idUser: comment.idUser,
-                            idTicket: comment.idTicket,
-                            idCreator: comment.idCreator,
-                            message: comment.message,
-                            username: comment.username,
-                            images: comment.images,
-                            likeCount: comment.likeCount,
-                            disLikeCount: comment.disLikeCount,
-                            lisUserLike: comment.lisUserLike,
-                            lisUserDisLike: comment.lisUserDisLike,
-                            created_at: comment.created_at
-                        };
-                    });
-                })
-            ).subscribe(transformedComment => {
-                this.comments = transformedComment;
-                this.commentUpdated.next([...this.comments]);
-            });
+                (this.BACKEND_URL + ticketId).subscribe(responseData => {
+                    console.log('responseData', responseData.comment);
+                    resolve(responseData.comment);
+                });
+        }) 
     }
 
-    getCommentUpdateListener() {
-        return this.commentUpdated.asObservable();
-    }
+    // getCommentUpdateListener() {
+    //     return this.commentUpdated.asObservable();
+    // }
 
     addComment(
         idUser: string,
@@ -82,18 +94,19 @@ export class CommentService {
             { message: string; comments: Object }>
             (this.BACKEND_URL, commentData)
             .subscribe(responseData => {
-            resolve(commentData);
+            resolve(responseData.comments);
+            console.log('responseDt: ', responseData.comments);
         });
         });
     }
 
     updateIsLike(
         idComment: string,
-        ischeckLike: boolean
+        isCheckLike: boolean
     ) {
         const dateChange = {
             idComment: idComment,
-            ischeckLike: ischeckLike
+            isCheckLike: isCheckLike
         }
         console.log('dateChange: ', dateChange);
         return new Promise((resolve) => {
