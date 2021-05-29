@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-
 import { Router } from '@angular/router';
-
 import { Rated } from '../modals/rated.model';
-import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -19,14 +15,10 @@ export class RatedService {
         private router: Router) {}
     
     getRated(ticketId) {
-        return new Promise((resolve) => {
-            this.http.get<{
+        return this.http.get<{
                 message: string,
                 rated: Rated
-            }>(this.BACKEND_URL + ticketId).subscribe(responseData => {
-                resolve(responseData.rated);
-            })
-        });
+            }>(this.BACKEND_URL + ticketId);
     }
 
     createRated(
@@ -45,7 +37,7 @@ export class RatedService {
         }
         return new Promise((resolve) => {
             this.http.post<
-                { message: string; rated: Object }>
+                { message: string; rated: Rated }>
                 (this.BACKEND_URL, rateData)
                 .subscribe(responseData => {
                 resolve(responseData.rated);
@@ -58,13 +50,19 @@ export class RatedService {
         idTicket: string,
         idUser: string,
         nameUser: string,
-        rating : number) {
+        rating : number,
+        feelback: string) {
         
-        var data = {
-            idTicket  : idTicket,
+        var listUserRated = {
             idUser  : idUser,
             nameUser  : nameUser,
-            rating  : rating
+            rating  : rating,
+            feelback: feelback
+        }
+        var data = {
+            idTicket  : idTicket,
+            rating: rating,
+            listUserRated: listUserRated
         }
         return new Promise((resolve) => {
             this.http.put<

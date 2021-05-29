@@ -15,7 +15,9 @@
         <div class="title-ticket">
           <h1>{{ticket.title || ''}}</h1>
           <div>
-            <app-rated [ticketId]="ticketId"></app-rated>
+            <app-rated 
+              [ticketId]="ticketId"
+              [creatorId]="ticket.creator"></app-rated>
           </div>
           <h3>{{ticket.city}}</h3>
           <div class="list-category-item">

@@ -1,1 +1,57 @@
-<p>rated works!</p>
+<div style="display: flex; justify-content: center;">
+    <span 
+        *ngFor="let star of [0,1,2,3,4], index as i"
+        class="star">
+        <img
+            *ngIf="!isRated[i]"    
+            src="../../../assets/icon/star.svg" width="30px" height="30px">
+        <img
+            *ngIf="isRated[i]"    
+            src="../../../assets/icon/star-action.svg" width="30px" height="30px">
+    </span>
+    <span
+        class="label_count_rate">
+        {{ '( ' + (rated.countRated || 0) + ' đánh giá )' }}
+    </span>
+</div>
+<div class="button_rated">
+    <button 
+        mat-stroked-button
+        color="accent"
+        (clickOutside)="isShowFormRate = false"
+        (click)="onRate()">
+        Đánh giá vé
+    </button>
+    <div 
+        class="form_rate"
+        *ngIf="isShowFormRate">
+        <div class="form_rate_header">Đánh vé giá</div>
+        <div (mouseleave)="leaveStar()"
+            style="margin-top: 1rem;">
+            <span 
+                *ngFor="let star of star_image, index as i">
+                <img 
+                    style="padding: 0.25rem; cursor: pointer;"
+                    src='{{ "../../../assets/icon/" + star + ".svg" }}' 
+                    (mouseover)="hoverStar(i)"
+                    width="40px" height="40px">
+            </span>
+        </div>
+        <div style="margin-top: 1rem;">
+            <mat-form-field appearance="outline" style="width: 80%;">
+                <mat-label>Thêm phản hồi</mat-label>
+                <textarea matInput></textarea>
+            </mat-form-field>
+        </div>
+        <div>
+            <button 
+                mat-stroked-button 
+                color="accent" 
+                style="margin-right: 0.5rem;"
+                (click)="isShowFormRate=false;">Hủy</button>
+            <button 
+                mat-raised-button 
+                color="primary">Gửi đánh giá</button>
+        </div>
+    </div>
+</div>

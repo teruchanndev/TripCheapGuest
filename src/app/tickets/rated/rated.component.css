@@ -1,0 +1,39 @@
+.star {
+    margin: 0.25rem;
+}
+img:hover {
+    src: url('../../../assets/icon/star-action.svg');
+}
+.label_count_rate{
+    font-size: 20px; 
+    font-weight: bolder;
+    color: coral;
+    padding-top: 0.5rem;
+}
+.button_rated {
+    position: relative;
+    padding-top: 0.5rem;
+}
+.form_rate {
+    position: absolute;
+    top: 0;
+    right: 60px;
+    width: 400px;
+    z-index: 2;
+    border-radius: 11px;
+    height: 400px;
+    box-shadow: 0 0 20px #f1f1f1;
+    border: 1px solid #56d6db;
+    background-color: #f4fffd;
+}
+.form_rate_header {
+    padding-top: 3rem;
+    font-size: 18px;
+    color: coral;
+    font-weight: bolder;
+    text-align: center;
+}
+.form_rate_star {
+    background-size: 30px 30px;
+    background-image: url('../../../assets/icon/star.svg');
+}
