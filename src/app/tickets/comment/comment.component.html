@@ -44,12 +44,6 @@
                 <div 
                     [ngStyle]="{'display':item.images.length == 0 ? 'none' : 'block' }"
                     style="margin-top: 1rem;">
-                    <!-- <img 
-                        *ngFor="let url of item.images"
-                        [src]="url"
-                        width="120px" height="80px"
-                        style="margin: 3px; cursor: pointer;"
-                        (click)="showImage(url)"> -->
                     <ng-image-slider #comment
                         [images]="imageObject[i]"
                         [infinite]="false"
@@ -104,7 +98,6 @@
                         <textarea 
                             matInput
                             #inputComment
-                            [value]=''
                             placeholder="Ví dụ. Nơi này làm tôi cảm thấy..."
                             >
                         </textarea>
@@ -115,11 +108,11 @@
                         multiple 
                         #inputUploadImage
                         (change)="onFileChange($event)"/>
-                    <div style="padding-left: 1rem;  color:gray; fill:gray; display: flex;">
-                        <div 
-                            style="font-size: 13px; 
-                                border: 1px solid #f2f2f2; 
-                                border-radius: 10px; padding: 0.5rem 1rem;">Thêm hình ảnh </div>
+                    <div style="padding-left: 1rem; color:gray; fill:gray; display: flex;
+                            border: 1px solid #f2f2f2; 
+                            margin-left: 1rem;
+                            border-radius: 10px; padding: 0.5rem 0.5rem;">
+                        <div style="font-size: 13px; ">Thêm hình ảnh </div>
                         <div>
                             <img width="30px" height="30px"
                             title="Tải ảnh lên từ máy tính"
@@ -130,7 +123,7 @@
                             src="../../../assets/icon/image.svg">
                         </div>
                         
-                        <div style="border: 1px solid #f2f2f2; border-radius: 20px; padding: 0.5rem;">
+                        <div style="padding: 0.5rem;">
                             <img 
                             *ngFor='let url of previewImage' 
                             [src]="url" 

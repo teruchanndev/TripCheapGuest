@@ -14,6 +14,9 @@
         <!-- title ticket -->
         <div class="title-ticket">
           <h1>{{ticket.title || ''}}</h1>
+          <div>
+            <app-rated [ticketId]="ticketId"></app-rated>
+          </div>
           <h3>{{ticket.city}}</h3>
           <div class="list-category-item">
             <span><img src="../../../assets/icon/location.svg" style="width: 30px; height: 30px;"></span>
@@ -50,9 +53,13 @@
           <p>{{ticket.content}}</p>
         </div>
         
+        <!-- content -->
         <mat-tab-group mat-align-tabs="center">
 
-          <mat-tab label="DỊCH VỤ">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="label_comment">DỊCH VỤ</span>
+            </ng-template>
             <div style="display: flex;">
               <div class="services-item">
                 <h3>Các gói dịch vụ</h3>
@@ -164,9 +171,13 @@
             </div>
           </mat-tab>
 
-          <mat-tab label="BÌNH LUẬN">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="label_comment">{{'BÌNH LUẬN' + ' (  ' + comments.length + ' )'}}</span>
+            </ng-template>
             <mat-card>
-              <app-comment [ticket]="ticket"></app-comment>
+              <app-comment 
+                [ticket]="ticket"></app-comment>
             </mat-card>
           </mat-tab>
         </mat-tab-group>

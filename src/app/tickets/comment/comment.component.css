@@ -1,37 +1,37 @@
 .img_avt {
-    position: relative;
-    border: 5px solid pink;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    background-color: plum;
-  }
-  .img_avt > span {
-    text-align: center;
-    position: absolute;
-    top: 14%;
-    right: 33%;
-    font-weight: 900;
-    font-size: 22px;
-  }
-  .my-comment {
-    display: flex;
-    padding: 1rem;
-  }
-  .like-item:hover {
-    transform: scale(1);
-  }
-  .on-cancel {
-    width: 12px;
-    padding-left: 1rem;
-    position: absolute;
-    cursor: pointer;
-  }
-  .upload-image {
-    padding: 0 1rem;
-    /* position: absolute;
-    bottom: 24px; */
-  }
-  .myClass {
-    
-  }
+  position: relative;
+  border: 5px solid pink;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: plum;
+}
+.img_avt > span {
+  text-align: center;
+  position: absolute;
+  top: 14%;
+  right: 33%;
+  font-weight: 900;
+  font-size: 22px;
+}
+.my-comment {
+  display: flex;
+  padding: 1rem;
+}
+.like-item:hover {
+  transform: scale(1);
+}
+.on-cancel {
+  width: 12px;
+  padding-left: 1rem;
+  position: absolute;
+  cursor: pointer;
+}
+.upload-image {
+  padding: 0 1rem;
+  /* position: absolute;
+  bottom: 24px; */
+}
+.myClass {
+  
+}

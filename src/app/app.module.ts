@@ -44,6 +44,7 @@ import { environment } from 'src/environments/environment';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 import { CommentComponent } from './tickets/comment/comment.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import { RatedComponent } from './tickets/rated/rated.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
     FooterComponent,
     PageSearchComponent,
     TicketsCategoryComponent,
-    CommentComponent
+    CommentComponent,
+    RatedComponent
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,6 @@ import { Cart } from 'src/app/modals/cart.model';
 import { Ticket } from 'src/app/modals/ticket.model';
 import { AuthService } from 'src/app/services/auth_customer.service';
 import { TicketsService } from 'src/app/services/tickets.service';
-import { StringLiteralLike } from 'typescript';
 import {DateAdapter} from '@angular/material/core';
 import {
   MatDateRangeSelectionStrategy,
@@ -16,6 +15,7 @@ import {
 import { CartsService } from 'src/app/services/cart.service';
 import { ServiceSelect } from 'src/app/modals/serviceSelect.model';
 import Swal from 'sweetalert2';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Injectable()
 export class FiveDayRangeSelectionStrategy<D> implements MatDateRangeSelectionStrategy<D> {
@@ -54,6 +54,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   ticket: Ticket;
   ticketId: string;
   imageObject: Array<Object> = [];
+  comments: Comment[] = [];
   cart: Cart;
   showInfoServiceItem = false;
   index = 0;
@@ -79,6 +80,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
   constructor(
     public ticketsService: TicketsService,
     public cartService: CartsService,
+    public commentService: CommentService,
     public route: ActivatedRoute,
     private authService: AuthService,
     private router: Router
@@ -103,6 +105,13 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       console.log(paramMap);
       this.ticketId = paramMap.get('ticketId');
+
+      this.commentService.getComments(this.ticketId).then(value => {
+        this.comments = value as Array<Comment>;
+        console.log('comments tickets: ', this.comments);
+        console.log('len: ', this.comments.length);
+      });
+
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
         this.ticket = {
           id: ticketData._id,

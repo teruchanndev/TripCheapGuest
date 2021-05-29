@@ -31,9 +31,10 @@
   display: flex;
   padding: 0.5rem 2rem;
   border-radius: 5rem;
-  background-color: rgb(255 255 255);
+  box-shadow: 0 0 5px #e0e4fa;
+  background-color: #f9f9ff;
   margin: 0.5rem;
-  border: 1px solid #9dd4d4;
+  /* border: 1px solid #9dd4d4; */
 }
 
 .icon_condition > span {
@@ -87,4 +88,13 @@ td {
 .btn-action {
   display: flex;
   justify-content: center;
+}
+
+.label_comment {
+  font-weight: bolder;
+  font-size: 17px;
+  color: #6a0e74;
+}
+.label_comment:active {
+  color: #66a0f7;
 }

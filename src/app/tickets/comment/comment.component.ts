@@ -109,11 +109,11 @@ export class CommentComponent implements OnInit, OnDestroy {
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    var minutescovert = minutes < 10 ? '0' + minutes : minutes;
-    var strTime = hours + ':' + minutescovert + ' ' + ampm;
+    var minutesCovert = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutesCovert + ' ' + ampm;
 
-    return d.getDate() + '/' + d.getMonth() + 1 + '/' + d.getFullYear()
-      + ' (' + strTime + ')';
+    return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
+      + ' ( ' + strTime + ' )';
   }
 
 
@@ -135,6 +135,12 @@ export class CommentComponent implements OnInit, OnDestroy {
       }
       Promise.all(listUploadImage).then(values => {
         // console.log('list file upload: ', values);
+        for (let i = 0; i < values.length; i++) {
+          this.imageObject.push({
+            image : values[i],
+            thumbImage: values[i]
+          });
+        }
         this.commentService.addComment(
           this.customerId,
           this.ticketId,
@@ -168,6 +174,7 @@ export class CommentComponent implements OnInit, OnDestroy {
             };
             //this.ngOnInit();
             this.comments.push(commentNew);
+            this.previewImage = [];
             console.log('valueAdd: ', value);
             // this.countLikeComments.push(0);
             // this.isLikeComment.push(false);
@@ -277,15 +284,6 @@ export class CommentComponent implements OnInit, OnDestroy {
       }
       
     }
-  }
-
-  showImage(url) {
-    Swal.fire({
-      imageUrl: url,
-      imageWidth: 1200,
-      imageHeight: 900,
-      showConfirmButton:false
-    })
   }
 
   ngOnDestroy(): void {
