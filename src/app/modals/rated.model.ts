@@ -8,6 +8,7 @@ export interface Rated {
         idUser: string,
         nameUser: string,
         rating: number,
-        feelback: string
+        feedback: string,
+        create_at: Date
     }>;
 }

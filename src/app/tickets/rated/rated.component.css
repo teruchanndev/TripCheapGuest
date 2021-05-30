@@ -17,15 +17,18 @@ img:hover {
 .form_rate {
     position: absolute;
     top: 0;
-    right: 60px;
+    right: 0;
     width: 400px;
     z-index: 2;
     border-radius: 11px;
     height: 400px;
-    box-shadow: 0 0 20px #f1f1f1;
-    border: 1px solid #56d6db;
-    background-color: #f4fffd;
+    box-shadow: 0 0 20px #a0acb0;
+    background-color: #ffffff;
 }
+.form_rate::after{
+    content: '';
+}
+
 .form_rate_header {
     padding-top: 3rem;
     font-size: 18px;
@@ -36,4 +39,18 @@ img:hover {
 .form_rate_star {
     background-size: 30px 30px;
     background-image: url('../../../assets/icon/star.svg');
+}
+.rate_is_user {
+    font-size: 25px;
+    padding-top: 4rem;
+    font-weight: bolder;
+    text-align: center;
+    color: coral;
+}
+.img_success {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    padding: 2rem;
+    background-color: #d6fff1;
 }

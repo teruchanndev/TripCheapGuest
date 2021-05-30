@@ -20,10 +20,13 @@
 
   <div class="list_ticket" >
     <div class="item-ticket">
-      <mat-card
+      <app-ticket
+        *ngFor="let item of currentItemsToShow" 
+        [ticket]="item"></app-ticket>
+      <!-- <mat-card
         class="item"
         *ngFor="let item of currentItemsToShow"
-        (click) = "detailTicket(item.id)"
+        (click)="detailTicket(item.id)"
         >
         <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
         <mat-card-title class="title-ticket">{{item.title}}</mat-card-title>
@@ -48,10 +51,10 @@
         <div class="percent" *ngIf="item.percent !== 0">
           <span class="percent-item">{{item.percent}}%</span>
         </div>
-        <!-- <mat-card-content>
+        <mat-card-content>
           <p class="content">{{item.content}}</p>
-        </mat-card-content> -->
-      </mat-card>
+        </mat-card-content>
+      </mat-card> -->
       <mat-paginator
       style="background-color: #e9e6ef;
       font-size: 18px;

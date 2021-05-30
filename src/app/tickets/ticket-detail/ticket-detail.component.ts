@@ -114,7 +114,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
 
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
         this.ticket = {
-          id: ticketData._id,
+          _id: ticketData._id,
           title: ticketData.title,
           content: ticketData.content,
           status: ticketData.status,
@@ -202,7 +202,7 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       itemService: this.listItemService.filter(item => item.quantity > 0 ),
       dateStart: this.dateStartChoose,
       dateEnd: this.dateEndChoose,
-      idTicket: this.ticket.id,
+      idTicket: this.ticket._id,
       idCreator: this.ticket.creator,
       idCustomer: this.customerId
       };

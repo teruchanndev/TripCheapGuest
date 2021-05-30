@@ -136,7 +136,7 @@ export class TicketEditComponent implements OnInit {
       this.categoriesService.getCategories();
       this.ticketsService.getTicket(this.ticketId).subscribe(ticketData => {
         this.ticket = {
-          id: ticketData._id,
+          _id: ticketData._id,
           title: ticketData.title,
           content: ticketData.content,
           status: ticketData.status,

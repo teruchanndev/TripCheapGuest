@@ -124,10 +124,10 @@ div {
   .title {
     text-align: center;
     font-size: 25px;
-    padding-top: 3rem;
+    padding-top: 1rem;
     padding-bottom: 2rem;
     font-weight: bold;
-    color: darkblue;;
+    color: rgb(65, 0, 109);;
   }
 
 
@@ -141,66 +141,6 @@ div {
     background-color: #af9fca38;
     padding: 4rem;
     border-radius: 37px;
-  }
-
-  .item-ticket > .item {
-    width: 270px;
-    margin: 1rem;
-    cursor: pointer;
-  }
-  .item > img {
-    background-size: cover;
-    height: 170px;
-  }
-  .mat-card-content {
-    width: 270px;
-    overflow: hidden;
-  }
-  .content {
-    overflow: hidden;
-    word-wrap: break-word;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
-    -webkit-box-orient: vertical;
-  }
-
-  .content::after {
-    content: "...";
-    float: inherit;
-
-  }
-
-  .title-ticket {
-    font-size: 16px;
-    font-weight: bolder;
-  }
-
-  .mat-card-footer {
-    padding: 1rem;
-    bottom: 3px;
-    position: absolute;
-    width: 100%;
-  }
-
-  .item {
-    position: relative;
-    padding-bottom: 1rem;
-    width: 270px;
-    height: 290px;
-  }
-
-  .percent-item {
-    padding: 1rem;
-    background-color: red;
-    color: white;
-    font-weight: bolder;
-
-  }
-  .percent {
-    position: absolute;
-    top: 42%;
-    right: 0%;
   }
 
   /* list category */
@@ -230,4 +170,28 @@ div {
     color: #7878b3;
   }
 
+  .section-high-rate {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    position: relative;
+    background: rgb(233,238,255);
+    background: linear-gradient(180deg, rgba(233,238,255,1) 37%, rgba(250,245,255,1) 100%);
+    /* background-color: rgb(214 235 235);; */
+    border-radius: 20px;
+  }
 
+  .section-new-ticket {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    position: relative;
+    background-color: #e1defb;
+    border-radius: 20px;
+  }
+
+  .section-city {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    position: relative;
+    background-color: #e1defb;
+    border-radius: 20px;
+  }

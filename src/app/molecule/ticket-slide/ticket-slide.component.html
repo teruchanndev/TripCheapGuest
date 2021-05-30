@@ -1,0 +1,23 @@
+<div style="position: relative;">
+  <div 
+    class="scroll left"
+    (click)="scrollLeft()">
+    <img 
+        src="../../../assets/icon/left-arrow.svg" 
+        width="20px" height="20px">
+  </div>
+
+  <div class="slide" [id]="idList">
+    <app-ticket 
+      *ngFor="let item of tickets"
+      [ticket]="item"></app-ticket>
+  </div>
+
+  <div 
+    class="scroll right"
+    (click)="scrollRight()">
+    <img 
+        src="../../../assets/icon/right-arrow.svg" 
+        width="20px" height="20px">
+  </div>
+</div>

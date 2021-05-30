@@ -1,0 +1,16 @@
+<div style="display: flex;">
+    <span 
+        *ngFor="let star of [0,1,2,3,4], index as i"
+        class="star">
+        <img
+            *ngIf="!isRated[i]"    
+            src="../../../assets/icon/star.svg" 
+            width="15px"
+            height="15px">
+        <img
+            *ngIf="isRated[i]"    
+            src="../../../assets/icon/star-action.svg" 
+            width="15px"
+            height="15px">
+    </span>
+</div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatCardModule } from '@angular/material/card';
+import {MatCardModule} from '@angular/material/card';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';

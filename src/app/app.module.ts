@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatCardModule} from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
@@ -20,7 +21,6 @@ import { NgImageSliderModule } from 'ng-image-slider';
 
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
-import { AngularMaterialModule } from './angular-material.module';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
 import { InformationComponent } from './infomations/information/information.component';
@@ -45,6 +45,12 @@ import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-cat
 import { CommentComponent } from './tickets/comment/comment.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RatedComponent } from './tickets/rated/rated.component';
+import { ClickOutsideDirective } from './click-outside.directive';
+import { RatingComponent } from './atom/rating/rating.component';
+import { TicketComponent } from './atom/ticket/ticket.component';
+import { TicketSlideComponent } from './molecule/ticket-slide/ticket-slide.component';
+import { CitySlideComponent } from './molecule/city-slide/city-slide.component';
+import { AngularMaterialModule } from './angular-material.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +73,12 @@ import { RatedComponent } from './tickets/rated/rated.component';
     PageSearchComponent,
     TicketsCategoryComponent,
     CommentComponent,
-    RatedComponent
+    RatedComponent,
+    ClickOutsideDirective,
+    RatingComponent,
+    TicketComponent,
+    TicketSlideComponent,
+    CitySlideComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +91,7 @@ import { RatedComponent } from './tickets/rated/rated.component';
     HttpClientModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    MatCardModule,
     AuthModule,
     NgxMaterialTimepickerModule,
     MatDatepickerModule,

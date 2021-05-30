@@ -51,13 +51,15 @@ export class RatedService {
         idUser: string,
         nameUser: string,
         rating : number,
-        feelback: string) {
+        feedback: string,
+        create_at: string) {
         
         var listUserRated = {
             idUser  : idUser,
             nameUser  : nameUser,
             rating  : rating,
-            feelback: feelback
+            feedback: feedback,
+            create_at: create_at
         }
         var data = {
             idTicket  : idTicket,
@@ -67,18 +69,10 @@ export class RatedService {
         return new Promise((resolve) => {
             this.http.put<
                 {message: string; status: boolean}>
-                (this.BACKEND_URL, data)
+                (this.BACKEND_URL + idTicket, data).subscribe(res => {
+                    resolve(res.status);
+                });
         });
     }
-
-    deleteComment(ticketId: string) {
-        return new Promise((resolve) => {
-            this.http
-            .delete(this.BACKEND_URL + 'delete/' + ticketId).subscribe(response => {
-                resolve(response);  
-            });
-        }); 
-    }
-
 
 }

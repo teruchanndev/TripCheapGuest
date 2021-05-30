@@ -1,0 +1,8 @@
+<mat-card
+    *ngIf="!city"
+    [ngStyle] = "{'background':'center / cover no-repeat  url(' + city.image + ')'}"
+    style="background-size: cover;"
+    class="city"
+    (click)="navigateCity(city.name)">
+    <a class="name-city">{{city.name}}</a>
+</mat-card>

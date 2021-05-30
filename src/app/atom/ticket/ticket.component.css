@@ -1,0 +1,43 @@
+.item {
+    position: relative;
+    padding-bottom: 1rem;
+    cursor: pointer;
+    width: 270px;
+    height: 310px;
+    margin: 1rem;
+}
+.item > img {
+    background-size: cover;
+    height: 170px;
+}
+
+.title-ticket {
+    font-size: 16px;
+    font-weight: bolder;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+}
+.title-ticket:hover{
+    color: #a658ff;
+}
+
+.percent-item {
+    padding: 1rem;
+    background-color: red;
+    color: white;
+    font-weight: bolder;
+    border-radius: 42px 0 0 0;
+}
+.percent {
+    position: absolute;
+    top: 39%;
+    right: 0%;
+}
+.sub_category {
+    font-size: 14px;
+    color: gray;
+}
+

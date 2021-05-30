@@ -21,6 +21,7 @@ import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 
+
 const routes: Routes = [
   {path: '',
     redirectTo: 'home',

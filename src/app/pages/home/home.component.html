@@ -43,7 +43,7 @@
               src={{ticket.imagePath[1]}}>
             <div style="padding-left: 0.5rem;">
               <a class="link-ticket"
-                (click) = "detailTicket(ticket.id)">{{ticket.title}}</a>
+                (click)="detailTicket(ticket._id)">{{ticket.title}}</a>
               <p style="line-height: 0.5rem;">{{ticket.city}}</p>
             </div>
           </div>
@@ -60,7 +60,7 @@
   </section>
 </div>
 
-<div class="list" id="list">
+<!-- <div class="list" id="list">
   <div class="title">Địa Danh Nổi Tiếng</div>
   <div id="list-city" #listCity class="owl-carousel owl-theme owl-carousel-01">
     <mat-card
@@ -68,51 +68,32 @@
       [ngStyle] = "{'background':'center / cover no-repeat  url(' + item.image + ')'}"
       style="background-size: cover;"
       class="city"
-      (click) = "navigateCity(item.name)">
+      (click)="navigateCity(item.name)">
       <a class="name-city">{{item.name}}</a>
     </mat-card>
   </div>
+</div> -->
+
+<div class="section-city">
+  <div class="title">Địa Danh Nổi Tiếng</div>
+  <app-city-slide
+    [cities]="city"
+    [idList]="'listCity'"></app-city-slide>
 </div>
 
-<div style="padding-top: 3rem;">
+<div class="section-high-rate">
   <div class="title">Dịch Vụ Được Yêu Thích</div>
-  <div class="item-ticket">
-    <mat-card
-    class="item"
-    *ngFor="let item of ticketSpecial; index as i"
-    (click) = "detailTicket(item.id)">
-      <img *ngIf="item.imagePath !== null" mat-card-image src= {{item.imagePath[0]}} alt= {{item.title}}>
-      <mat-card-title class="title-ticket">{{item.title}}</mat-card-title>
-      <mat-card-subtitle>{{item.category}}</mat-card-subtitle>
-      <!-- <mat-card-content>
-        <p class="content">{{item.content}}</p>
-      </mat-card-content> -->
-      <mat-card-content style="
-        position: absolute;
-        bottom: 0;
-        padding-bottom: 1rem;
-        padding-top: 1rem;
-        text-align: center;">Chỉ từ
-        <span
-          style="color: orangered;
-            font-weight: bolder;
-            font-size: 20px;">
-          {{item.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
-        <span
-          *ngIf="item.percent !== 0"
-          style="padding-left: 1rem;
-          text-decoration: line-through;
-          color: #a7a7a7;">{{item.price.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
-      </mat-card-content>
-      <div class="percent" *ngIf="item.percent !== 0">
-        <span class="percent-item">{{item.percent}}%</span>
-      </div>
-    </mat-card>
-  </div>
+  <app-ticket-slide 
+    [tickets]="ticketHightRating"
+    [idList]="'listRating'"></app-ticket-slide>
+</div>
+
+<div class="section-new-ticket">
+  <div class="title">Mới được thêm gần đây</div>
+  <app-ticket-slide 
+    [tickets]="ticketSpecial"
+    [idList]="'listSpecial'"></app-ticket-slide>
 </div>
 
 
 
-
-
-<!-- <app-tickets-all></app-tickets-all> -->

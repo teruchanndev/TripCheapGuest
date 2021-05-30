@@ -21,9 +21,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   city: City[] = [];
   ticketShowSearch: Ticket[] = [];
   ticketSpecial: Ticket[] = [];
+  ticketHightRating: Ticket[] = [];
   categories: Category[] = [];
-  srcCategory = ['../../../assets/icon/location.svg', '../../../assets/icon/ticket.svg', '../../../assets/icon/sunset.svg',
-  '../../../assets/icon/sunbed.svg', '../../../assets/icon/baggage.svg' ];
+  srcCategory = [
+    '../../../assets/icon/location.svg', 
+    '../../../assets/icon/ticket.svg', 
+    '../../../assets/icon/sunset.svg',
+    '../../../assets/icon/sunbed.svg', 
+    '../../../assets/icon/baggage.svg' ];
+
   private categorySub: Subscription;
   private ticketSub: Subscription;
   private citySub: Subscription;
@@ -36,12 +42,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    // this._document.defaultView.location.reload();
+
+    // get category
     this.categoryService.getCategories();
     this.categorySub = this.categoryService.getCategoryUpdateListener()
       .subscribe((category: Category[]) => {
         this.categories = category;
       });
+    
+    // get ticket service
     this.ticketsService.getAll();
     this.ticketSub = this.ticketsService.getTicketUpdateListener()
       .subscribe((ticket: Ticket[]) => {
@@ -53,16 +62,18 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.ticketSpecial.push(ticket[i]);
         }
       });
+    
+    // get ticket hight rating
+    this.ticketsService.getTicketHightRating(5).then(ticketsHightRate => {
+      this.ticketHightRating = ticketsHightRate as Ticket[];
+    });
+    
+    //get city 
     this.citiesService.getCities();
     this.citySub = this.citiesService.getCityUpdateListener()
       .subscribe((city: City[]) => {
         this.city = city;
       });
-  }
-  scollLeft() {
-    // document.getElementById('list-city').style.backgroundColor = "red";
-    const x = document.getElementById('list-city').scrollLeft += 200;
-    console.log(x);
   }
 
   searchResult() {

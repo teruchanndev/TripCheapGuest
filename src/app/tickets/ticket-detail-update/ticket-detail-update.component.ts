@@ -127,7 +127,7 @@ export class TicketDetailUpdateComponent implements OnInit {
         this.ticketsService.getTicket(cartData.idTicket)
         .subscribe(ticketData => {
           this.ticket = {
-            id: ticketData._id,
+            _id: ticketData._id,
             title: ticketData.title,
             content: ticketData.content,
             status: ticketData.status,
@@ -243,7 +243,7 @@ export class TicketDetailUpdateComponent implements OnInit {
       itemService: this.listItemService.filter(item => item.quantity > 0 ),
       dateStart: this.dateStartChoose,
       dateEnd: this.dateEndChoose,
-      idTicket: this.ticket.id,
+      idTicket: this.ticket._id,
       idCreator: this.ticket.creator,
       idCustomer: this.customerId
       };

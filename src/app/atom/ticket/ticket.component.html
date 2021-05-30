@@ -1,0 +1,50 @@
+<mat-card
+    class="item"
+    (click)="detailTicket(ticket._id)">
+    <img 
+        *ngIf="ticket.imagePath !== null" 
+        mat-card-image 
+        src= {{ticket.imagePath[0]}} 
+        alt= {{ticket.title}}>
+    <div 
+        class="title-ticket"
+        [title]="ticket.title">{{ticket.title}}</div>
+
+    <div 
+        class="sub_category">{{ticket.category}}</div>
+
+    <app-rating 
+        [width] ="10"
+        [height] ="10"
+        [ticketId]="ticket._id"></app-rating>
+
+    <div
+        style="
+            position: absolute;
+            bottom: 0;
+            padding-bottom: 1rem;
+            padding-top: 1rem;
+            text-align: center;">Chỉ từ
+        <span
+            style="
+            color: orangered;
+            font-weight: bolder;
+            font-size: 20px;">
+            {{ticket.price_reduce.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+        <span
+            *ngIf="ticket.percent !== 0"
+            style="
+            padding-left: 1rem;
+            text-decoration: line-through;
+            color: #a7a7a7;">
+            {{ticket.price.toLocaleString('en-us', {minimumFractionDigits: 0})}}đ</span>
+    </div>
+
+    <div 
+        class="percent" 
+        *ngIf="ticket.percent !== 0">
+        <span 
+            class="percent-item">
+            {{ticket.percent}}%</span>
+    </div>
+</mat-card>

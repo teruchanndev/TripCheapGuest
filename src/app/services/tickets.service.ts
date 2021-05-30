@@ -24,7 +24,7 @@ export class TicketsService {
         map(ticketData => {
           return ticketData.ticket.map(ticket => {
             return {
-              id: ticket._id,
+              _id: ticket._id,
               title: ticket.title,
               content: ticket.content,
               status: ticket.status,
@@ -58,7 +58,7 @@ export class TicketsService {
           console.log(ticketData);
           return ticketData.ticket.map(ticket => {
             return {
-              id: ticket._id,
+              _id: ticket._id,
               title: ticket.title,
               content: ticket.content,
               status: ticket.status,
@@ -116,7 +116,7 @@ export class TicketsService {
           console.log(ticketData);
           return ticketData.ticket.map(ticket => {
             return {
-              id: ticket._id,
+              _id: ticket._id,
               title: ticket.title,
               content: ticket.content,
               status: ticket.status,
@@ -150,7 +150,7 @@ export class TicketsService {
           console.log(ticketData);
           return ticketData.ticket.map(ticket => {
             return {
-              id: ticket._id,
+              _id: ticket._id,
               title: ticket.title,
               content: ticket.content,
               status: ticket.status,
@@ -184,7 +184,7 @@ export class TicketsService {
           console.log(ticketData);
           return ticketData.ticket.map(ticket => {
             return {
-              id: ticket._id,
+              _id: ticket._id,
               title: ticket.title,
               content: ticket.content,
               status: ticket.status,
@@ -207,6 +207,17 @@ export class TicketsService {
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
+  }
+
+  getTicketHightRating(point: number) {
+    return new Promise((resolve) => {
+      this.http
+      .get<{ message: string; ticket: Ticket[]}>(this.BACKEND_URL + 'hightRating/' + point)
+      .subscribe(value => {
+        console.log('hight: ', value.ticket);
+        resolve(value.ticket);
+      })
+    }); 
   }
 
 
