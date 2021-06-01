@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { element } from 'protractor';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/modals/category.model';
 import { City } from 'src/app/modals/city.model';
@@ -11,11 +10,11 @@ import { CitiesService } from 'src/app/services/cities.service';
 import { TicketsService } from 'src/app/services/tickets.service';
 
 @Component({
-  selector: 'app-tickets-all',
-  templateUrl: './tickets-all.component.html',
-  styleUrls: ['./tickets-all.component.css']
+  selector: 'app-tickets-city',
+  templateUrl: './tickets-city.component.html',
+  styleUrls: ['./tickets-city.component.css']
 })
-export class TicketsAllComponent implements OnInit, OnDestroy {
+export class TicketsCityComponent implements OnInit, OnDestroy {
 
   tickets: Ticket[] = [];
   categories: Category[] = [];
@@ -25,7 +24,7 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
   ischeckAll = true;
   private ticketsSub: Subscription;
   private categorySub: Subscription;
-  private citySub: Subscription;
+
   nameCity: string;
   imageCity: string;
 
@@ -61,15 +60,12 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
     });
 
     var city = new Promise((resolve, reject) => {
-      this.citiesService.getCities();
-      this.citySub = this.citiesService.getCityUpdateListener()
-        .subscribe((city: City[]) => {
-          resolve(city);
-        });
+      this.citiesService.getCities().then((value) => {
+        resolve(value);
+      });
     });
 
     Promise.all([tickets, categories, city]).then(values => {
-      console.log(values);
       this.currentItemsToShow = values[0] as Array<Ticket>;
       this.tickets = values[0] as Array<Ticket>;
       this.categories = values[1] as Array<Category>;
@@ -124,7 +120,6 @@ export class TicketsAllComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.ticketsSub.unsubscribe();
     this.categorySub.unsubscribe();
-    this.citySub.unsubscribe();
   }
 
 }

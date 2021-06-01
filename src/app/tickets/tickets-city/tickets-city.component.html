@@ -1,0 +1,43 @@
+
+<section class="category_filter">
+  <mat-card class="category">
+    <div style="position: relative;">
+      <div class="image-section" style="background-image: url({{imageCity}});">
+      </div>
+      <div class="overlay"></div>
+      <div class="nameCity">{{nameCity}}</div>
+    </div>
+    <ul>
+        <li>
+            <mat-checkbox (change)="checkAll()" [checked] = 'ischeckAll'>Tất cả</mat-checkbox>
+        </li>
+        <li *ngFor="let item of categories; index as i">
+            <mat-checkbox (change)="checkCategory(i)">{{item.name}}</mat-checkbox>
+        </li>
+    </ul>
+  </mat-card>
+
+
+  <div class="list_ticket" >
+    <div class="item-ticket">
+      <app-ticket
+        *ngFor="let item of currentItemsToShow" 
+        [ticket]="item"
+        (click)="detailTicket(item.id)"></app-ticket>
+   
+      <mat-paginator
+      style="background-color: #e9e6ef;
+      font-size: 18px;
+      font-weight: 600;
+      width: 100%;"
+      (page)="onPageChange($event)"
+      [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+    
+  </div>
+
+</section>
+

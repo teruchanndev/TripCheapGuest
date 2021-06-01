@@ -74,20 +74,13 @@ export class TicketsCategoryComponent implements OnInit {
       });
     })
 
-    var city = new Promise((resolve, reject) => {
-      this.citiesService.getCities();
-      this.citySub = this.citiesService.getCityUpdateListener()
-        .subscribe((city: City[]) => {
-          resolve(city);
-        });
-    });
 
-    Promise.all([tickets, categories, city, category]).then(values => {
+    Promise.all([tickets, categories, category]).then(values => {
       console.log(values);
       this.currentItemsToShow = values[0] as Array<Ticket>;
       this.tickets = values[0] as Array<Ticket>;
       this.categories = values[1] as Array<Category>;
-      this.category = values[3] as Category;
+      this.category = values[2] as Category;
         for (let i = 0; i < this.category.categoryItem.length; i++) {
           this.checkSelect[i] = false;
         }
@@ -95,7 +88,6 @@ export class TicketsCategoryComponent implements OnInit {
         for (let i = 0; i < this.city.length; i++) {
           this.checkSelect[i] = false;
         }
-      // this.imageCity = this.city.filter(element => element.name === this.categoryName)[0].image;
     }); 
   }
 
@@ -139,7 +131,6 @@ export class TicketsCategoryComponent implements OnInit {
   ngOnDestroy(): void {
     this.ticketsSub.unsubscribe();
     this.categorySub.unsubscribe();
-    this.citySub.unsubscribe();
   }
 
 }

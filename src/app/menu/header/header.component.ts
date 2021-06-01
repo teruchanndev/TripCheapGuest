@@ -1,9 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from 'src/app/modals/user.model';
-import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth_customer.service';
 // import { AuthService } from '../../services/auth.service';
 import { MenuService } from '../../services/menu.service';

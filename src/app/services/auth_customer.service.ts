@@ -43,8 +43,16 @@ export class AuthService {
       return this.created_at;
     }
 
-    createCustomer(email: string, password: string, username: string) {
-        const authData: AuthData = {email: email, password: password, username: username, created_at: ''};
+    createCustomer(
+      email: string, 
+      password: string, 
+      username: string) {
+        const authData: AuthData = {
+          email: email, 
+          password: password, 
+          username: username, 
+          created_at: ''
+        };
         this.http.post(this.BACKEND_URL + 'signup', authData)
             .subscribe(() => {
               this.router.navigate(['/login']);
@@ -54,7 +62,7 @@ export class AuthService {
             });
     }
 
-    chagePassword(password: string) {
+    changePassword(password: string) {
       return new Promise((resolve, reject) => {
         this.http.put(this.BACKEND_URL + 'password', password)
           .subscribe(() => {
@@ -66,12 +74,19 @@ export class AuthService {
     }
 
     login(email: string, password: string) {
-        const authData: AuthData = {email: email, password: password, username: '', created_at: ''};
+        const authData: AuthData = {
+          email: email, 
+          password: password, 
+          username: '', 
+          created_at: ''
+        };
         // console.log(authData);
-        this.http.post<{token: string, expiresIn: number, customerId: string, username: string, created_at: string }>(
-          this.BACKEND_URL  +  'login',
-          authData
-          )
+        this.http.post<{
+          token: string, 
+          expiresIn: number, 
+          customerId: string, 
+          username: string, 
+          created_at: string }>(this.BACKEND_URL  +  'login', authData)
             .subscribe(response => {
                 // console.log('res: ' + response.created_at);
                 const token = response.token;
@@ -94,13 +109,22 @@ export class AuthService {
                     localStorage.removeItem('type');
                   } else {
                     this.router.navigate(['/home']);
+                    Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Đăng nhập thành công!',
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                    
                   }
                 }
             }, error => {
               // console.log('error ' + error);
               this.authStatusListener.next(false);
+              console.log('error', error.error.message);
               Swal.fire({
-                title: 'Đăng nhập thất bại!',
+                title: error.error.message,
                 icon: 'error'
               })
             });

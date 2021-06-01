@@ -139,7 +139,7 @@ export class DetailInfoComponent implements OnInit {
         icon: 'error'
       });
     } else {
-      this.authService.chagePassword(form.value.passwordChange).then(
+      this.authService.changePassword(form.value.passwordChange).then(
         (result) => {
           if(result) {
             Swal.fire({

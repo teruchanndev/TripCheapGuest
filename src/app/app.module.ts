@@ -13,23 +13,18 @@ import {MatCardModule} from '@angular/material/card';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './menu/header/header.component';
-import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
-import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
-import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
-import { CategoryComponent } from './categories/category/category.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
-import { InformationComponent } from './infomations/information/information.component';
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HomeComponent } from './pages/home/home.component';
 import { CartComponent } from './pages/cart/cart.component';
-import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
+import { TicketsCityComponent } from './tickets/tickets-city/tickets-city.component';
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
@@ -48,6 +43,7 @@ import { RatedComponent } from './tickets/rated/rated.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { RatingComponent } from './atom/rating/rating.component';
 import { TicketComponent } from './atom/ticket/ticket.component';
+import { LogoIconComponent } from './atom/logo-icon.component';
 import { CityComponent } from './atom/city/city.component';
 import { TicketSlideComponent } from './molecule/ticket-slide/ticket-slide.component';
 import { CitySlideComponent } from './molecule/city-slide/city-slide.component';
@@ -56,12 +52,7 @@ import { AngularMaterialModule } from './angular-material.module';
   declarations: [
     AppComponent,
     HeaderComponent,
-    TicketCreateComponent,
-    TicketListComponent,
-    TicketEditComponent,
-    TicketsAllComponent,
-    CategoryComponent,
-    InformationComponent,
+    TicketsCityComponent,
     CreateInfoComponent,
     HomeComponent,
     CartComponent,
@@ -80,7 +71,8 @@ import { AngularMaterialModule } from './angular-material.module';
     TicketComponent,
     TicketSlideComponent,
     CitySlideComponent,
-    CityComponent
+    CityComponent,
+    LogoIconComponent
   ],
   imports: [
     BrowserModule,

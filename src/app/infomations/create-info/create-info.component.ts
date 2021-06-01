@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/services/auth_customer.service';
 
 @Component({
   selector: 'app-create-info',

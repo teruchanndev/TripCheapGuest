@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private categorySub: Subscription;
   private ticketSub: Subscription;
-  private citySub: Subscription;
   constructor(
     public ticketsService: TicketsService,
     public categoryService: CategoriesService,
@@ -44,29 +43,50 @@ export class HomeComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
 
     // get category
-    this.categoryService.getCategories();
-    this.categorySub = this.categoryService.getCategoryUpdateListener()
-      .subscribe((category: Category[]) => {
-        this.categories = category;
-      });
+    const categories = new Promise((resolve) => {
+      this.categoryService.getCategories();
+      this.categorySub = this.categoryService.getCategoryUpdateListener()
+        .subscribe((category: Category[]) => {
+          resolve(category);
+        });
+    });
+
+    const cities = new Promise((resolve) => {
+      this.citiesService.getCities().then(res => {
+        resolve(res);
+      })
+    });
     
     // get ticket service
-    this.ticketsService.getAll();
-    this.ticketSub = this.ticketsService.getTicketUpdateListener()
-      .subscribe((ticket: Ticket[]) => {
-        this.tickets = ticket;
-        for (let i = 0; i < 3; i++) {
-          this.ticketShowSearch.push(ticket[i]);
-        }
-        for (let i = 0; i < 9; i++) {
-          this.ticketSpecial.push(ticket[i]);
-        }
-      });
+    const tickets = new Promise((resolve) => {
+      this.ticketsService.getAll();
+      this.ticketSub = this.ticketsService.getTicketUpdateListener()
+        .subscribe((ticket: Ticket[]) => {
+          resolve(ticket);
+        });
+    });
     
     // get ticket hight rating
-    this.ticketsService.getTicketHightRating(5).then(ticketsHightRate => {
-      this.ticketHightRating = ticketsHightRate as Ticket[];
+    const ticketHightRate = new Promise((resolve) => {
+      this.ticketsService.getTicketHightRating(5).then(ticketsHightRate => {
+        resolve(ticketsHightRate);
+      })
     });
+
+
+    Promise.all([categories, tickets, ticketHightRate, cities]).then((res) => {
+      this.categories = res[0] as Category[];
+      this.tickets = res[1] as Ticket[];
+      for (let i = 0; i < 3; i++) {
+        this.ticketShowSearch.push(this.tickets[i]);
+      }
+      for (let i = 0; i < 9; i++) {
+        this.ticketSpecial.push(this.tickets[i]);
+      }
+      this.ticketHightRating = res[2] as Ticket[];
+      this.city = res[3] as City[];
+    });
+    ;
     
     
   }
@@ -81,6 +101,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   detailCategory(nameCategory) {
     this.router.navigate(['category/' + nameCategory]);
   }
+  navigateCity(nameCity) {
+    this.router.navigate(['city/' + nameCity]);
+  }
 
   detailTicket(ticketId) {
     this.router.navigate(['detail/' + ticketId]);
@@ -93,7 +116,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.categorySub.unsubscribe();
     this.ticketSub.unsubscribe();
-    // this.citySub.unsubscribe();
   }
 
 }

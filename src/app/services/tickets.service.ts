@@ -44,7 +44,7 @@ export class TicketsService {
         })
       )
       .subscribe(transformedTickets => {
-        console.log(transformedTickets);
+        // console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
@@ -77,7 +77,7 @@ export class TicketsService {
           });
         })
       ).subscribe(transformedTickets => {
-        console.log(transformedTickets);
+        // console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
@@ -113,7 +113,7 @@ export class TicketsService {
       .get<{ message: string; ticket: any }>(this.BACKEND_URL + 'city/' + city)
       .pipe(
         map(ticketData => {
-          console.log(ticketData);
+          // console.log(ticketData);
           return ticketData.ticket.map(ticket => {
             return {
               _id: ticket._id,
@@ -135,7 +135,7 @@ export class TicketsService {
           });
         })
       ).subscribe(transformedTickets => {
-        console.log(transformedTickets);
+        // console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
@@ -169,7 +169,7 @@ export class TicketsService {
           });
         })
       ).subscribe(transformedTickets => {
-        console.log(transformedTickets);
+        // console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });
@@ -203,7 +203,7 @@ export class TicketsService {
           });
         })
       ).subscribe(transformedTickets => {
-        console.log(transformedTickets);
+        // console.log(transformedTickets);
         this.tickets = transformedTickets;
         this.ticketsUpdated.next([...this.tickets]);
       });

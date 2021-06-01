@@ -5,14 +5,10 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
 import { CreateInfoComponent } from './infomations/create-info/create-info.component';
-import { InformationComponent } from './infomations/information/information.component';
 import { HeaderComponent } from './menu/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
-import { TicketCreateComponent } from './tickets/ticket-create/ticket-create.component';
 import { TicketDetailComponent } from './tickets/ticket-detail/ticket-detail.component';
-import { TicketEditComponent } from './tickets/ticket-edit/ticket-edit.component';
-import { TicketListComponent } from './tickets/ticket-list/ticket-list.component';
-import { TicketsAllComponent } from './tickets/tickets-all/tickets-all.component';
+import { TicketsCityComponent } from './tickets/tickets-city/tickets-city.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/ticket-detail-update.component';
 import { PayComponent } from './pages/pay/pay.component';
@@ -32,7 +28,7 @@ const routes: Routes = [
       { path: 'signup', component: SignupComponent },
       { path: 'home', component: HomeComponent,
         children: [
-          { path: '#', component: TicketsAllComponent},
+          { path: '#', component: TicketsCityComponent},
       ]},
       { path: 'detail/:ticketId', component: TicketDetailComponent},
       { path: 'detail/update/:idCart', component: TicketDetailUpdateComponent},
@@ -41,7 +37,7 @@ const routes: Routes = [
       { path: 'setting', component: DetailInfoComponent },
       { path: 'pay/:idCart', component: PayComponent },
       { path: 'order', component: OrderComponent },
-      { path: 'city/:city', component: TicketsAllComponent },
+      { path: 'city/:city', component: TicketsCityComponent },
       { path: 'category/:category', component: TicketsCategoryComponent }
     ]
   },
