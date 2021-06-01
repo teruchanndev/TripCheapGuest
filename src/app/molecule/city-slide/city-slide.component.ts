@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { City } from 'src/app/modals/city.model';
+import { CitiesService } from 'src/app/services/cities.service';
 
 @Component({
   selector: 'app-city-slide',
@@ -7,12 +9,22 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CitySlideComponent implements OnInit {
 
-  @Input() cities;
+  // @Input() cities;
   @Input() idList;
+  cities: City[] = [];
 
-  constructor() { }
+  constructor(
+    public citiesService: CitiesService,
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    // console.log('cities: ', this.cities);
+    //get city 
+    await this.citiesService.getCities().then(value => {
+      this.cities = value as City[];
+      console.log('value',value);
+    });
+    console.log('cities: ',this.cities);
   }
 
   scrollRight() {

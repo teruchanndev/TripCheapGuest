@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
     // get category
     this.categoryService.getCategories();
@@ -68,12 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.ticketHightRating = ticketsHightRate as Ticket[];
     });
     
-    //get city 
-    this.citiesService.getCities();
-    this.citySub = this.citiesService.getCityUpdateListener()
-      .subscribe((city: City[]) => {
-        this.city = city;
-      });
+    
   }
 
   searchResult() {
@@ -90,12 +85,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   detailTicket(ticketId) {
     this.router.navigate(['detail/' + ticketId]);
   }
-
-  navigateCity(nameCity) {
-    const city = nameCity;
-    this.router.navigate(['city/' + city]);
-  }
-
   onEnter(textSearch) {
     // alert(textSearch);
     this.router.navigate(['search/' + textSearch]);
@@ -104,7 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.categorySub.unsubscribe();
     this.ticketSub.unsubscribe();
-    this.citySub.unsubscribe();
+    // this.citySub.unsubscribe();
   }
 
 }

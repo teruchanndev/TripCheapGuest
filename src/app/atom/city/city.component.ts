@@ -17,6 +17,7 @@ export class CityComponent implements OnInit {
   }
 
   navigateCity(nameCity) {
+    console.log('nameCity',nameCity);
     const city = nameCity;
     this.router.navigate(['city/' + city]);
   }

@@ -22,7 +22,8 @@
     <div class="item-ticket">
       <app-ticket
         *ngFor="let item of currentItemsToShow" 
-        [ticket]="item"></app-ticket>
+        [ticket]="item"
+        (click)="detailTicket(item.id)"></app-ticket>
       <!-- <mat-card
         class="item"
         *ngFor="let item of currentItemsToShow"

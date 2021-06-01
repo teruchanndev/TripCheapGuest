@@ -16,24 +16,15 @@ export class CitiesService {
     constructor(private http: HttpClient, private router: Router) {}
 
     getCities() {
-        this.http
+        return new Promise ((resolve) => {
+            this.http
             .get<{ message: string; cities: any}>(this.BACKEND_URL)
-            .pipe(
-                map( cityData => {
-                    return cityData.cities.map(city => {
-                        return {
-                            id: city._id,
-                            name: city.name,
-                            image: city.image
-                        };
-                    });
-                })
-            )
-            .subscribe(transformedCities => {
-                this.cities = transformedCities;
-                this.citiesUpdated.next([...this.cities]);
-            });
+            .subscribe(res => {
+                resolve(res.cities);
+            })
+        }); 
     }
+
     getCityUpdateListener() {
         return this.citiesUpdated.asObservable();
     }

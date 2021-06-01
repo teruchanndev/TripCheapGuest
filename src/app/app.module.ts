@@ -48,6 +48,7 @@ import { RatedComponent } from './tickets/rated/rated.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { RatingComponent } from './atom/rating/rating.component';
 import { TicketComponent } from './atom/ticket/ticket.component';
+import { CityComponent } from './atom/city/city.component';
 import { TicketSlideComponent } from './molecule/ticket-slide/ticket-slide.component';
 import { CitySlideComponent } from './molecule/city-slide/city-slide.component';
 import { AngularMaterialModule } from './angular-material.module';
@@ -78,7 +79,8 @@ import { AngularMaterialModule } from './angular-material.module';
     RatingComponent,
     TicketComponent,
     TicketSlideComponent,
-    CitySlideComponent
+    CitySlideComponent,
+    CityComponent
   ],
   imports: [
     BrowserModule,
