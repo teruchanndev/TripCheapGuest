@@ -1,5 +1,4 @@
 .mat-card {
-  margin: 1rem;
   padding: 1rem;
 }
 
@@ -14,6 +13,7 @@ p {
 
 .cart {
   display: flex;
+  position: relative;
 }
 
 .option {
@@ -46,7 +46,6 @@ td {
   text-align: center;
   height: fit-content;
   width: 20%;
-  position: sticky;
   top: 20%;
 }
 
@@ -61,4 +60,11 @@ td {
 
 .infoName {
   width: 37%;
+}
+.nameTicket {
+  font-weight: bold;
+  cursor: pointer;
+}
+.nameTicket:hover {
+  color: blueviolet;
 }

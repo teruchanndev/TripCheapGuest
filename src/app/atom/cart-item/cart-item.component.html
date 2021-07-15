@@ -1,0 +1,22 @@
+<div 
+    class="ticket-item">
+    <img 
+        class="img-ticket"
+        src={{cart.imageTicket}}>
+    <div 
+        style="padding-left: 0.5rem; width: 100%;">
+        <div 
+            class="link-ticket">
+            {{cart.nameTicket}}
+        </div>
+        <p style="line-height: 0.1rem; font-size: 13px;">
+            {{cart.itemService[0].name}}</p>
+    </div>
+    <div>
+        <div 
+            style="font-size: 14px; color: rebeccapurple; padding-left: 1rem; font-weight: bold;"
+            *ngFor="let item of cart.itemService">
+            <div>{{item.itemServiceName + ' +' + item.quantity + ' vé'}}</div>
+        </div>
+    </div>
+</div>

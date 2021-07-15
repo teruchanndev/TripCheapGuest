@@ -20,7 +20,7 @@
                 type="text"
                 matInput
                 required
-                formControlName = "username"
+                formControlName="username"
                 placeholder="Tên người dùng">
                 <mat-error *ngIf="formInfo.get('username').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
             </mat-form-field>
@@ -37,7 +37,7 @@
                 required
                 formControlName = "fullName"
                 placeholder="Ex: Nguyen Van A">
-                <mat-error *ngIf="formInfo.get('fullName').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+                <mat-error *ngIf="formInfo.get('fullName').hasError('required')">Vui lòng nhập họ tên đầy đủ.</mat-error>
             </mat-form-field>
           </td>
         </tr>
@@ -52,7 +52,7 @@
                 required
                 formControlName = "phoneNumber"
                 placeholder="Ex: +84 012 345 505">
-                <mat-error *ngIf="formInfo.get('phoneNumber').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+                <mat-error *ngIf="formInfo.get('phoneNumber').hasError('required')">Vui lòng nhập số điện thoại liên hệ.</mat-error>
             </mat-form-field>
           </td>
         </tr>
@@ -67,7 +67,7 @@
                 required
                 formControlName = "email"
                 placeholder="Ex: example@gmail.com">
-                <mat-error *ngIf="formInfo.get('email').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+                <mat-error *ngIf="formInfo.get('email').hasError('required')">Vui lòng nhập email.</mat-error>
             </mat-form-field>
           </td>
         </tr>
@@ -82,7 +82,7 @@
                 required
                 formControlName = "address"
                 placeholder="Ex: thon, xa, phuong,...">
-                <mat-error *ngIf="formInfo.get('address').hasError('required')">Vui lòng nhập tên sử dụng.</mat-error>
+                <mat-error *ngIf="formInfo.get('address').hasError('required')">Vui lòng nhập địa chỉ.</mat-error>
             </mat-form-field>
           </td>
         </tr>

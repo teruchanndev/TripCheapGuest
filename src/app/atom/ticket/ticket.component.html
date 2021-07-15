@@ -1,11 +1,12 @@
 <mat-card
     class="item"
+    *ngIf="ticket.status"
     (click)="detailTicket(ticket._id)">
     <img 
         *ngIf="ticket.imagePath !== null" 
         mat-card-image 
-        src= {{ticket.imagePath[0]}} 
-        alt= {{ticket.title}}>
+        src={{ticket.imagePath[0]}} 
+        alt={{ticket.title}}>
     <div 
         class="title-ticket"
         [title]="ticket.title">{{ticket.title}}</div>
@@ -14,8 +15,8 @@
         class="sub_category">{{ticket.category}}</div>
 
     <app-rating 
-        [width] ="10"
-        [height] ="10"
+        [width]="10"
+        [height]="10"
         [ticketId]="ticket._id"></app-rating>
 
     <div

@@ -4,6 +4,7 @@
     display: flex;
     flex-wrap: nowrap;
     height: 400px;
+    transform: translate(0);
 }
 
 .scroll {

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   tickets: Ticket[] = [];
   city: City[] = [];
   ticketShowSearch: Ticket[] = [];
-  ticketSpecial: Ticket[] = [];
+  ticketsNew: Ticket[] = [];
   ticketHightRating: Ticket[] = [];
   categories: Category[] = [];
   srcCategory = [
@@ -80,8 +80,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       for (let i = 0; i < 3; i++) {
         this.ticketShowSearch.push(this.tickets[i]);
       }
-      for (let i = 0; i < 9; i++) {
-        this.ticketSpecial.push(this.tickets[i]);
+      // this.tickets.sort(function(o1,o2){
+      //   return o1.create_at ? -1 : o2.create_at ? 1 : 0;
+      // });
+      for (let i = this.tickets.length - 1; i >=0 ; i--) {
+        this.ticketsNew.push(this.tickets[i]);
       }
       this.ticketHightRating = res[2] as Ticket[];
       this.city = res[3] as City[];

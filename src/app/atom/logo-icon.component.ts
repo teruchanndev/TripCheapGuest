@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-logo-icon',
@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
                 style="padding-left: 0.5rem;">
                 <h1 
                     class="logo_detail" 
-                    style="color: rgb(153, 44, 255);font-weight: bolder;font-size: 30px;">
+                    style="color:rgb(153, 44, 255); font-weight: bolder;font-size: 30px;">
                     <span 
                         style="color: rgb(102, 160, 247);">Trip</span>
                     <span>Cheap</span>

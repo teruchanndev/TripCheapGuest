@@ -18,13 +18,10 @@ export class CitySlideComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    // console.log('cities: ', this.cities);
     //get city 
     await this.citiesService.getCities().then(value => {
       this.cities = value as City[];
-      console.log('value',value);
     });
-    console.log('cities: ',this.cities);
   }
 
   scrollRight() {

@@ -6,22 +6,29 @@ import {CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule, FormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import {MatCardModule} from '@angular/material/card';
-
-import { AppComponent } from './app.component';
-import { HeaderComponent } from './menu/header/header.component';
-import { NgImageSliderModule } from 'ng-image-slider';
-
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
-import { CreateInfoComponent } from './infomations/create-info/create-info.component';
+
+import { environment } from 'src/environments/environment';
+import { ClickOutsideDirective } from './click-outside.directive';
+
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatCardModule } from '@angular/material/card';
+import { AngularMaterialModule } from './angular-material.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NgImageSliderModule } from 'ng-image-slider';
+import { QRCodeModule } from 'angularx-qrcode';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AngularFireModule } from "@angular/fire";
+import { CarouselModule } from 'ngx-owl-carousel-o';
+
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './menu/header/header.component';
+import { CreateInfoComponent } from './infomations/create-info/create-info.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { TicketsCityComponent } from './tickets/tickets-city/tickets-city.component';
@@ -30,24 +37,20 @@ import { TicketDetailUpdateComponent } from './tickets/ticket-detail-update/tick
 import { PayComponent } from './pages/pay/pay.component';
 import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
-import { QRCodeModule } from 'angularx-qrcode';
 import { FooterComponent } from './menu/footer/footer.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { AngularFireModule } from "@angular/fire";
-import { environment } from 'src/environments/environment';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
 import { CommentComponent } from './tickets/comment/comment.component';
-import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RatedComponent } from './tickets/rated/rated.component';
-import { ClickOutsideDirective } from './click-outside.directive';
 import { RatingComponent } from './atom/rating/rating.component';
 import { TicketComponent } from './atom/ticket/ticket.component';
 import { LogoIconComponent } from './atom/logo-icon.component';
 import { CityComponent } from './atom/city/city.component';
 import { TicketSlideComponent } from './molecule/ticket-slide/ticket-slide.component';
 import { CitySlideComponent } from './molecule/city-slide/city-slide.component';
-import { AngularMaterialModule } from './angular-material.module';
+import { CartItemComponent } from './atom/cart-item/cart-item.component';
+import { AvatarAccountComponent } from './atom/avatar-account.component';
+import { MainComponent } from './menu/main/main.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +75,10 @@ import { AngularMaterialModule } from './angular-material.module';
     TicketSlideComponent,
     CitySlideComponent,
     CityComponent,
-    LogoIconComponent
+    LogoIconComponent,
+    CartItemComponent,
+    AvatarAccountComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

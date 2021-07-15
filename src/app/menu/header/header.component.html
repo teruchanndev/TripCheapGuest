@@ -1,88 +1,91 @@
-<mat-sidenav-container class="example-container">
-<mat-toolbar class="example-toolbar">
+<!-- <mat-sidenav-container class="example-container"> -->
+  <mat-toolbar class="example-toolbar">
 
-  <div routerLink="/home" style="cursor: pointer;">
-    <app-logo-icon></app-logo-icon>
-  </div>
-  <span class="spacer"></span>
+    <div 
+      routerLink="/home" 
+      style="cursor: pointer;">
+      <app-logo-icon></app-logo-icon>
+    </div>
+    <span class="spacer"></span>
 
-  <ul style="padding-right: 10rem;">
-    <li>
-      <button
-        mat-button
-        routerLinkActive="mat-primary"
-        (click) = 'navigateCart()'
+    <ul
+      style="padding-right: 10rem;">
+      <li
+        (click)='navigateCart()'
         (mouseover)="showCart($event)"
         (mouseout)="showCart($event)"
-        >
-        <mat-icon
-          matBadge="{{countCart}}"
-          matBadgePosition="before"
-          matBadgeColor="accent"
-          class="material-icons"
-          style="padding-right: 0.5rem;" color="primary">add_shopping_cart</mat-icon>
-        <span>Giỏ hàng</span>
-      </button>
-
-
-      <mat-menu *ngIf="isShowCart" #menu1 = "matMenu" class="menuCart" style="width: 500px;">
-        <mat-card
-          *ngFor="let cartItem of cart" style="min-width: 500px;">
-          <mat-card-header>
-            <div mat-card-avatar class="example-header-image">
-              <img [src]= "cartItem.imageTicket" width="50px" height="50px">
-            </div>
-            <mat-card-title>{{cartItem.nameTicket}}</mat-card-title>
-            <mat-card-subtitle>{{cartItem.itemService[0].name}}</mat-card-subtitle>
-            <mat-card-subtitle *ngFor="let item of cartItem.itemService">
-              {{item.quantity + ' ' + item.itemServiceName}}
-            </mat-card-subtitle>
-            <mat-card-subtitle>{{cartItem.dateStart + ' - ' + cartItem.dateEnd}}</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-menu>
-    </li>
-
-	  <li *ngIf='userIsAuthenticated'>
-      <mat-card-header>
+        style="border-radius: 20px 20px 0 0;"
+        [ngStyle]="{'background-color': isShowCart && cart ? '#f1f1f1' : 'white' }">
         <button
-          class="btn_username"
+          style="position: relative;"
           mat-button
-          [matMenuTriggerFor]="menu"
-          routerLinkActive="mat-accent">
-          <span style="font-weight: bolder;">{{username}}</span>
+          routerLinkActive="mat-primary"
+          color="primary"
+        >
+          <mat-icon
+            matBadge="{{countCart}}"
+            matBadgePosition="before"
+            matBadgeColor="accent"
+            class="material-icons"
+            style="padding-right: 0.5rem;" 
+            color="primary">add_shopping_cart</mat-icon>
+          <span>Giỏ hàng</span>
         </button>
-        <div mat-card-avatar style="margin: 0 1rem; position: absolute; text-align: center; display: flex; justify-content: center;">
-          <div class="img_avt">
-              <h1>{{characterAvt}}</h1>
+        <div
+          *ngIf="isShowCart && cart"
+          class="cart-show">
+          <div
+            *ngFor="let cartItem of cart">
+            <app-cart-item [cart]="cartItem"></app-cart-item>
           </div>
         </div>
+      </li>
 
-      </mat-card-header>
+      <li *ngIf='userIsAuthenticated'>
+        <mat-card-header>
+          <app-avatar-account 
+            [characterAvt]='characterAvt'>
+          </app-avatar-account>
 
-      <mat-menu #menu = "matMenu">
-        <button mat-menu-item routerLink="/order" > Đơn hàng </button>
-        <button mat-menu-item routerLink = "setting" > Cài đặt tài khoản </button>
-        <button mat-menu-item routerLinkActive="mat-primary" (click) = 'onLogout()'>Đăng xuất</button>
-      </mat-menu>
-	  </li>
+          <button
+            class="btn_username"
+            mat-button
+            [matMenuTriggerFor]="menu"
+            routerLinkActive="mat-accent">
+            <span style="font-weight: bolder;">{{username}}</span>
+          </button>
+        </mat-card-header>
 
-    <li *ngIf='!userIsAuthenticated'>
-      <button
-      mat-button
-      routerLink = "/login"
-      routerLinkActive = "mat-primary">
-      <span>Đăng nhập</span>
-      </button>
-	  </li>
-  </ul>
-</mat-toolbar>
+        <mat-menu #menu="matMenu">
+          <button 
+            mat-menu-item 
+            routerLink="/order"> Đơn hàng </button>
+          <button 
+            mat-menu-item 
+            routerLink="setting"> Cài đặt tài khoản </button>
+          <button 
+            mat-menu-item 
+            routerLinkActive="mat-primary"
+            (click)='onLogout()'>Đăng xuất</button>
+        </mat-menu>
+      </li>
 
-<div class="example-sidenav-content" style="padding-top: 2rem;">
-  <router-outlet></router-outlet>
-</div>
+      <li *ngIf='!userIsAuthenticated'>
+        <button
+          mat-button
+          routerLink = "/login"
+          routerLinkActive = "mat-primary">
+        <span>Đăng nhập</span>
+        </button>
+      </li>
+    </ul>
+  </mat-toolbar>
 
-<div class="footer" style="padding-top: 11rem;">
-  <app-footer></app-footer>
-</div>
-</mat-sidenav-container>
+  <!-- <div class="example-sidenav-content" style="padding-top: 2rem;">
+    <router-outlet></router-outlet>
+  </div>
+
+  <div class="footer" style="padding-top: 11rem;">
+    <app-footer></app-footer>
+  </div>
+</mat-sidenav-container> -->

@@ -262,7 +262,9 @@ export class TicketDetailUpdateComponent implements OnInit {
       Swal.fire({
         title: 'Cập nhật đơn hàng thành công!',
         icon: 'success'
-      });
+      }).then(() => {
+        window.location.reload();
+      })
     });
 
       // console.log(this.cart);

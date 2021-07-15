@@ -157,6 +157,8 @@ export class CommentComponent implements OnInit, OnDestroy {
             title: 'Đã gửi bình luận của bạn!',
             icon: 'success'
           }).then(() => {
+            this.ngOnInit();
+            window.location.reload();
             var dateNow = new Date();
             var commentNew = {
               _id: '',
@@ -176,8 +178,8 @@ export class CommentComponent implements OnInit, OnDestroy {
             this.comments.push(commentNew);
             this.previewImage = [];
             console.log('valueAdd: ', value);
-            // this.countLikeComments.push(0);
-            // this.isLikeComment.push(false);
+            this.countLikeComments.push(0);
+            this.isLikeComment.push(false);
             // this.previewImage = [];
           });
         })

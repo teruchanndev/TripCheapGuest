@@ -140,8 +140,6 @@ export class CartComponent implements OnInit, OnDestroy {
           }
           this.priceItemExpired[i] = sum;
         }
-        console.log('priceItemExpired: ', this.priceItemExpired);
-
     });
 
 

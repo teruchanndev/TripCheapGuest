@@ -15,10 +15,6 @@ export class SignupComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
-      authStatus => {
-      }
-    );
   }
 
   onSignUp(form: NgForm) {
@@ -27,7 +23,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
+    // this.authStatusSub.unsubscribe();
   }
 
 

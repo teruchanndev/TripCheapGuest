@@ -1,12 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth_customer.service';
-// import { AuthService } from '../../services/auth.service';
-import { MenuService } from '../../services/menu.service';
 import { CartsService } from 'src/app/services/cart.service';
 import { Cart } from 'src/app/modals/cart.model';
-import { Customer } from 'src/app/modals/customer.model';
 import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
@@ -19,21 +16,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   private cartListenerSubs: Subscription;
   userIsAuthenticated = false;
-  valueSidebar = false;
 
-  isExpanded = true;
-  showSubmenu = false;
-  isShowing = false;
-  showSubSubMenu = false;
   customerId: string;
   username: string;
   countCart = 0;
-  customer: Customer;
   cart: Cart[] = [];
-  infoCustomer: Customer;
   characterAvt: string;
 
   isShowCart = false;
+  isLoading = false;
 
   constructor(
     private authService: AuthService,
@@ -48,7 +39,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.autoAuthCustomer();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.customerId = this.authService.getCustomerId();
-    // this.username = this.authService.getUsername();
+    this.isLoading = this.authService.isLoading;
+    console.log('this.isLoading ',this.isLoading);
+
+    if(this.isLoading) {
+      console.log('this.isLoading ngOnInit ',this.isLoading);
+      this.ngOnInit();
+    }
 
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
@@ -56,43 +53,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userIsAuthenticated = isAuthenticated;
     });
 
-    console.log(this.userIsAuthenticated);
-
     if (this.userIsAuthenticated) {
       this.characterAvt = localStorage.getItem("customerName")[0].toUpperCase();
       this.username = localStorage.getItem("customerName");
-      this.customerService.getInfoCustomer().then(
-        (inforData) => {
-          console.log(inforData);
-          const info = inforData as Customer;
-          this.infoCustomer = {
-            username: info.username,
-            email: info.email,
-            phoneNumber: info.phoneNumber,
-            fullName: info.fullName,
-            address: info.address
-          };
-          // this.characterAvt = this.infoCustomer.username[0].toUpperCase();
-          // this.username = info.username;
-        });
     }
 
     if (this.userIsAuthenticated) {
-      this.cartService.getCountCart().subscribe(
-        countData => {
-          this.countCart = countData.countCart;
+      const countCart = new Promise((resolve) => {
+        this.cartService.getCountCart().subscribe(
+          countData => {
+            resolve(countData.countCart);
+        });
       });
 
-      this.cartService.getCarts();
-      this.cartListenerSubs = this.cartService.getCartUpdateListener()
-        .subscribe((cart: Cart[]) => {
-          this.cart = cart;
+      const cartList = new Promise((resolve) => {
+        this.cartService.getCarts();
+        this.cartListenerSubs = this.cartService.getCartUpdateListener()
+          .subscribe((cart: Cart[]) => {
+            resolve(cart);
+        });
+      });
+      
+      Promise.all([countCart, cartList]).then((values) => {
+        console.log('value',values);
+        this.countCart = values[0] as number;
+        this.cart = values[1] as Cart[];
       });
     } else {
       this.countCart = 0;
       this.cart = [];
     }
-
   }
 
   onLogout() {
@@ -107,15 +97,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  showChild(childPath) {
-    this.router.navigate(['home', childPath]);
-  }
-
-
   showCart($event) {
-    console.log('hover: ' + $event.type );
     this.isShowCart = $event.type === 'mouseover' ? true : false;
-    console.log(this.isShowCart);
   }
 
   ngOnDestroy(): void {

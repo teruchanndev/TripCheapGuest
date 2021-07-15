@@ -1,6 +1,6 @@
 <section style="display: flex;">
     <mat-card class="info_detail" style="">
-        <div style="text-align: center; display: flex; justify-content: center; padding: 1rem;">
+        <div style="text-align: center; display: flex; justify-content: center;">
             <div class="img_avt">
                 <h1>{{characterAvt}}</h1>
             </div>
@@ -52,7 +52,7 @@
                     matBadgePosition="before" style="padding-left: 1rem;">{{itemTab.label}}</span>
             </ng-template>
 
-            <section>
+            <section style="height: 674px;">
                 <div *ngIf="itemTab.arrOrders.length === 0" style="padding-top: 1rem; text-align: center;">
                   <span>Bạn chưa có {{itemTab.label}} nào! </span>
                 </div>

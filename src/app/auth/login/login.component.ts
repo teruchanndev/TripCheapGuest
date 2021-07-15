@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth_customer.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -16,14 +16,12 @@ export class LoginComponent implements OnInit {
   private authStatusSub: Subscription;
   constructor(
     @Inject(DOCUMENT) private _document: Document,
-    public authService: AuthService) { }
+    public authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
-      authStatus => {
-      }, error => {
-      }
-    );
+
   }
 
   onLogin(form: NgForm) {
@@ -34,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy(): void {
-    this.authStatusSub.unsubscribe();
+    // this.authStatusSub.unsubscribe();
   }
 
 }

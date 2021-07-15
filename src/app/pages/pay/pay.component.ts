@@ -224,7 +224,9 @@ export class PayComponent implements OnInit {
             Swal.fire({
               title: 'Bạn đã mua hàng!',
               icon: 'success'}).then(() => {
-                this.router.navigate(['order']);
+                this.router.navigate(['order']).then(() => {
+                  window.location.reload();
+                });
               });
           }).catch(() => {
             Swal.fire({

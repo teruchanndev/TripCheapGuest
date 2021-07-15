@@ -4,7 +4,6 @@ import { AuthData } from '../modals/auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 import Swal from 'sweetalert2';
 
 @Injectable({ providedIn: 'root' })
@@ -19,14 +18,16 @@ export class AuthService {
     private username: string;
     private created_at: string;
 
+    public isLoading = false;
+
     constructor(private http: HttpClient, private router: Router) {}
 
     getToken() {
-        return this.token;
+      return this.token;
     }
 
     getAuthStatusListener() {
-        return this.authStatusListener.asObservable();
+      return this.authStatusListener.asObservable();
     }
     getIsAuth() {
       return this.isAuthenticated;
@@ -47,19 +48,19 @@ export class AuthService {
       email: string, 
       password: string, 
       username: string) {
-        const authData: AuthData = {
-          email: email, 
-          password: password, 
-          username: username, 
-          created_at: ''
-        };
-        this.http.post(this.BACKEND_URL + 'signup', authData)
-            .subscribe(() => {
-              this.router.navigate(['/login']);
-            }, error => {
-              alert(error);
-              this.authStatusListener.next(false);
-            });
+      const authData: AuthData = {
+        email: email, 
+        password: password, 
+        username: username, 
+        created_at: ''
+      };
+      this.http.post(this.BACKEND_URL + 'signup', authData)
+          .subscribe(() => {
+            this.router.navigate(['/login']);
+          }, error => {
+            alert(error);
+            this.authStatusListener.next(false);
+          });
     }
 
     changePassword(password: string) {
@@ -80,7 +81,6 @@ export class AuthService {
           username: '', 
           created_at: ''
         };
-        // console.log(authData);
         this.http.post<{
           token: string, 
           expiresIn: number, 
@@ -88,7 +88,6 @@ export class AuthService {
           username: string, 
           created_at: string }>(this.BACKEND_URL  +  'login', authData)
             .subscribe(response => {
-                // console.log('res: ' + response.created_at);
                 const token = response.token;
                 this.token = token;
                 if (token) {
@@ -108,7 +107,10 @@ export class AuthService {
                     localStorage.removeItem('ticketId');
                     localStorage.removeItem('type');
                   } else {
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['/home']).then(() => {
+                      window.location.reload();
+                      this.isLoading = true;
+                    });
                     Swal.fire({
                       position: 'top-end',
                       icon: 'success',
@@ -116,11 +118,9 @@ export class AuthService {
                       showConfirmButton: false,
                       timer: 1500
                     });
-                    
                   }
                 }
             }, error => {
-              // console.log('error ' + error);
               this.authStatusListener.next(false);
               console.log('error', error.error.message);
               Swal.fire({
@@ -153,7 +153,9 @@ export class AuthService {
       this.customerId = null;
       clearTimeout(this.tokenTimer);
       this.clearAuthData();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login']).then(() => {
+        window.location.reload();
+      })
     }
 
     deleteAccount(id: string) {
@@ -165,7 +167,9 @@ export class AuthService {
           this.customerId = null;
           clearTimeout(this.tokenTimer);
           this.clearAuthData();
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home']).then(() => {
+            window.location.reload();
+          })
         }
         );
       })

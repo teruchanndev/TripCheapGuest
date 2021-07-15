@@ -3,8 +3,8 @@
     <div *ngIf="comments.length == 0"
         style="padding: 1rem; font-size: 20px; color: gray;">
         <span>Chưa có bình luận nào!
-            <span *ngIf="!userIsAuthenticated"> Đăng nhập để bình luận về dịch vụ này!</span>
-            <span *ngIf="userIsAuthenticated">  Nếu bạn đã sử dụng dịch vụ, hãy để lại nhận xét!</span>
+            <span *ngIf="!userIsAuthenticated">Đăng nhập để bình luận về dịch vụ này!</span>
+            <span *ngIf="userIsAuthenticated"> Nếu bạn đã sử dụng dịch vụ, hãy để lại nhận xét!</span>
         </span>
     </div>
     <!-- list comment -->
@@ -44,12 +44,14 @@
                 <div 
                     [ngStyle]="{'display':item.images.length == 0 ? 'none' : 'block' }"
                     style="margin-top: 1rem;">
-                    <ng-image-slider #comment
+                    <ng-image-slider
+                        #comment
                         [images]="imageObject[i]"
                         [infinite]="false"
                         [autoSlide]="imageObject[i].length"
-                        [imageSize]="{width: 120, height: 80}"
-                        slideImage="1"></ng-image-slider>
+                        [imageSize]="{width: 100, height: 80}"
+                        slideImage="1">
+                    </ng-image-slider>
                 </div>
 
                 <div 
@@ -112,7 +114,7 @@
                             border: 1px solid #f2f2f2; 
                             margin-left: 1rem;
                             border-radius: 10px; padding: 0.5rem 0.5rem;">
-                        <div style="font-size: 13px; ">Thêm hình ảnh </div>
+                        <div style="font-size: 13px; ">Thêm hình ảnh</div>
                         <div>
                             <img width="30px" height="30px"
                             title="Tải ảnh lên từ máy tính"

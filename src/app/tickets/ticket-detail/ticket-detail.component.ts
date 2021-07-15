@@ -220,7 +220,9 @@ export class TicketDetailComponent implements OnInit, OnDestroy {
       Swal.fire({
         title: 'Thêm vào giỏ hàng thành công!',
         icon: 'success'
-      });
+      }).then(() => {
+        window.location.reload();
+      })
     });
 
       // console.log(this.cart);

@@ -16,13 +16,14 @@ import { OrderComponent } from './pages/order/order.component';
 import { DetailInfoComponent } from './pages/detail-info/detail-info.component';
 import { PageSearchComponent } from './pages/page-search/page-search.component';
 import { TicketsCategoryComponent } from './tickets/tickets-category/tickets-category.component';
+import { MainComponent } from './menu/main/main.component';
 
 
 const routes: Routes = [
   {path: '',
     redirectTo: 'home',
     pathMatch: 'full'},
-  { path: '', component: HeaderComponent,
+  { path: '', component: MainComponent,
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'signup', component: SignupComponent },
