@@ -1,6 +1,16 @@
-# MeanCourse
+# TripCheap website
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+- This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
+- The web application part of the system is built on top of the MEAN Stack - which is a JavaScript framework is used to build dynamic websites and web applications.
+
+#Description
+
+- Book sightseeing tickets according to each tourist destination
+- Buy tickets, cancel tickets
+- Register, login
+- Receive QR code of booked ticket information via registered email
+- Comment, rate
+- Booking history
 
 ## Development server
 
